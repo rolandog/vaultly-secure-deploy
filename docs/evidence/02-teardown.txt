@@ -1,0 +1,12 @@
+--- tagged leftovers (Project=rg-vaultly):
+arn:aws:kms:eu-central-1:<account-id>:key/112048bc-6d94-4f36-bcca-c3d538614688	arn:aws:ec2:eu-central-1:<account-id>:natgateway/nat-0e259e73190aaf4d0	arn:aws:kms:eu-central-1:<account-id>:key/9c6c0d12-b99e-452e-ad03-82f76fd5e6b1	arn:aws:eks:eu-central-1:<account-id>:podidentityassociation/rg-vaultly/a-yeylexkjdbofr4jqb	arn:aws:ec2:eu-central-1:<account-id>:vpc-flow-log/fl-0bbfc48673ff6c9cb	arn:aws:ec2:eu-central-1:<account-id>:security-group/sg-07fb21c9b912b1574
+--- clusters:
+[]
+--- vpcs:
+--- log groups:
+--- seal key state:
+PendingDeletion	2026-11-16T19:34:19.042000+01:00
+--- state objects:
+2026-11-09 19:45:45       1066 rg-vaultly/eks/terraform.tfstate
+2026-11-09 19:47:10        525 rg-vaultly/network/terraform.tfstate
+2026-11-09 19:34:20        250 rg-vaultly/platform/terraform.tfstate
