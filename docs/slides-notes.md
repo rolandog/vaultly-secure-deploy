@@ -1,0 +1,3 @@
+- S0 decision: upstream app pinned as a git submodule (vendor/vaultly), black box by construction; scanners target the submodule path.
+- S1 result: 12 tests passed, rotation 0->1->2 without restart, pod uid 10001, no password in logs.
+- S0 tooling: patat -w FILE is more reliable than tail -F for speaker notes (tail reports "file truncated").

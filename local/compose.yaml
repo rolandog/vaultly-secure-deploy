@@ -1,0 +1,31 @@
+# Local proof only: OpenBao dev mode is in-memory and uses a root token.
+# Variables are exported by scripts/stage1-local.sh (digests and tokens).
+services:
+  bao:
+    image: ${BAO_IMAGE}
+    container_name: rg-vaultly-bao
+    ports:
+      - "127.0.0.1:8200:8200"
+    environment:
+      BAO_DEV_ROOT_TOKEN_ID: ${BAO_DEV_ROOT_TOKEN_ID}
+      BAO_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+
+  vaultly:
+    build:
+      context: ..
+      dockerfile: container/Containerfile
+      args:
+        BASE_IMAGE: ${PYTHON_BASE_IMAGE}
+    image: localhost/rg-vaultly:local
+    container_name: rg-vaultly-app
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      VAULTLY_VAULT_ADDR: http://bao:8200
+      VAULTLY_VAULT_AUTH_METHOD: token
+      VAULTLY_VAULT_TOKEN: ${BAO_DEV_ROOT_TOKEN_ID}
+      VAULTLY_API_BEARER_TOKEN: ${VAULTLY_API_BEARER_TOKEN}
+      VAULTLY_DB_SECRET_PATH: vaultly/database
+      VAULTLY_ROTATION_POLL_INTERVAL_SECONDS: "5"
