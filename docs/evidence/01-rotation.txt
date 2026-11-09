@@ -1,0 +1,13 @@
+container StartedAt (before): 2026-11-09 14:08:32.67460963 +0100 CET
+container uid: 10001
+--- status before
+{"username":null,"version":0,"rotated_at":null}
+--- rotation 1
+{"username":"app_user","version":1,"rotated_at":"2026-11-09T13:09:04.360372+00:00"}
+--- rotation 2
+{"username":"app_user","version":2,"rotated_at":"2026-11-09T13:09:09.363245+00:00"}
+container StartedAt (after):  2026-11-09 14:08:32.67460963 +0100 CET
+--- logs (rotation events, passwords absent)
+INFO:vaultly.db:Database credential rotated without restart (version=1, username=app_user)
+INFO:vaultly.db:Database credential rotated without restart (version=2, username=app_user)
+PASS: version incremented twice, StartedAt unchanged, no password in logs

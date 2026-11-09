@@ -1,0 +1,19 @@
+# Same steps as upstream docker/Dockerfile. Differences: base passed as a
+# digest-pinned ARG, numeric USER (so runAsNonRoot can be verified by kubelet).
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY app ./app
+
+RUN useradd --system --no-create-home --uid 10001 vaultly
+USER 10001:10001
+
+EXPOSE 8080
+CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080"]
