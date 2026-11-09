@@ -1,0 +1,58 @@
+112048bc-6d94-4f36-bcca-c3d538614688	Enabled	ENCRYPT_DECRYPT	SYMMETRIC_DEFAULT	True
+arn:aws:kms:eu-central-1:<account-id>:key/112048bc-6d94-4f36-bcca-c3d538614688	True	2027-11-09T18:12:35.983000+01:00	365
+{"Sid":"KeyAdminNoCrypto","Principal":{"AWS":"arn:aws:iam::<account-id>:root"},"Action":["kms:UpdateKeyDescription","kms:UpdateAlias","kms:UntagResource","kms:TagResource","kms:ScheduleKeyDeletion","kms:PutKeyPolicy","kms:ListResourceTags","kms:ListKeyPolicies","kms:GetKeyRotationStatus","kms:GetKeyPolicy","kms:EnableKeyRotation","kms:EnableKey","kms:DisableKeyRotation","kms:DisableKey","kms:DescribeKey","kms:DeleteAlias","kms:CreateAlias","kms:CancelKeyDeletion"]}
+{"Sid":"OpenBaoSealOnly","Principal":{"AWS":"arn:aws:iam::<account-id>:role/rg-vaultly-openbao-seal"},"Action":["kms:Encrypt","kms:DescribeKey","kms:Decrypt"]}
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "EksPodIdentity",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "pods.eks.amazonaws.com"
+            },
+            "Action": [
+                "sts:TagSession",
+                "sts:AssumeRole"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/kubernetes-namespace": "openbao",
+                    "aws:RequestTag/kubernetes-service-account": "openbao"
+                }
+            }
+        }
+    ]
+}
+-----------------------------------------------------------------
+|                  ListPodIdentityAssociations                  |
++-------------+-------------------------+-----------------------+
+|  openbao    |  openbao                |  a-uzizsmvy7u70ena26  |
+|  kube-system|  ebs-csi-controller-sa  |  a-yeylexkjdbofr4jqb  |
++-------------+-------------------------+-----------------------+
+--- the seal role CAN:
+--------------------------------
+|    SimulatePrincipalPolicy   |
++------------------+-----------+
+|  kms:Encrypt     |  allowed  |
+|  kms:Decrypt     |  allowed  |
+|  kms:DescribeKey |  allowed  |
++------------------+-----------+
+--- the seal role CANNOT:
+---------------------------------------------
+|          SimulatePrincipalPolicy          |
++--------------------------+----------------+
+|  kms:ScheduleKeyDeletion |  implicitDeny  |
+|  kms:PutKeyPolicy        |  implicitDeny  |
+|  kms:CreateGrant         |  implicitDeny  |
+|  kms:GenerateDataKey     |  implicitDeny  |
++--------------------------+----------------+
+-----------------------------------------
+|        SimulatePrincipalPolicy        |
++----------------------+----------------+
+|  s3:ListAllMyBuckets |  implicitDeny  |
+|  ssm:GetParameter    |  implicitDeny  |
+|  ec2:RunInstances    |  implicitDeny  |
+|  iam:CreateUser      |  implicitDeny  |
+|  sts:AssumeRole      |  implicitDeny  |
++----------------------+----------------+

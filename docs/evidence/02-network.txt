@@ -1,0 +1,18 @@
+-------------------------------------------------------------------------
+|                            DescribeSubnets                            |
++-----------------------------------+------------------+----------------+
+|  rg-vaultly-public-eu-central-1b  |  10.42.1.0/24    |  eu-central-1b |
+|  rg-vaultly-public-eu-central-1c  |  10.42.2.0/24    |  eu-central-1c |
+|  rg-vaultly-private-eu-central-1a |  10.42.16.0/20   |  eu-central-1a |
+|  rg-vaultly-db-eu-central-1c      |  10.42.102.0/24  |  eu-central-1c |
+|  rg-vaultly-db-eu-central-1a      |  10.42.100.0/24  |  eu-central-1a |
+|  rg-vaultly-private-eu-central-1c |  10.42.48.0/20   |  eu-central-1c |
+|  rg-vaultly-private-eu-central-1b |  10.42.32.0/20   |  eu-central-1b |
+|  rg-vaultly-public-eu-central-1a  |  10.42.0.0/24    |  eu-central-1a |
+|  rg-vaultly-db-eu-central-1b      |  10.42.101.0/24  |  eu-central-1b |
++-----------------------------------+------------------+----------------+
+rg-vaultly-private	nat-0e259e73190aaf4d0
+rg-vaultly-public	igw-05115697a4c69abe2
+rg-vaultly-default	
+rg-vaultly-db	
+sg-07fb21c9b912b1574	0	0

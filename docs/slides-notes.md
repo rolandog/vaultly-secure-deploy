@@ -1,3 +1,7 @@
 - S0 decision: upstream app pinned as a git submodule (vendor/vaultly), black box by construction; scanners target the submodule path.
 - S1 result: 12 tests passed, rotation 0->1->2 without restart, pod uid 10001, no password in logs.
 - S0 tooling: patat -w FILE is more reliable than tail -F for speaker notes (tail reports "file truncated").
+- S2 obstacle: two plan errors came from my own code. depends_on on a module deferred its data sources; count on a computed policy JSON was unknown at plan time. Lesson: switches must be known at plan time; do not reach for -exclude.
+- S2 decision: EKS 1.36 (1.37 is five weeks old; 1.34 leaves standard support 2026-12-02); AL2023 kernel panic on 6.12.110 avoided.
+- S2 decision: Pod Identity with trust conditions on namespace and service account; IRSA off because the account already holds dozens of EKS OIDC providers.
+- S2 decision: KMS key policy without CreateGrant: an admin could otherwise delegate decrypt.

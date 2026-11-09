@@ -1,0 +1,6 @@
+# registry module internals are not scanned (no --download-external-modules)
+terraform scan results:
+
+Passed checks: 67, Failed checks: 0, Skipped checks: 5
+
+
