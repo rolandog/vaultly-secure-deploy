@@ -1,0 +1,3 @@
+[submodule "vendor/vaultly"]
+	path = vendor/vaultly
+	url = https://github.com/professordiogodev/vaultly.git
