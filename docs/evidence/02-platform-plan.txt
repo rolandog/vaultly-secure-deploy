@@ -1,0 +1,220 @@
+[0m[1mdata.aws_eks_cluster.this: Reading...[0m[0m
+[0m[1mmodule.openbao_role.data.aws_iam_policy_document.trust: Reading...[0m[0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mmodule.openbao_role.data.aws_iam_policy_document.trust: Read complete after 0s [id=2336922653][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.aws_eks_cluster.this: Read complete after 0s [id=rg-vaultly][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+ [36m<=[0m read (data resources)[0m
+
+OpenTofu will perform the following actions:
+
+[1m  # data.aws_iam_policy_document.seal_key[0m will be read during apply
+  # (config refers to values not yet known)
+[0m [36m<=[0m[0m data "aws_iam_policy_document" "seal_key" {
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m json          = (known after apply)
+      [32m+[0m[0m minified_json = (known after apply)
+
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:CancelKeyDeletion",
+              [32m+[0m[0m "kms:CreateAlias",
+              [32m+[0m[0m "kms:DeleteAlias",
+              [32m+[0m[0m "kms:DescribeKey",
+              [32m+[0m[0m "kms:DisableKey",
+              [32m+[0m[0m "kms:DisableKeyRotation",
+              [32m+[0m[0m "kms:EnableKey",
+              [32m+[0m[0m "kms:EnableKeyRotation",
+              [32m+[0m[0m "kms:GetKeyPolicy",
+              [32m+[0m[0m "kms:GetKeyRotationStatus",
+              [32m+[0m[0m "kms:ListKeyPolicies",
+              [32m+[0m[0m "kms:ListResourceTags",
+              [32m+[0m[0m "kms:PutKeyPolicy",
+              [32m+[0m[0m "kms:ScheduleKeyDeletion",
+              [32m+[0m[0m "kms:TagResource",
+              [32m+[0m[0m "kms:UntagResource",
+              [32m+[0m[0m "kms:UpdateAlias",
+              [32m+[0m[0m "kms:UpdateKeyDescription",
+            ]
+          [32m+[0m[0m effect    = "Allow"
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m sid       = "KeyAdminNoCrypto"
+
+          [32m+[0m[0m principals {
+              [32m+[0m[0m identifiers = [
+                  [32m+[0m[0m "arn:aws:iam::<account-id>:root",
+                ]
+              [32m+[0m[0m type        = "AWS"
+            }
+        }
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:Decrypt",
+              [32m+[0m[0m "kms:DescribeKey",
+              [32m+[0m[0m "kms:Encrypt",
+            ]
+          [32m+[0m[0m effect    = "Allow"
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m sid       = "OpenBaoSealOnly"
+
+          [32m+[0m[0m principals {
+              [32m+[0m[0m identifiers = [
+                  [32m+[0m[0m (known after apply),
+                ]
+              [32m+[0m[0m type        = "AWS"
+            }
+        }
+    }
+
+[1m  # data.aws_iam_policy_document.seal_use[0m will be read during apply
+  # (config refers to values not yet known)
+[0m [36m<=[0m[0m data "aws_iam_policy_document" "seal_use" {
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m json          = (known after apply)
+      [32m+[0m[0m minified_json = (known after apply)
+
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:Decrypt",
+              [32m+[0m[0m "kms:DescribeKey",
+              [32m+[0m[0m "kms:Encrypt",
+            ]
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m (known after apply),
+            ]
+          [32m+[0m[0m sid       = "SealCrypto"
+        }
+    }
+
+[1m  # aws_eks_pod_identity_association.openbao[0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_pod_identity_association" "openbao" {
+      [32m+[0m[0m association_arn      = (known after apply)
+      [32m+[0m[0m association_id       = (known after apply)
+      [32m+[0m[0m cluster_name         = "rg-vaultly"
+      [32m+[0m[0m disable_session_tags = false
+      [32m+[0m[0m external_id          = (known after apply)
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m namespace            = "openbao"
+      [32m+[0m[0m region               = "eu-central-1"
+      [32m+[0m[0m role_arn             = (known after apply)
+      [32m+[0m[0m service_account      = "openbao"
+      [32m+[0m[0m tags_all             = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "platform"
+        }
+    }
+
+[1m  # aws_iam_role_policy.seal_use[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "seal_use" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "seal-use"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = (known after apply)
+      [32m+[0m[0m role        = "rg-vaultly-openbao-seal"
+    }
+
+[1m  # aws_kms_alias.seal[0m will be created
+[0m  [32m+[0m[0m resource "aws_kms_alias" "seal" {
+      [32m+[0m[0m arn            = (known after apply)
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m name           = "alias/rg-vaultly-openbao-seal"
+      [32m+[0m[0m name_prefix    = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m target_key_arn = (known after apply)
+      [32m+[0m[0m target_key_id  = (known after apply)
+    }
+
+[1m  # aws_kms_key.seal[0m will be created
+[0m  [32m+[0m[0m resource "aws_kms_key" "seal" {
+      [32m+[0m[0m arn                                = (known after apply)
+      [32m+[0m[0m bypass_policy_lockout_safety_check = false
+      [32m+[0m[0m customer_master_key_spec           = "SYMMETRIC_DEFAULT"
+      [32m+[0m[0m deletion_window_in_days            = 7
+      [32m+[0m[0m description                        = "rg-vaultly OpenBao auto-unseal key"
+      [32m+[0m[0m enable_key_rotation                = true
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m is_enabled                         = true
+      [32m+[0m[0m key_id                             = (known after apply)
+      [32m+[0m[0m key_usage                          = "ENCRYPT_DECRYPT"
+      [32m+[0m[0m multi_region                       = (known after apply)
+      [32m+[0m[0m policy                             = (known after apply)
+      [32m+[0m[0m region                             = "eu-central-1"
+      [32m+[0m[0m rotation_period_in_days            = (known after apply)
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "platform"
+        }
+    }
+
+[1m  # module.openbao_role.aws_iam_role.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "this" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "sts:TagSession",
+                          [32m+[0m[0m "sts:AssumeRole",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-namespace"       = "openbao"
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-service-account" = "openbao"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "pods.eks.amazonaws.com"
+                        }
+                      [32m+[0m[0m Sid       = "EksPodIdentity"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "rg-vaultly-openbao-seal"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "platform"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1mPlan:[0m 5 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m kms_alias        = "alias/rg-vaultly-openbao-seal"
+  [32m+[0m[0m kms_key_arn      = (known after apply)
+  [32m+[0m[0m kms_key_id       = (known after apply)
+  [32m+[0m[0m openbao_role_arn = (known after apply)
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Saved the plan to: platform.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    tofu apply "platform.tfplan"

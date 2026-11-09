@@ -1,0 +1,49 @@
+Client Version: v1.35.10
+Kustomize Version: v5.7.1
+Server Version: v1.36.5-eks-577a51e
+NAME                                            STATUS   ROLES    AGE     VERSION               INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                        KERNEL-VERSION                             CONTAINER-RUNTIME            ZONE            ARCH    INSTANCE-TYPE
+ip-10-42-23-199.eu-central-1.compute.internal   Ready    <none>   3m44s   v1.36.5-eks-6e7947a   10.42.23.199   <none>        Amazon Linux 2023.12.20261102   6.18.56-125.164.amzn2023.aarch64 (arm64)   containerd://2.3.7+unknown   eu-central-1a   arm64   t4g.small
+ip-10-42-43-225.eu-central-1.compute.internal   Ready    <none>   3m42s   v1.36.5-eks-6e7947a   10.42.43.225   <none>        Amazon Linux 2023.12.20261102   6.18.56-125.164.amzn2023.aarch64 (arm64)   containerd://2.3.7+unknown   eu-central-1b   arm64   t4g.small
+ip-10-42-51-176.eu-central-1.compute.internal   Ready    <none>   3m43s   v1.36.5-eks-6e7947a   10.42.51.176   <none>        Amazon Linux 2023.12.20261102   6.18.56-125.164.amzn2023.aarch64 (arm64)   containerd://2.3.7+unknown   eu-central-1c   arm64   t4g.small
+ip-10-42-23-199.eu-central-1.compute.internal pods=11
+ip-10-42-43-225.eu-central-1.compute.internal pods=11
+ip-10-42-51-176.eu-central-1.compute.internal pods=11
+NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE
+kube-system   aws-node-7wpv7                        2/2     Running   0          3m46s
+kube-system   aws-node-jzctq                        2/2     Running   0          3m45s
+kube-system   aws-node-rsclf                        2/2     Running   0          3m44s
+kube-system   coredns-fcd457f5d-fp9mg               1/1     Running   0          2m52s
+kube-system   coredns-fcd457f5d-k795w               1/1     Running   0          2m52s
+kube-system   ebs-csi-controller-7f68fb8dd7-66bbc   6/6     Running   0          2m47s
+kube-system   ebs-csi-controller-7f68fb8dd7-9gl5t   6/6     Running   0          2m47s
+kube-system   ebs-csi-node-5j9r8                    3/3     Running   0          2m47s
+kube-system   ebs-csi-node-h58xq                    3/3     Running   0          2m47s
+kube-system   ebs-csi-node-hr29r                    3/3     Running   0          2m47s
+kube-system   eks-pod-identity-agent-4r8st          1/1     Running   0          3m45s
+kube-system   eks-pod-identity-agent-68bnk          1/1     Running   0          3m46s
+kube-system   eks-pod-identity-agent-6vwpw          1/1     Running   0          3m44s
+kube-system   kube-proxy-68r97                      1/1     Running   0          2m53s
+kube-system   kube-proxy-ldrhk                      1/1     Running   0          2m53s
+kube-system   kube-proxy-spfs8                      1/1     Running   0          2m53s
+ADDONS	aws-ebs-csi-driver
+ADDONS	coredns
+ADDONS	eks-pod-identity-agent
+ADDONS	kube-proxy
+ADDONS	vpc-cni
+{
+    "version": "1.36",
+    "publicCidrs": [
+        "<admin-ip>/32"
+    ],
+    "private": true,
+    "secretsEncrypted": [
+        "secrets"
+    ]
+}
+-------------------------------------------------------
+|                  DescribeInstances                  |
++----------------------+------------+-----------+-----+
+|  i-0971c802bb36b443b |  t4g.small |  required |  1  |
+|  i-00dbc06ece5323062 |  t4g.small |  required |  1  |
+|  i-0633a0920cc3178f8 |  t4g.small |  required |  1  |
++----------------------+------------+-----------+-----+

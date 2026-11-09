@@ -1,0 +1,13 @@
+Error: Resource precondition failed
+
+  on main.tf line 26, in resource "terraform_data" "guard":
+  26:       condition     = local.is_arm == (var.ami_type == "AL2023_ARM_64_STANDARD")
+    ├────────────────
+    │ local.is_arm is false
+    │ var.ami_type is "AL2023_ARM_64_STANDARD"
+    ├────────────────
+    │ Diff: 
+    │     false -> true
+
+instance_type t3.small and ami_type AL2023_ARM_64_STANDARD differ in
+architecture

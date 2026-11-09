@@ -3,3 +3,4 @@ local/.env
 terraform.tfvars
 *.tfstate*
 *.tfplan
+local/redact.list

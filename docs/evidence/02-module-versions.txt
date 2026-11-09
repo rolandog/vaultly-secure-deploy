@@ -1,0 +1,3 @@
+vpc	registry.opentofu.org/terraform-aws-modules/vpc/aws	6.7.3
+eks	registry.opentofu.org/terraform-aws-modules/eks/aws	21.29.0
+eks.kms	registry.opentofu.org/terraform-aws-modules/kms/aws	4.0.0

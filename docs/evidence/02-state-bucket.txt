@@ -1,0 +1,5 @@
+{
+    "BucketArn": "arn:aws:s3:::tf-state-<account-id>-eu-central-1",
+    "BucketRegion": "eu-central-1",
+    "AccessPointAlias": false
+}
