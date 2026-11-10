@@ -1,0 +1,20 @@
+--- nat:
+deleted
+--- flow:
+--- sg:
+
+aws: [ERROR]: An error occurred (InvalidGroup.NotFound) when calling the DescribeSecurityGroups operation: The security group 'sg-07fb21c9b912b1574' does not exist
+--- eip:
+--- ebs:
+--- pia:
+clusterName: rg-vaultly
+--- eks key:
+PendingDeletion	2026-12-09T19:45:36.019000+01:00
+--- pia (full):
+
+aws: [ERROR]: An error occurred (ResourceNotFoundException) when calling the ListPodIdentityAssociations operation: No cluster found for name: rg-vaultly.
+
+Additional error details:
+--- cluster:
+
+aws: [ERROR]: An error occurred (ResourceNotFoundException) when calling the DescribeCluster operation: No cluster found for name: rg-vaultly.

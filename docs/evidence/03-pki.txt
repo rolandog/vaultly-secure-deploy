@@ -1,0 +1,24 @@
+NAME                                       READY   STATUS    RESTARTS   AGE
+cert-manager-686d77b8bd-frdwx              1/1     Running   0          111s
+cert-manager-cainjector-597fcb88cc-rhndd   1/1     Running   0          111s
+cert-manager-webhook-748d5b854c-pz9jk      1/1     Running   0          111s
+NAME                    READY   AGE
+rg-vaultly-ca           True    91s
+rg-vaultly-selfsigned   True    91s
+NAMESPACE      NAME            READY   SECRET          AGE
+cert-manager   rg-vaultly-ca   True    rg-vaultly-ca   92s
+openbao        openbao-tls     True    openbao-tls     86s
+cert-manager-686d77b8bd-frdwx quay.io/jetstack/cert-manager-controller@sha256:9f4f96a33c7774cef24466fcd85031997531a03a8d117f151126baa8d1290dcc
+cert-manager-cainjector-597fcb88cc-rhndd quay.io/jetstack/cert-manager-cainjector@sha256:083d0e906f8eb44e255fe4ff817ae54e49f9ed82e22f1011bb4e9e4f4b8a641f
+cert-manager-webhook-748d5b854c-pz9jk quay.io/jetstack/cert-manager-webhook@sha256:055ac8e9de6a0ba6763794838fe38944acc650f68ebe1b01dd8be079e580f458
+--- openbao-tls secret keys:
+ca.crt
+tls.crt
+tls.key
+--- server cert:
+subject=CN=openbao.openbao.svc
+issuer=CN=rg-vaultly-ca
+notBefore=Nov 10 10:02:46 2026 GMT
+notAfter=Feb  8 10:02:46 2027 GMT
+X509v3 Subject Alternative Name: 
+    DNS:openbao, DNS:openbao.openbao, DNS:openbao.openbao.svc, DNS:openbao.openbao.svc.cluster.local, DNS:openbao-active, DNS:openbao-active.openbao.svc, DNS:openbao-standby, DNS:openbao-standby.openbao.svc, DNS:*.openbao-internal, DNS:*.openbao-internal.openbao, DNS:*.openbao-internal.openbao.svc, DNS:*.openbao-internal.openbao.svc.cluster.local, IP Address:127.0.0.1
