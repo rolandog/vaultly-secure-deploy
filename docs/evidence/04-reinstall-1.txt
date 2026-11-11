@@ -1,0 +1,127 @@
+### install-cert-manager 2026-11-11T23:11:35+01:00
+Release "cert-manager" does not exist. Installing it now.
+Pulled: quay.io/jetstack/charts/cert-manager:v1.21.3
+Digest: sha256:e482675aec32862d323a9218293ff7de81192337998615e4378c56498473f240
+NAME: cert-manager
+LAST DEPLOYED: Wed Nov 11 23:11:39 2026
+NAMESPACE: cert-manager
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+cert-manager v1.21.3 has been deployed successfully!
+
+In order to begin issuing certificates, you will need to set up a ClusterIssuer
+or Issuer resource (for example, by creating a 'letsencrypt-staging' issuer).
+
+More information on the different types of issuers and how to configure them
+can be found in our documentation:
+
+https://cert-manager.io/docs/configuration/
+
+For information on how to configure cert-manager to automatically provision
+Certificates for Ingress resources, take a look at the `ingress-shim`
+documentation:
+
+https://cert-manager.io/docs/usage/ingress/
+
+For information on how to configure cert-manager to automatically provision
+Certificates for Gateway API resources, take a look at the `gateway resource`
+documentation:
+
+https://cert-manager.io/docs/usage/gateway/
+clusterissuer.cert-manager.io/rg-vaultly-selfsigned created
+certificate.cert-manager.io/rg-vaultly-ca created
+clusterissuer.cert-manager.io/rg-vaultly-ca created
+certificate.cert-manager.io/rg-vaultly-ca condition met
+clusterissuer.cert-manager.io/rg-vaultly-ca condition met
+namespace/openbao created
+certificate.cert-manager.io/openbao-tls created
+certificate.cert-manager.io/openbao-tls condition met
+install-cert-manager.sh: cert-manager v1.21.3 and pki ready
+
+real	0m41,491s
+user	0m9,316s
+sys	0m1,508s
+### install-openbao 2026-11-11T23:12:17+01:00
+storageclass.storage.k8s.io/rg-gp3 created
+Release "openbao" does not exist. Installing it now.
+I1111 23:12:23.817723   29607 warnings.go:107] "Warning: would violate PodSecurity \"restricted:latest\": unrestricted capabilities (container \"openbao\" must set securityContext.capabilities.drop=[\"ALL\"])"
+NAME: openbao
+LAST DEPLOYED: Wed Nov 11 23:12:22 2026
+NAMESPACE: openbao
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+NOTES:
+Thank you for installing OpenBao!
+
+Now that you have deployed OpenBao, you should look over the docs on using
+OpenBao with Kubernetes available here:
+
+https://openbao.org/docs/
+
+
+Your release is named openbao. To learn more about the release, try:
+
+install-openbao.sh: 3 pods running; next: init (stage 3c)
+
+real	0m28,238s
+user	0m9,151s
+sys	0m1,210s
+### openbao-init 2026-11-11T23:12:45+01:00
+openbao-init.sh: stored and verified /rg-vaultly/openbao/recovery-keys
+openbao-init.sh: stored and verified /rg-vaultly/openbao/root-token-temp
+openbao-init.sh: initialised; secrets removed from /dev/shm/tmp.SkkUEIESOd
+openbao-0: awskms raft ha=true sealed=false
+openbao-1: awskms raft ha=true sealed=false
+openbao-2: awskms raft ha=true sealed=false
+NAME        READY   STATUS    RESTARTS   AGE
+openbao-0   1/1     Running   0          47s
+openbao-1   1/1     Running   0          46s
+openbao-2   1/1     Running   0          46s
+openbao-init.sh: openbao initialised and unsealed on 3 pods
+
+real	0m25,272s
+user	0m10,811s
+sys	0m1,462s
+### openbao-configure 2026-11-11T23:13:10+01:00
+openbao-configure.sh: kv v2 at secret/
+openbao-configure.sh: policy rg-operator written
+openbao-configure.sh: policy vaultly-app written
+openbao-configure.sh: kubernetes auth at kubernetes/, role vaultly bound to vaultly/vaultly
+openbao-configure.sh: seeded secret/vaultly/database (version 1)
+openbao-configure.sh: stored and verified /rg-vaultly/openbao/operator-token
+openbao-configure.sh: self-test: openbao/default logged in through kubernetes/ (token reviewer path works)
+openbao-configure.sh: self-test: openbao/default refused for role vaultly
+--- summary
+mounts:   cubbyhole/ identity/ secret/ sys/
+auth:     kubernetes/ token/
+policies: default rg-operator vaultly-app root
+role:     {"bound_service_account_names":["vaultly"],"bound_service_account_namespaces":["vaultly"],"token_policies":["vaultly-app"],"token_ttl":900,"token_max_ttl":3600}
+kv:       vaultly/database current_version=1
+operator: create, read, update on data/vaultly/database; deny on sys/policies/acl/vaultly-app
+openbao-configure.sh: configured; run with --revoke-root after the app login works
+
+real	0m47,341s
+user	0m28,928s
+sys	0m4,591s
+### vaultly-bootstrap 2026-11-11T23:13:58+01:00
+vaultly-bootstrap.sh: context rg-vaultly
+namespace/vaultly created
+configmap/vaultly-ca created
+secret/vaultly-api-bearer created
+vaultly-bootstrap.sh: ok (bearer present, >= 32 bytes; ca configmap present)
+
+real	0m9,096s
+user	0m7,028s
+sys	0m1,029s
+2026-11-11T23:14:07+01:00
+Waiting for deployment "vaultly" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "vaultly" rollout to finish: 1 of 2 updated replicas are available...
+deployment "vaultly" successfully rolled out
+
+real	0m12,978s
+user	0m0,922s
+sys	0m0,162s

@@ -17,7 +17,30 @@ list-price estimate that has not been checked against billing). Tear down when y
 
 ## Rebuild
 
-TBD: filled in from the measured rebuild (stage T3).
+Measured 2026-11-11, eu-central-1, from an empty state (the previous cluster's KMS keys stay in
+PendingDeletion; the state bucket is kept). Run the steps in this order:
+
+| Step | Command | Time |
+|---|---|---|
+| 1 | `scripts/rebuild.sh` (admin IP refresh, apply network, eks, platform with -auto-approve, wait for 3 nodes) | 15 m 43 s |
+| 2 | `scripts/install-cert-manager.sh` | 41 s |
+| 3 | `scripts/install-openbao.sh` | 28 s |
+| 4 | `scripts/openbao-init.sh` (recovery keys and root token go to SSM) | 25 s |
+| 5 | `scripts/openbao-configure.sh` | 47 s |
+| 6 | `scripts/vaultly-bootstrap.sh` (namespace, CA ConfigMap, API bearer Secret) | 9 s |
+| 7 | `kubectl apply -f k8s/vaultly/` then `kubectl rollout status -f k8s/vaultly/deployment.yaml --timeout=180s` | 13 s |
+
+About 25 minutes from nothing to a running app. The cluster bills hourly until teardown.
+Teardown deletes the SSM parameters, so every rebuild runs step 4 again.
+
+Verify (the app answers on port 8080 inside the cluster):
+
+```bash
+kubectl -n vaultly port-forward svc/vaultly 8080:8080 &
+curl -sS localhost:8080/healthz    # {"status":"ok"}
+curl -sS localhost:8080/readyz     # {"status":"ok","vault_authenticated":true}
+kill %1
+```
 
 ## Teardown
 
@@ -32,12 +55,21 @@ The order matters: Kubernetes data first, then AWS, then the infrastructure.
 4. `scripts/teardown.sh verify`: every check line must say `ok` (the tagged-resource list after it is informational: the tagging API keeps deleted resources for hours). Measured 2026-11-11: k8s 1 min, ssm 8 s, tofu 14 min, verify 30 s.
 
 The KMS key enters its deletion waiting period, which costs nothing.
+For unattended runs: `scripts/teardown.sh --force all` skips the prompts and passes
+`-auto-approve` to `tofu destroy`; `--force` alone is refused, a phase is required.
 If `network` fails with `DependencyViolation`, a leaked ENI is the usual cause (see
-Troubleshooting, TBD).
+Troubleshooting).
 
 ## Troubleshooting
 
-TBD: admin IP drift (`scripts/update-admin-ip.sh`), `DependencyViolation`, image pulls.
+| Symptom | Cause | Fix |
+|---|---|---|
+| `kubectl` times out or `cluster unreachable` | your public IP changed; the API allows only `admin_cidr` | `scripts/update-admin-ip.sh` |
+| `PodSecurity "restricted:latest"` warning in `install-openbao.sh` | the chart does not drop all capabilities | warning only; the install succeeds |
+| `teardown.sh verify` lists tagged ARNs | the tagging API keeps deleted resources for hours | informational; the `ok` lines above decide |
+| KMS keys in `PendingDeletion` after teardown | the deletion waiting period | none; no cost |
+| `network` destroy fails with `DependencyViolation` | a leaked ENI in the VPC | list it with `aws ec2 describe-network-interfaces --filters Name=vpc-id,Values=<vpc-id>`, delete it, re-run `scripts/teardown.sh tofu` |
+| `ImagePullBackOff` | the ghcr package is private or the digest is wrong | `skopeo inspect --raw docker://<image>` |
 
 ## Evidence index
 
