@@ -1,0 +1,3 @@
+# resolve `. lib.sh` relative to the checked script, and follow sourced files
+source-path=SCRIPTDIR
+external-sources=true

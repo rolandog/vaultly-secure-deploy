@@ -30,3 +30,7 @@ INFO:     10.42.56.255:47514 - "GET /readyz HTTP/1.1" 200 OK
 INFO:     10.42.56.255:53666 - "GET /readyz HTTP/1.1" 200 OK
 INFO:     10.42.56.255:53672 - "GET /healthz HTTP/1.1" 200 OK
 INFO:     10.42.56.255:53346 - "GET /readyz HTTP/1.1" 200 OK
+## no static VAULT_TOKEN in the pod environment (expect 0)
+0
+## projected service-account token present
+present
