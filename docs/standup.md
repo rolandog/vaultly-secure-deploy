@@ -86,3 +86,62 @@ None hard. Things I am watching:
 - The cluster has been up since 2026-11-10. My list-price estimate is about $0.21/h
   (about $5/day); I have not checked it against billing.
 - My IAM user has no MFA in the shared account. Known risk, planned for Stage 5.
+
+# Stand-up 3 (2026-11-11 -> spoken 2026-11-12)
+
+**What did you do so far?**
+- Merged Stage 3 (OpenBao HA) into develop and started Stage 4 on its own branch.
+- Stage 4a: read the app source before deploying. Settings are `VAULTLY_*`
+  environment variables, TLS is not configurable, so the private CA is trusted
+  through `VAULT_CACERT`.
+- Stage 4b, the image:
+  - Multi-arch (amd64 and arm64) on a digest-pinned base, transitive dependencies
+    pinned with a constraints file, package sets compared per architecture.
+  - ELF headers and uid checked, then published as a public package on ghcr.io,
+    linked to the repo and deployed by digest, so it survives teardown.
+- Guardrails added on the way:
+  - A gitleaks pre-commit hook, tested with a fake token and blocked.
+  - Git history scanned for AWS account IDs, none found.
+  - The token used for the push was deleted afterwards.
+  - GitHub dependency graph, Dependabot alerts, secret protection and push
+    protection are on.
+  - Evidence redaction runs before every commit.
+- Stage 4c, the deployment:
+  - Namespace with Pod Security `restricted`, 2 replicas on different nodes,
+    uid 10001, read-only root filesystem, all capabilities dropped.
+  - The app logs in to OpenBao through Kubernetes auth over verified TLS. No
+    static token exists in the pod (checked), and the bearer secret is random and
+    created once by a script.
+  - `/readyz` is 200, the API returns 401 without the bearer and 200 with it, and
+    no password is in the response.
+  - checkov: 0 failed. Two skips have written reasons. The missing NetworkPolicy is
+    left open on purpose for 4d.
+- Process: found and fixed shellcheck findings (sourced helper not found) with a
+  repo-wide `.shellcheckrc`. I also corrected two of my own wrong assumptions, once
+  from a log line that does not exist and once from a merge check that could not
+  work, because git flow deletes merged branches.
+
+**Do you feel on track, behind or ahead?**
+Slightly behind today's plan: the NetworkPolicies and the rotation demo were not
+done yet. The core path (image, OpenBao, login, API) works and is proven, so the
+remaining risk is time, not design.
+
+**What's your plan for today?**
+- Tear the cluster down, write the procedure into a new README, rebuild by
+  following it, and measure how long it takes. Reason: the cluster bills hourly,
+  and a procedure that only I remember is not reproducible.
+- 4d: NetworkPolicies proven by connection tests, then delete an OpenBao follower to
+  show auto-unseal still works.
+- 4e: rotation without a restart, denied outside `app-config/`, revoke the root token.
+- Then CI (Trivy, Bandit, pip-audit, OIDC), the load balancer if time allows, and the
+  GuardDuty and CloudTrail evidence.
+
+**Any blockers?**
+None hard. Things I am watching:
+- Teardown destroys the Raft volumes and the SSM recovery keys, so a rebuild needs
+  OpenBao initialised again. Known and documented in the README.
+- The VPC CNI is known to leak network interfaces, which can block the VPC
+  destroy. I check leftovers by tag and by VPC after every teardown.
+- NetworkPolicies could block the Pod Identity agent and break auto-unseal.
+  The test is deleting a follower.
+- My IAM user has no MFA in the shared account. Known risk, planned for Stage 5.
