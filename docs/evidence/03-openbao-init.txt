@@ -1,0 +1,19 @@
+openbao-init.sh: stored and verified /rg-vaultly/openbao/recovery-keys
+openbao-init.sh: stored and verified /rg-vaultly/openbao/root-token-temp
+openbao-init.sh: initialised; secrets removed from /dev/shm/tmp.UhgCl2P12K
+openbao-init.sh: openbao-0 not initialised and unsealed after 3 minutes
+Node         Address                            State       Voter
+----         -------                            -----       -----
+openbao-0    openbao-0.openbao-internal:8201    leader      true
+openbao-2    openbao-2.openbao-internal:8201    follower    true
+openbao-1    openbao-1.openbao-internal:8201    follower    true
+# rerun after fixing the noclobber bug in status_json (v0.1.1)
+openbao-init.sh: openbao-0 is already initialised; skipping init
+openbao-0: awskms raft ha=true sealed=false
+openbao-1: awskms raft ha=true sealed=false
+openbao-2: awskms raft ha=true sealed=false
+NAME        READY   STATUS    RESTARTS   AGE
+openbao-0   1/1     Running   0          37m
+openbao-1   1/1     Running   0          37m
+openbao-2   1/1     Running   0          37m
+openbao-init.sh: openbao initialised and unsealed on 3 pods
