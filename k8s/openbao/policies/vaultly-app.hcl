@@ -3,7 +3,7 @@ path "secret/data/vaultly/database" {
   capabilities = ["read"]
 }
 
-# secrets api of the app (PUT, GET, DELETE /api/v1/secrets/<path>): prefix assumed, confirm in stage 4
+# secrets api of the app (PUT, GET, DELETE /api/v1/secrets/<path>): vault_client.py passes <path> unchanged; app-config/ is the README example prefix
 path "secret/data/app-config/*" {
   capabilities = ["create", "update", "read"]
 }
