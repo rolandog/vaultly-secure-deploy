@@ -3,13 +3,15 @@
 set -euo pipefail; set -C
 
 PROG=${0##*/}
-VERSION=0.1.1
+VERSION=0.2.0
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 # shellcheck source=scripts/lib.sh
 . "$ROOT/scripts/lib.sh"
 
 CTX=$ROOT/vendor/vaultly
 BASE_FILE=$ROOT/k8s/vaultly/base-image.txt
+# pip freeze of a known-good image: both architectures must install the same versions
+CONSTRAINTS=$ROOT/k8s/vaultly/constraints.txt
 OWNER=${REPO_OWNER:-}
 REPO=${GITHUB_REPO:-vaultly-secure-deploy}
 LOCAL=localhost/rg-vaultly
@@ -33,7 +35,7 @@ for arg in "$@"; do
     *) usage >&2; exit 2 ;;
   esac
 done
-need podman; need git; need jq; need od
+need podman; need git; need jq; need od; need diff
 [ -n "$OWNER" ] || die "REPO_OWNER is not set"
 
 base=$(head -n 1 "$BASE_FILE")
@@ -52,12 +54,20 @@ trap 'rm -rf "$work"' EXIT
 sed -E "s#^FROM python:3\.12-slim( AS base)#FROM $base\1#" "$CTX/docker/Dockerfile" > "$work/Containerfile"
 grep -q "^FROM $base AS base" "$work/Containerfile" || die "FROM line not substituted; vendor Dockerfile changed?"
 
+# the vendored requirements.txt only has ranges; pin every package from the constraints file
+[ -s "$CONSTRAINTS" ] || die "$CONSTRAINTS is missing or empty"
+mkdir "$work/pins"
+cp "$CONSTRAINTS" "$work/pins/constraints.txt"
+sed -i -E 's#^RUN pip install --no-cache-dir -r requirements\.txt$#COPY --from=pins constraints.txt /tmp/constraints.txt\nRUN pip install --no-cache-dir -c /tmp/constraints.txt -r requirements.txt#' "$work/Containerfile"
+grep -q '^RUN pip install .* -c /tmp/constraints.txt ' "$work/Containerfile" || die "pip line not patched; vendor Dockerfile changed?"
+
 # an existing list would get new instances appended
 if podman manifest exists "$ref"; then
   podman manifest rm "$ref" >/dev/null
 fi
 log "building $ref from $base"
 podman build --platform linux/arm64,linux/amd64 --manifest "$ref" \
+  --build-context "pins=$work/pins" \
   --file "$work/Containerfile" \
   --label "org.opencontainers.image.source=https://github.com/$OWNER/$REPO" \
   --label "org.opencontainers.image.revision=$(git -C "$ROOT" rev-parse HEAD)" \
@@ -105,5 +115,8 @@ for plat in linux/arm64 linux/amd64; do
   [ "$uid" = 10001 ] || die "$plat runs as uid $uid, want 10001"
   log "$plat: image ${id:0:12}, ELF $got, uid $uid"
   podman run --rm --platform "$plat" --entrypoint python "$id" -c "$deps"
+  # the installed set must equal the constraints, so both instances carry identical packages
+  podman run --rm --platform "$plat" --entrypoint pip "$id" freeze > "$work/freeze-$arch.txt"
+  diff -u "$CONSTRAINTS" "$work/freeze-$arch.txt" || die "$plat: installed packages differ from constraints.txt"
 done
 log "built and verified $ref; not pushed"
