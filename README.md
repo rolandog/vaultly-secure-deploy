@@ -29,7 +29,7 @@ The order matters: Kubernetes data first, then AWS, then the infrastructure.
 2. `scripts/teardown.sh ssm`: delete `/rg-vaultly/openbao/*`. This destroys the recovery
    keys and the root token, so the next rebuild must run `init` again.
 3. `scripts/teardown.sh tofu`: destroy the roots `platform`, `eks`, `network`, in that order.
-4. `scripts/teardown.sh verify`: every line must say `ok`.
+4. `scripts/teardown.sh verify`: every check line must say `ok` (the tagged-resource list after it is informational: the tagging API keeps deleted resources for hours). Measured 2026-11-11: k8s 1 min, ssm 8 s, tofu 14 min, verify 30 s.
 
 The KMS key enters its deletion waiting period, which costs nothing.
 If `network` fails with `DependencyViolation`, a leaked ENI is the usual cause (see

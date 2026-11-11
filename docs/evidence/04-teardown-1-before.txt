@@ -1,0 +1,73 @@
+LEFT  eks cluster: rg-vaultly
+LEFT  vpc (tag): vpc-03c1f8a3ea34f930b
+ok    instances (tag)
+LEFT  instances (eks:cluster-name): i-0b8a2263d1b83a303	i-0da06002d8a636528	i-0d8bbac4000f4bded
+LEFT  nat gateways: nat-0c3a48a8dd1d49c9d
+LEFT  elastic ips: eipalloc-060a28f1a6bad0748
+LEFT  internet gateways: igw-062a3dc117c2887fa
+LEFT  security groups: sg-0f1b150b87b62b464	sg-0de566ad058d761fa	sg-014ed16e580614434
+LEFT  flow logs: fl-008a0ebe0e8c730cc
+LEFT  launch templates: main-488f347d133330535fcd682660
+LEFT  ebs volumes: vol-0f8fdc19be83f71dc	vol-02b9b61c883678374	vol-046bb5c8a000ad136
+LEFT  db subnet group: rg-vaultly
+LEFT  kms alias: alias/eks/rg-vaultly	alias/rg-vaultly-openbao-seal
+LEFT  eks log group: /aws/eks/rg-vaultly/cluster
+LEFT  iam roles: rg-vaultly-cluster-734c76ffebdffd82ac33bfc752	rg-vaultly-ebs-csi	rg-vaultly-openbao-seal
+LEFT  ssm parameters: /rg-vaultly/openbao/operator-token	/rg-vaultly/openbao/recovery-keys	/rg-vaultly/openbao/root-token-temp
+## kms keys tagged Namespace=rg: expect PendingDeletion for ours (state, deletion date, description)
+aec1d521-62d0-41f1-8ec8-2401a3d27ad9  Enabled	None	rg-vaultly OpenBao auto-unseal key
+112048bc-6d94-4f36-bcca-c3d538614688  PendingDeletion	2026-11-16T19:34:19.042000+01:00	rg-vaultly OpenBao auto-unseal key
+45ebe49b-0a9e-4a02-9715-c0049f80078b  PendingDeletion	2026-11-26T03:23:07.231000+01:00	eks-rolando-p2 cluster encryption key
+29f46c6c-e874-4477-a364-82768e4bbe04  PendingDeletion	2026-11-25T01:33:03.138000+01:00	eks-rolando-p2 cluster encryption key
+17c120db-bcdd-4246-83d0-770763dedbd7  PendingDeletion	2026-11-25T22:46:21.075000+01:00	eks-rolando-p2 cluster encryption key
+9c6c0d12-b99e-452e-ad03-82f76fd5e6b1  PendingDeletion	2026-12-09T19:45:36.019000+01:00	rg-vaultly cluster encryption key
+f96ee647-cbde-448d-85d0-671afc048b05  Enabled	None	rg-vaultly cluster encryption key
+6fa2ae4f-71cf-4f76-8491-cda2332bf0c7  PendingDeletion	2026-11-26T22:46:56.617000+01:00	eks-rolando-p2 cluster encryption key
+## other tagged arns (informational; may include deleted ghosts and other labs, e.g. rg-p2-*)
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-03ab9c05b68fc9517
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-046bb5c8a000ad136
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-vote
+arn:aws:logs:eu-central-1:<acct>:log-group:/aws/vpc-flow-log/vpc-03c1f8a3ea34f930b
+arn:aws:ec2:eu-central-1:<acct>:launch-template/lt-0e5607417d9957d1e
+arn:aws:eks:eu-central-1:<acct>:cluster/rg-vaultly
+arn:aws:ec2:eu-central-1:<acct>:security-group/sg-0f1b150b87b62b464
+arn:aws:ec2:eu-central-1:<acct>:security-group/sg-0de566ad058d761fa
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-0bf8a5fe6b4322aaa
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-086db559335d8d92c
+arn:aws:ssm:eu-central-1:<acct>:parameter/rg-vaultly/openbao/recovery-keys
+arn:aws:ec2:eu-central-1:<acct>:vpc-flow-log/fl-008a0ebe0e8c730cc
+arn:aws:rds:eu-central-1:<acct>:subgrp:rg-vaultly
+arn:aws:ec2:eu-central-1:<acct>:route-table/rtb-06a7b303635d89318
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-01516e9404471d55c
+arn:aws:ssm:eu-central-1:<acct>:parameter/rg-vaultly/openbao/operator-token
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-0ef2d348d3a452172
+arn:aws:eks:eu-central-1:<acct>:addon/rg-vaultly/aws-ebs-csi-driver/3cd0e22f-25b7-41a2-4b7c-8ac62685d744
+arn:aws:ssm:eu-central-1:<acct>:parameter/rg-vaultly/openbao/root-token-temp
+arn:aws:ec2:eu-central-1:<acct>:route-table/rtb-0e06aac1d96029788
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-02b9b61c883678374
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-yeylexkjdbofr4jqb
+arn:aws:ec2:eu-central-1:<acct>:security-group/sg-014ed16e580614434
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-03cf398e8f7bdc6df
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-0461c6ad566d6fd2f
+arn:aws:ec2:eu-central-1:<acct>:natgateway/nat-0c3a48a8dd1d49c9d
+arn:aws:eks:eu-central-1:<acct>:access-entry/rg-vaultly/user/<acct>/rolandog/48d0e22e-096a-ece9-ab9f-a1c0dc24ebae
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-73orgezrwpmgdiab8
+arn:aws:ec2:eu-central-1:<acct>:network-acl/acl-0ef8f9bd98e18e5b4
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-042a56761ec30ab4c
+arn:aws:eks:eu-central-1:<acct>:addon/rg-vaultly/kube-proxy/46d0e22f-25b4-249e-9c47-909753bef867
+arn:aws:eks:eu-central-1:<acct>:addon/rg-vaultly/eks-pod-identity-agent/7ad0e22e-09ef-e578-44c0-c1e243467a64
+arn:aws:eks:eu-central-1:<acct>:addon/rg-vaultly/coredns/04d0e22f-25ae-4ef1-0741-2d144c9c61bd
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-0f8fdc19be83f71dc
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-worker
+arn:aws:eks:eu-central-1:<acct>:addon/rg-vaultly/vpc-cni/f0d0e22e-09de-d878-b197-578a4b819ed6
+arn:aws:eks:eu-central-1:<acct>:nodegroup/rg-vaultly/main-d63e995c42def5a6a2a3b88e29/3ed0e22e-5003-464b-896f-bdb725d94fb5
+arn:aws:ec2:eu-central-1:<acct>:route-table/rtb-0586483be078fa838
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-02061f0317b7e247d
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-result
+arn:aws:ec2:eu-central-1:<acct>:internet-gateway/igw-062a3dc117c2887fa
+arn:aws:ec2:eu-central-1:<acct>:vpc/vpc-03c1f8a3ea34f930b
+arn:aws:logs:eu-central-1:<acct>:log-group:/aws/eks/rg-vaultly/cluster
+arn:aws:ec2:eu-central-1:<acct>:elastic-ip/eipalloc-060a28f1a6bad0748
+arn:aws:ec2:eu-central-1:<acct>:route-table/rtb-04c3821ce4d3d1553
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-vgs5wbseu0r8g1lrx
+teardown.sh: leftovers found
