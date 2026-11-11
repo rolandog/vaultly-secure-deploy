@@ -3,30 +3,38 @@
 set -euo pipefail; set -C
 
 PROG=${0##*/}
-VERSION=0.1.1
+VERSION=0.2.0
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 # shellcheck source=scripts/lib.sh
 . "$ROOT/scripts/lib.sh"
 
 CLUSTER=${CLUSTER_NAME:-rg-vaultly}
 SSM_PREFIX=${SSM_PREFIX:-/rg-vaultly/openbao/}
+FORCE=0
 
 usage() {
   cat <<EOF2
-Usage: $PROG [--help|--version] [all|k8s|ssm|tofu|verify]
+Usage: $PROG [-f|--force] [--help|--version] [all|k8s|ssm|tofu|verify]
 
 k8s     delete namespace vaultly, uninstall OpenBao, delete its PVCs, wait for the EBS volumes
 ssm     delete SSM parameters under $SSM_PREFIX (recovery keys and root token: rebuild needs init)
 tofu    destroy the roots platform, eks, network in that order (each asks for confirmation)
 verify  scoped leftover checks (tag Namespace=rg, name prefix); exits 1 if anything is left
 all     k8s, ssm, tofu, verify (default)
-Destructive phases ask you to type the cluster name ($CLUSTER). Env: CLUSTER_NAME, SSM_PREFIX.
+Destructive phases ask you to type the cluster name ($CLUSTER).
+-f, --force  skip that prompt and pass -auto-approve to tofu destroy (no plan review);
+             needs an explicit phase, so 'teardown.sh -f' alone is refused.
+Env: CLUSTER_NAME, SSM_PREFIX.
 Output masks every 12-digit number (account ids).
 EOF2
 }
 
 confirm() {
   local ans
+  if [ "$FORCE" -eq 1 ]; then
+    log "force: skipping confirmation for $CLUSTER"
+    return 0
+  fi
   read -rp "this deletes data and infrastructure of $CLUSTER; type '$CLUSTER' to continue: " ans
   [ "$ans" = "$CLUSTER" ] || die "aborted"
 }
@@ -93,9 +101,11 @@ ssm_phase() {
 
 tofu_phase() {
   local r
+  local -a extra=()
+  if [ "$FORCE" -eq 1 ]; then extra=(-auto-approve); fi
   for r in platform eks network; do
     log "destroy $r"
-    "$ROOT/scripts/tf.sh" "$r" destroy
+    "$ROOT/scripts/tf.sh" "$r" destroy "${extra[@]}"
   done
 }
 
@@ -170,9 +180,23 @@ verify_phase() {
   log "verify ok"
 }
 
-case "${1:-all}" in
-  -h|--help) usage; exit 0 ;;
-  -V|--version) print_version; exit 0 ;;
+args=()
+while [ $# -gt 0 ]; do
+  case $1 in
+    -h|--help) usage; exit 0 ;;
+    -V|--version) print_version; exit 0 ;;
+    -f|--force) FORCE=1 ;;
+    -*) usage >&2; exit 2 ;;
+    *) args+=("$1") ;;
+  esac
+  shift
+done
+[ "${#args[@]}" -le 1 ] || { usage >&2; exit 2; }
+# a bare --force must never mean 'all'
+if [ "$FORCE" -eq 1 ] && [ "${#args[@]}" -eq 0 ]; then die "--force needs an explicit phase"; fi
+phase=${args[0]:-all}
+
+case "$phase" in
   all)    need aws; need kubectl; need helm; confirm; k8s_phase; ssm_phase; tofu_phase; verify_phase ;;
   k8s)    need aws; need kubectl; need helm; confirm; k8s_phase ;;
   ssm)    need aws; confirm; ssm_phase ;;
