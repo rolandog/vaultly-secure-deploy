@@ -1,0 +1,108 @@
+vaultly-image.sh: building localhost/rg-vaultly:20261111-49bb7ad from docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+[linux/amd64] STEP 1/12: FROM docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b AS base
+Trying to pull docker.io/library/python@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b...
+Getting image source signatures
+Copying blob sha256:05e0eee5572e9c9f50408a2132590133b830a668a1cf2ff2b150f19c57707e2b
+Copying blob sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41
+Copying blob sha256:68bced9e0afa4479df17c3646e27c7c7e9ce9ba70c0e6c73b6826487b89037d9
+Copying blob sha256:2dc99d2d0a39fce31e37615eb4c932e16dcc4c2b0ce9993714280081b5dbe085
+Copying config sha256:78976a69c067520ef8be34cde307ef9f6fea6dcefa50edb57039773d241ca0db
+Writing manifest to image destination
+[linux/amd64] STEP 2/12: ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1
+--> Using cache c0704007f1ec5bb3bcb73da3ff74b37f271db9ee3ba2fee8b2073b69743d9905
+--> c0704007f1ec
+[linux/amd64] STEP 3/12: WORKDIR /app
+--> Using cache 6fae1a8431beef50c18f9b803fe69a71468688a930b334222f9663b29d176b7a
+--> 6fae1a8431be
+[linux/amd64] STEP 4/12: COPY requirements.txt .
+--> Using cache d3fdee35e9ca569b92c888d54822a70993b5f294376c01ccc55368be0c4d0b75
+--> d3fdee35e9ca
+[linux/amd64] STEP 5/12: RUN pip install --no-cache-dir -r requirements.txt
+--> Using cache 639ff0ca4a0ffa2c205b8004a247ef22f1d62add1db966cc7efb14250f296a73
+--> 639ff0ca4a0f
+[linux/amd64] STEP 6/12: COPY app ./app
+--> Using cache 66439f63827ddf4b6b4638cf1f2b88ec24985b132d614902e6bde82ddbfb7b02
+--> 66439f63827d
+[linux/amd64] STEP 7/12: RUN useradd --system --no-create-home --uid 10001 vaultly
+--> Using cache 2935cfe4be8b76fc536c5436f8a9b12b4dc23c9681eade026b475a39b1969c70
+--> 2935cfe4be8b
+[linux/amd64] STEP 8/12: USER vaultly
+--> Using cache a334e1360efce682076e959d80a277183de66d0da8124b73d8ce0eca9bef1a7d
+--> a334e1360efc
+[linux/amd64] STEP 9/12: EXPOSE 8080
+--> Using cache 94866b4f10ad3d0166433d4c433dc8fc4ccfb248a661daeafc44dcc470dc9436
+--> 94866b4f10ad
+[linux/amd64] STEP 10/12: HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz')" || exit 1
+--> Using cache 9f036d72aca65c74138b48f343404c7912d6b4b9241457c535e88b93dd7fe952
+--> 9f036d72aca6
+[linux/amd64] STEP 11/12: CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080"]
+--> Using cache fd3618e4972c69e9c35c8a8127f0687943bb60697f72b137d5bd5258ba525496
+--> fd3618e4972c
+[linux/amd64] STEP 12/12: LABEL "org.opencontainers.image.source"="https://github.com/rolandog/vaultly-secure-deploy" "org.opencontainers.image.revision"="49bb7adcd056c474a25f6e7f10ea684f2cc252e3" "org.opencontainers.image.licenses"="MIT" "org.opencontainers.image.base.name"="docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b"
+[linux/amd64] COMMIT
+time="2026-11-11T14:57:50+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> 4c7ed08b0092
+[linux/arm64] STEP 1/12: FROM docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b AS base
+4c7ed08b0092b7dbac02e66de45cc296ac3a0823676dff94004b4eb1c4603297
+Trying to pull docker.io/library/python@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b...
+Getting image source signatures
+Copying blob sha256:70b4f81c82dc6ea2a5fc08c59c75940cc3f45dad8e2038b7773cd1b6ac24c7a0
+Copying blob sha256:acd43e9bebc37bc4ba7a5f47bd7598913337803e53d468f37d940f11f5d5f1ef
+Copying blob sha256:0373269344dc260a94623aecbafee3cf336984ad3bbe8a49ac047d85aa69be9b
+Copying blob sha256:0ba3a3e89cd986f09d548ebfd13261fd4ad86bb310bb69923010538e0c5ce222
+Copying config sha256:3617028275c0b0ffabe98f1d7eaa6b85624af2f457678f185c307ff3c1d31ae6
+Writing manifest to image destination
+[linux/arm64] STEP 2/12: ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1
+--> Using cache 7dd861d9bf268755c34da67bb2ab902f5dbf2d636fa752e612b0a64370941791
+--> 7dd861d9bf26
+[linux/arm64] STEP 3/12: WORKDIR /app
+--> Using cache 4ce5282334fa8b727f09c497cd859991a74ee0f681917f134560339a1a25feee
+--> 4ce5282334fa
+[linux/arm64] STEP 4/12: COPY requirements.txt .
+--> Using cache 3f6f017df4c7d046b4f36f7b07c1abfe2ea5768275510d8ca2246d8f7ffbceda
+--> 3f6f017df4c7
+[linux/arm64] STEP 5/12: RUN pip install --no-cache-dir -r requirements.txt
+--> Using cache b7c72c8133d37a6b9f3da5d870c648cbcc073ee6b743b87dfda541096eec39bc
+--> b7c72c8133d3
+[linux/arm64] STEP 6/12: COPY app ./app
+--> Using cache cf8153a0532ee79acda4ad143d0e543d72c435bcf3b91ad3f58530b5f197dd7b
+--> cf8153a0532e
+[linux/arm64] STEP 7/12: RUN useradd --system --no-create-home --uid 10001 vaultly
+--> Using cache 26d96e426beff0b6d305ba7e88bbcea52100877bdf1a831206921b1aaf6e5e93
+--> 26d96e426bef
+[linux/arm64] STEP 8/12: USER vaultly
+--> Using cache 517d0b73059f95c6f42f277cc8911aa7b7b670becdf1bdad4b2b45dd1c42c3a3
+--> 517d0b73059f
+[linux/arm64] STEP 9/12: EXPOSE 8080
+--> Using cache 99c6c6043942b0ee1e98bae68f79295123b2fcd05d19103c2b430930d185d63f
+--> 99c6c6043942
+[linux/arm64] STEP 10/12: HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz')" || exit 1
+--> Using cache e84e3eec03d1c8da10aaefc2d251ee26ec24473fa141cb0bf788d414acc7928d
+--> e84e3eec03d1
+[linux/arm64] STEP 11/12: CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080"]
+--> Using cache 5caf155a5ef0989baeff0e73f756a76f8d37947b8083325613567d5347f1b88e
+--> 5caf155a5ef0
+[linux/arm64] STEP 12/12: LABEL "org.opencontainers.image.source"="https://github.com/rolandog/vaultly-secure-deploy" "org.opencontainers.image.revision"="49bb7adcd056c474a25f6e7f10ea684f2cc252e3" "org.opencontainers.image.licenses"="MIT" "org.opencontainers.image.base.name"="docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b"
+[linux/arm64] COMMIT
+time="2026-11-11T14:57:53+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> 5ec966ab045b
+5ec966ab045b3aadc7aad4217d7ef4e1c57128bbace56944f121b3f659d169cf
+linux/amd64 sha256:0de9fbebc7f09ef5ae3a86fdcdad0b71a5d10919ca2e5c390db200f3d2bc8525
+linux/arm64 sha256:f6586eb8d7ed0a523ef7a7fe6b807e5f1e1d5c33cbf34e019dae5abe6cb857b7
+vaultly-image.sh: linux/arm64: image 5ec966ab045b, ELF b7 00, uid 10001
+hvac==2.4.0
+fastapi==0.162.4
+uvicorn==0.54.0
+pydantic==2.14.3
+pydantic-settings==2.16.2
+requests==2.34.2
+machine aarch64 python 3.12.16
+vaultly-image.sh: linux/amd64: image 4c7ed08b0092, ELF 3e 00, uid 10001
+hvac==2.4.0
+fastapi==0.162.2
+uvicorn==0.54.0
+pydantic==2.14.3
+pydantic-settings==2.16.2
+requests==2.34.2
+machine x86_64 python 3.12.16
+vaultly-image.sh: built and verified localhost/rg-vaultly:20261111-49bb7ad; not pushed
