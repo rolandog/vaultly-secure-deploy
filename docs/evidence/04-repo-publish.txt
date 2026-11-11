@@ -1,0 +1,5 @@
+origin	git@github.com:rolandog/vaultly-secure-deploy.git (fetch)
+origin	git@github.com:rolandog/vaultly-secure-deploy.git (push)
+ae8efe9f9e5052b5876cc2c2fdf6ff2b3c7dfa35	refs/heads/develop
+3220b87b3e91899b389903087d05ebecaa95abfc	refs/heads/feature/stage-4-app
+b394c74e475d6f8f7372555c8ca7282c883980c9	refs/heads/main
