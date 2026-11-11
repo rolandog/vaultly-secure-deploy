@@ -1,0 +1,28 @@
+NAME     PROVISIONER       RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+rg-gp3   ebs.csi.aws.com   Delete          WaitForFirstConsumer   true                   8m37s
+NAME        READY   STATUS    RESTARTS   AGE     IP             NODE                                            NOMINATED NODE   READINESS GATES
+openbao-0   0/1     Running   0          8m35s   10.42.29.54    ip-10-42-28-56.eu-central-1.compute.internal    <none>           <none>
+openbao-1   0/1     Running   0          8m35s   10.42.56.103   ip-10-42-56-255.eu-central-1.compute.internal   <none>           <none>
+openbao-2   0/1     Running   0          8m35s   10.42.33.108   ip-10-42-38-246.eu-central-1.compute.internal   <none>           <none>
+NAME             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+data-openbao-0   Bound    pvc-477cbe31-c250-4a9f-9d1e-603434cad2f2   2Gi        RWO            rg-gp3         <unset>                 8m36s
+data-openbao-1   Bound    pvc-69ef0c6c-4096-43e9-99a9-9a01c3926a9e   2Gi        RWO            rg-gp3         <unset>                 8m36s
+data-openbao-2   Bound    pvc-613eca24-916f-48ff-8ed2-68495c7fe1aa   2Gi        RWO            rg-gp3         <unset>                 8m36s
+quay.io/openbao/openbao:2.7.2@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f
+quay.io/openbao/openbao@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f
+--- pod identity env (names only):
+AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE
+AWS_CONTAINER_CREDENTIALS_FULL_URI
+AWS_REGION
+AWS_STS_REGIONAL_ENDPOINTS
+--- log scan (expect no matches):
+openbao-0: clean
+openbao-1: clean
+openbao-2: clean
+--- plugin cache on the data volume:
+total 4
+lrwxrwxrwx    1 openbao  openbao         82 Nov 11 08:14 kms-awskms-v0.1.1 -> .oci-cache/sha256:24a0a1294385a34224848d0d6ff2c9287f9c9b0ded1de953cc539dc76ced160c
+--- volumes tagged Namespace=rg:
+vol-0f8fdc19be83f71dc	2	True	in-use
+vol-02b9b61c883678374	2	True	in-use
+vol-046bb5c8a000ad136	2	True	in-use

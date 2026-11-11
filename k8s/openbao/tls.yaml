@@ -1,0 +1,36 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: openbao-tls
+  namespace: openbao
+spec:
+  secretName: openbao-tls
+  commonName: openbao.openbao.svc
+  duration: 2160h
+  renewBefore: 720h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - openbao
+    - openbao.openbao
+    - openbao.openbao.svc
+    - openbao.openbao.svc.cluster.local
+    - openbao-active
+    - openbao-active.openbao.svc
+    - openbao-standby
+    - openbao-standby.openbao.svc
+    - "*.openbao-internal"
+    - "*.openbao-internal.openbao"
+    - "*.openbao-internal.openbao.svc"
+    - "*.openbao-internal.openbao.svc.cluster.local"
+  ipAddresses:
+    - 127.0.0.1
+  issuerRef:
+    name: rg-vaultly-ca
+    kind: ClusterIssuer
+    group: cert-manager.io

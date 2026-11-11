@@ -1,0 +1,78 @@
+global:
+  tlsDisable: false
+injector:
+  enabled: false
+server:
+  dataStorage:
+    enabled: true
+    size: 2Gi
+    storageClass: rg-gp3
+  image:
+    tag: "2.7.2@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f"
+  logLevel: info
+  podManagementPolicy: Parallel
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+  extraEnvironmentVars:
+    BAO_CACERT: /openbao/tls/ca.crt
+    AWS_REGION: eu-central-1
+  volumes:
+    - name: tls
+      secret:
+        secretName: openbao-tls
+        defaultMode: 288
+  volumeMounts:
+    - name: tls
+      mountPath: /openbao/tls
+      readOnly: true
+  ha:
+    enabled: true
+    replicas: 3
+    apiAddr: "https://$(BAO_K8S_POD_NAME).openbao-internal:8200"
+    raft:
+      enabled: true
+      setNodeId: true
+      config: |
+        ui = false
+
+        plugin_directory = "/openbao/data/plugins"
+        plugin_auto_download = true
+
+        plugin "kms" "awskms" {
+          image = "ghcr.io/openbao/openbao-plugin-kms-aws:v0.1.1@sha256:24a0a1294385a34224848d0d6ff2c9287f9c9b0ded1de953cc539dc76ced160c"
+        }
+
+        listener "tcp" {
+          address         = "[::]:8200"
+          cluster_address = "[::]:8201"
+          tls_cert_file   = "/openbao/tls/tls.crt"
+          tls_key_file    = "/openbao/tls/tls.key"
+        }
+
+        storage "raft" {
+          path = "/openbao/data"
+
+          retry_join {
+            leader_api_addr     = "https://openbao-0.openbao-internal:8200"
+            leader_ca_cert_file = "/openbao/tls/ca.crt"
+          }
+          retry_join {
+            leader_api_addr     = "https://openbao-1.openbao-internal:8200"
+            leader_ca_cert_file = "/openbao/tls/ca.crt"
+          }
+          retry_join {
+            leader_api_addr     = "https://openbao-2.openbao-internal:8200"
+            leader_ca_cert_file = "/openbao/tls/ca.crt"
+          }
+        }
+
+        seal "awskms" {
+          region     = "eu-central-1"
+          kms_key_id = "alias/rg-vaultly-openbao-seal"
+        }
+
+        service_registration "kubernetes" {}

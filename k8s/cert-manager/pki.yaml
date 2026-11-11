@@ -1,0 +1,32 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: rg-vaultly-selfsigned
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rg-vaultly-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: rg-vaultly-ca
+  secretName: rg-vaultly-ca
+  duration: 8760h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: rg-vaultly-selfsigned
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: rg-vaultly-ca
+spec:
+  ca:
+    secretName: rg-vaultly-ca

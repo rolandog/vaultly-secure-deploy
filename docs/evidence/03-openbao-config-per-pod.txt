@@ -1,0 +1,12 @@
+openbao-0:
+current_version             1
+token_policies                              [vaultly-app]
+default rg-operator vaultly-app root 
+openbao-1:
+current_version             1
+token_policies                              [vaultly-app]
+default rg-operator vaultly-app root 
+openbao-2:
+current_version             1
+token_policies                              [vaultly-app]
+default rg-operator vaultly-app root 

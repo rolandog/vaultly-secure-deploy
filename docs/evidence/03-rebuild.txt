@@ -1,0 +1,20 @@
+NAME                                            STATUS   ROLES    AGE     VERSION               INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                        KERNEL-VERSION                             CONTAINER-RUNTIME
+ip-10-42-22-60.eu-central-1.compute.internal    Ready    <none>   2m14s   v1.36.5-eks-6e7947a   10.42.22.60    <none>        Amazon Linux 2023.12.20261102   6.18.56-125.164.amzn2023.aarch64 (arm64)   containerd://2.3.7+unknown
+ip-10-42-38-213.eu-central-1.compute.internal   Ready    <none>   2m14s   v1.36.5-eks-6e7947a   10.42.38.213   <none>        Amazon Linux 2023.12.20261102   6.18.56-125.164.amzn2023.aarch64 (arm64)   containerd://2.3.7+unknown
+ip-10-42-50-198.eu-central-1.compute.internal   Ready    <none>   2m13s   v1.36.5-eks-6e7947a   10.42.50.198   <none>        Amazon Linux 2023.12.20261102   6.18.56-125.164.amzn2023.aarch64 (arm64)   containerd://2.3.7+unknown
+Server Version: v1.36.5-eks-577a51e
+
+aws: [ERROR]: An error occurred (ParamValidation): argument operation: Found invalid choice 'describe-alias'
+
+
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+openbao	openbao
+kube-system	ebs-csi-controller-sa
+--- alias -> key (new key must match platform output):
+alias/rg-vaultly-openbao-seal	aec1d521-62d0-41f1-8ec8-2401a3d27ad9
+aec1d521-62d0-41f1-8ec8-2401a3d27ad9

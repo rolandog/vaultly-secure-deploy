@@ -1,0 +1,32 @@
+--- 1. tls: hostname + CA verified from another pod (no -tls-skip-verify):
+Seal Type                awskms
+Recovery Seal Type       shamir
+Initialized              true
+Sealed                   false
+HA Enabled               true
+--- 2. plain http refused:
+Connecting to 127.0.0.1:8200 (127.0.0.1:8200)
+  HTTP/1.0 400 Bad Request
+wget: server returned error: HTTP/1.0 400 Bad Request
+command terminated with exit code 1
+--- 3. delete the leader, expect failover + auto-unseal with no keys supplied:
+08:58:41
+pod "openbao-0" deleted from openbao namespace
+pod/openbao-0 condition met
+08:59:06
+Seal Type                awskms
+Recovery Seal Type       shamir
+Initialized              true
+Sealed                   false
+HA Mode                  standby
+Node         Address                            State       Voter
+----         -------                            -----       -----
+openbao-0    openbao-0.openbao-internal:8201    follower    true
+openbao-2    openbao-2.openbao-internal:8201    leader      true
+openbao-1    openbao-1.openbao-internal:8201    follower    true
+--- 4. plugin cache survived the restart:
+total 4
+lrwxrwxrwx    1 openbao  openbao         82 Nov 11 08:14 kms-awskms-v0.1.1 -> .oci-cache/sha256:24a0a1294385a34224848d0d6ff2c9287f9c9b0ded1de953cc539dc76ced160c
+2026-11-11T08:58:59.595Z [INFO]  plugins: starting OCI plugin downloading
+2026-11-11T08:58:59.596Z [INFO]  plugins: plugin is cached on disk, skipping download: plugin=kms-awskms
+2026-11-11T08:58:59.596Z [INFO]  plugins: OCI plugin downloading completed

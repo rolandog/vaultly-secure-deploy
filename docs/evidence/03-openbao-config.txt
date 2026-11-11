@@ -1,0 +1,40 @@
+openbao-configure.sh: kv v2 at secret/
+openbao-configure.sh: policy rg-operator written
+openbao-configure.sh: policy vaultly-app written
+openbao-configure.sh: kubernetes auth at kubernetes/, role vaultly bound to vaultly/vaultly
+openbao-configure.sh: seeded secret/vaultly/database (version 1)
+openbao-configure.sh: stored and verified /rg-vaultly/openbao/operator-token
+openbao-configure.sh: self-test: openbao/default logged in through kubernetes/ (token reviewer path works)
+openbao-configure.sh: negative test failed for another reason: Error writing data to auth/kubernetes/login: Error making API request.
+
+URL: PUT https://127.0.0.1:8200/v1/auth/kubernetes/login
+Code: 403. Errors:
+
+* service account name not authorized
+command termi
+openbao-configure.sh: self-test: openbao/default refused for role vaultly
+--- summary
+mounts:   cubbyhole/ identity/ secret/ sys/
+auth:     kubernetes/ token/
+policies: default rg-operator vaultly-app root
+role:     {"bound_service_account_names":["vaultly"],"bound_service_account_namespaces":["vaultly"],"token_policies":["vaultly-app"],"token_ttl":900,"token_max_ttl":3600}
+kv:       vaultly/database current_version=1
+operator: create, read, update on data/vaultly/database; deny on sys/policies/acl/vaultly-app
+openbao-configure.sh: configured; run with --revoke-root after the app login works
+# rerun with v0.1.1 (negative test wording fixed)
+openbao-configure.sh: kv v2 at secret/
+openbao-configure.sh: policy rg-operator written
+openbao-configure.sh: policy vaultly-app written
+openbao-configure.sh: kubernetes auth at kubernetes/, role vaultly bound to vaultly/vaultly
+openbao-configure.sh: secret/vaultly/database exists, not touched
+openbao-configure.sh: operator token already valid
+openbao-configure.sh: self-test: openbao/default logged in through kubernetes/ (token reviewer path works)
+openbao-configure.sh: self-test: openbao/default refused for role vaultly
+--- summary
+mounts:   cubbyhole/ identity/ secret/ sys/
+auth:     kubernetes/ token/
+policies: default rg-operator vaultly-app root
+role:     {"bound_service_account_names":["vaultly"],"bound_service_account_namespaces":["vaultly"],"token_policies":["vaultly-app"],"token_ttl":900,"token_max_ttl":3600}
+kv:       vaultly/database current_version=1
+operator: create, read, update on data/vaultly/database; deny on sys/policies/acl/vaultly-app
+openbao-configure.sh: configured; run with --revoke-root after the app login works

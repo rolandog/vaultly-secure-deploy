@@ -1,0 +1,7 @@
+2026-11-11T08:59:00Z	Decrypt	arn:aws:sts::<account-id>:assumed-role/rg-vaultly-openbao-seal/eks-rg-vaultly-openbao-0-5145c61b-c9b7-4818-99f3-b2eb5e3a603f
+2026-11-11T09:04:25Z	Decrypt	arn:aws:sts::<account-id>:assumed-role/rg-vaultly-openbao-seal/eks-rg-vaultly-openbao-1-f1caa1b3-a20e-48c6-a10e-6efbd84e8b73
+2026-11-11T09:08:47Z	Decrypt	arn:aws:sts::<account-id>:assumed-role/rg-vaultly-openbao-seal/eks-rg-vaultly-openbao-2-9a47b88c-ac62-491d-bc13-99162781ad10
+2026-11-11T09:09:00Z	Decrypt	arn:aws:sts::<account-id>:assumed-role/rg-vaultly-openbao-seal/eks-rg-vaultly-openbao-0-5145c61b-c9b7-4818-99f3-b2eb5e3a603f
+2026-11-11T09:14:25Z	Decrypt	arn:aws:sts::<account-id>:assumed-role/rg-vaultly-openbao-seal/eks-rg-vaultly-openbao-1-f1caa1b3-a20e-48c6-a10e-6efbd84e8b73
+2026-11-11T09:18:47Z	Decrypt	arn:aws:sts::<account-id>:assumed-role/rg-vaultly-openbao-seal/eks-rg-vaultly-openbao-2-9a47b88c-ac62-491d-bc13-99162781ad10
+2026-11-11T09:19:00Z	Decrypt	arn:aws:sts::<account-id>:assumed-role/rg-vaultly-openbao-seal/eks-rg-vaultly-openbao-0-5145c61b-c9b7-4818-99f3-b2eb5e3a603f
