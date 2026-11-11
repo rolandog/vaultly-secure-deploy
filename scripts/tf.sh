@@ -13,7 +13,7 @@ usage() {
 Usage: $PROG [--help|--version] ROOT COMMAND [tofu args...]
 
 ROOT is a directory under infra/ (network, eks, platform, ...).
-COMMAND is one of: init validate fmt plan apply destroy output state
+COMMAND is one of: init validate fmt plan apply destroy output state show
 
 The backend bucket is tf-state-<account>-eu-central-1 and is never created
 or deleted here (see scripts/bootstrap-state.sh). Needs OpenTofu 1.10+.
@@ -46,7 +46,7 @@ case "$cmd" in
   init)
     aws s3api head-bucket --bucket "$bucket" || die "state bucket missing: run scripts/bootstrap-state.sh"
     tofu -chdir="$dir" init -backend-config="bucket=$bucket" "$@" ;;
-  validate|fmt|plan|apply|destroy|output|state)
+  validate|fmt|plan|apply|destroy|output|state|show)
     tofu -chdir="$dir" "$cmd" "$@" ;;
   *) die "unknown command: $cmd" ;;
 esac
