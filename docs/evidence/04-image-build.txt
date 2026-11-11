@@ -1,49 +1,135 @@
-vaultly-image.sh: building localhost/rg-vaultly:20261111-49bb7ad from docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
-[linux/amd64] STEP 1/12: FROM docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b AS base
+vaultly-image.sh: building localhost/rg-vaultly:20261111-c599e20 from docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+[linux/amd64] STEP 1/13: FROM docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b AS base
 Trying to pull docker.io/library/python@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b...
 Getting image source signatures
-Copying blob sha256:05e0eee5572e9c9f50408a2132590133b830a668a1cf2ff2b150f19c57707e2b
 Copying blob sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41
+Copying blob sha256:05e0eee5572e9c9f50408a2132590133b830a668a1cf2ff2b150f19c57707e2b
 Copying blob sha256:68bced9e0afa4479df17c3646e27c7c7e9ce9ba70c0e6c73b6826487b89037d9
 Copying blob sha256:2dc99d2d0a39fce31e37615eb4c932e16dcc4c2b0ce9993714280081b5dbe085
 Copying config sha256:78976a69c067520ef8be34cde307ef9f6fea6dcefa50edb57039773d241ca0db
 Writing manifest to image destination
-[linux/amd64] STEP 2/12: ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1
+[linux/amd64] STEP 2/13: ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1
 --> Using cache c0704007f1ec5bb3bcb73da3ff74b37f271db9ee3ba2fee8b2073b69743d9905
 --> c0704007f1ec
-[linux/amd64] STEP 3/12: WORKDIR /app
+[linux/amd64] STEP 3/13: WORKDIR /app
 --> Using cache 6fae1a8431beef50c18f9b803fe69a71468688a930b334222f9663b29d176b7a
 --> 6fae1a8431be
-[linux/amd64] STEP 4/12: COPY requirements.txt .
+[linux/amd64] STEP 4/13: COPY requirements.txt .
 --> Using cache d3fdee35e9ca569b92c888d54822a70993b5f294376c01ccc55368be0c4d0b75
 --> d3fdee35e9ca
-[linux/amd64] STEP 5/12: RUN pip install --no-cache-dir -r requirements.txt
---> Using cache 639ff0ca4a0ffa2c205b8004a247ef22f1d62add1db966cc7efb14250f296a73
---> 639ff0ca4a0f
-[linux/amd64] STEP 6/12: COPY app ./app
---> Using cache 66439f63827ddf4b6b4638cf1f2b88ec24985b132d614902e6bde82ddbfb7b02
---> 66439f63827d
-[linux/amd64] STEP 7/12: RUN useradd --system --no-create-home --uid 10001 vaultly
---> Using cache 2935cfe4be8b76fc536c5436f8a9b12b4dc23c9681eade026b475a39b1969c70
---> 2935cfe4be8b
-[linux/amd64] STEP 8/12: USER vaultly
---> Using cache a334e1360efce682076e959d80a277183de66d0da8124b73d8ce0eca9bef1a7d
---> a334e1360efc
-[linux/amd64] STEP 9/12: EXPOSE 8080
---> Using cache 94866b4f10ad3d0166433d4c433dc8fc4ccfb248a661daeafc44dcc470dc9436
---> 94866b4f10ad
-[linux/amd64] STEP 10/12: HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz')" || exit 1
---> Using cache 9f036d72aca65c74138b48f343404c7912d6b4b9241457c535e88b93dd7fe952
---> 9f036d72aca6
-[linux/amd64] STEP 11/12: CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080"]
---> Using cache fd3618e4972c69e9c35c8a8127f0687943bb60697f72b137d5bd5258ba525496
---> fd3618e4972c
-[linux/amd64] STEP 12/12: LABEL "org.opencontainers.image.source"="https://github.com/rolandog/vaultly-secure-deploy" "org.opencontainers.image.revision"="49bb7adcd056c474a25f6e7f10ea684f2cc252e3" "org.opencontainers.image.licenses"="MIT" "org.opencontainers.image.base.name"="docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b"
+[linux/amd64] STEP 5/13: COPY --from=pins constraints.txt /tmp/constraints.txt
+--> b7d106a73271
+[linux/amd64] STEP 6/13: RUN pip install --no-cache-dir -c /tmp/constraints.txt -r requirements.txt
+Collecting fastapi<1.0,>=0.115 (from -r requirements.txt (line 1))
+  Downloading fastapi-0.162.4-py3-none-any.whl.metadata (27 kB)
+Collecting uvicorn<1.0,>=0.30 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting hvac<3.0,>=2.3 (from -r requirements.txt (line 3))
+  Downloading hvac-2.4.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pydantic<3.0,>=2.7 (from -r requirements.txt (line 4))
+  Downloading pydantic-2.14.3-py3-none-any.whl.metadata (141 kB)
+Collecting pydantic-settings<3.0,>=2.4 (from -r requirements.txt (line 5))
+  Downloading pydantic_settings-2.16.2-py3-none-any.whl.metadata (4.0 kB)
+Collecting starlette>=0.46.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting anyio>=4.1.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting typing-extensions>=4.8.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting typing-inspection>=0.4.2 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading typing_inspection-0.4.5-py3-none-any.whl.metadata (2.6 kB)
+Collecting annotated-doc>=0.0.2 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading annotated_doc-0.0.6-py3-none-any.whl.metadata (6.5 kB)
+Collecting opentelemetry-api>=1.44.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading opentelemetry_api-1.45.2-py3-none-any.whl.metadata (1.4 kB)
+Collecting click>=7.0 (from uvicorn<1.0,>=0.30->uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting h11>=0.8 (from uvicorn<1.0,>=0.30->uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting requests<3.0.0,>=2.27.1 (from hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting annotated-types>=0.6.0 (from pydantic<3.0,>=2.7->-r requirements.txt (line 4))
+  Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+Collecting pydantic-core==2.50.4 (from pydantic<3.0,>=2.7->-r requirements.txt (line 4))
+  Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.6 kB)
+Collecting python-dotenv>=1.2.2 (from pydantic-settings<3.0,>=2.4->-r requirements.txt (line 5))
+  Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+Collecting httptools>=0.8.0 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading httptools-0.9.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+Collecting pyyaml>=5.1 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Collecting uvloop>=0.15.1 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+Collecting watchfiles>=0.20 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+Collecting websockets>=13.0 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading websockets-17.4-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.3 kB)
+Collecting idna>=2.8 (from anyio>=4.1.0->fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting charset_normalizer<4,>=2 (from requests<3.0.0,>=2.27.1->hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+Collecting urllib3<3,>=1.26 (from requests<3.0.0,>=2.27.1->hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+Collecting certifi>=2023.5.7 (from requests<3.0.0,>=2.27.1->hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+Downloading fastapi-0.162.4-py3-none-any.whl (151 kB)
+Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+Downloading hvac-2.4.0-py3-none-any.whl (155 kB)
+Downloading pydantic-2.14.3-py3-none-any.whl (494 kB)
+Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 6.4 MB/s eta 0:00:00
+Downloading pydantic_settings-2.16.2-py3-none-any.whl (81 kB)
+Downloading annotated_doc-0.0.6-py3-none-any.whl (5.3 kB)
+Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
+Downloading click-8.5.1-py3-none-any.whl (126 kB)
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading httptools-0.9.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (552 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 552.8/552.8 kB 7.6 MB/s eta 0:00:00
+Downloading opentelemetry_api-1.45.2-py3-none-any.whl (60 kB)
+Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 6.9 MB/s eta 0:00:00
+Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading typing_inspection-0.4.5-py3-none-any.whl (14 kB)
+Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 6.2 MB/s eta 0:00:00
+Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (458 kB)
+Downloading websockets-17.4-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (226 kB)
+Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+Installing collected packages: websockets, uvloop, urllib3, typing-extensions, pyyaml, python-dotenv, idna, httptools, h11, click, charset_normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, requests, pydantic-core, opentelemetry-api, anyio, watchfiles, starlette, pydantic, hvac, pydantic-settings, fastapi
+Successfully installed annotated-doc-0.0.6 annotated-types-0.8.0 anyio-4.16.0 certifi-2026.10.23 charset_normalizer-3.5.2 click-8.5.1 fastapi-0.162.4 h11-0.16.0 httptools-0.9.0 hvac-2.4.0 idna-3.20 opentelemetry-api-1.45.2 pydantic-2.14.3 pydantic-core-2.50.4 pydantic-settings-2.16.2 python-dotenv-1.2.4 pyyaml-6.0.3 requests-2.34.2 starlette-1.10.0 typing-extensions-4.16.0 typing-inspection-0.4.5 urllib3-2.8.0 uvicorn-0.54.0 uvloop-0.23.0 watchfiles-1.3.0 websockets-17.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 25.0.1 -> 26.3
+[notice] To update, run: pip install --upgrade pip
+--> fbed5aeb7f41
+[linux/amd64] STEP 7/13: COPY app ./app
+--> e38a399c5cab
+[linux/amd64] STEP 8/13: RUN useradd --system --no-create-home --uid 10001 vaultly
+useradd warning: vaultly's uid 10001 is greater than SYS_UID_MAX 999
+--> f96b8e9d2eca
+[linux/amd64] STEP 9/13: USER vaultly
+--> 09c394259c73
+[linux/amd64] STEP 10/13: EXPOSE 8080
+--> 9d20e3472d32
+[linux/amd64] STEP 11/13: HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz')" || exit 1
+time="2026-11-11T16:27:06+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> 36379a25427f
+[linux/amd64] STEP 12/13: CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080"]
+time="2026-11-11T16:27:06+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> 48f1ecafc1f9
+[linux/amd64] STEP 13/13: LABEL "org.opencontainers.image.source"="https://github.com/rolandog/vaultly-secure-deploy" "org.opencontainers.image.revision"="c599e2025cf696155437e32799a590198d3aa479" "org.opencontainers.image.licenses"="MIT" "org.opencontainers.image.base.name"="docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b"
 [linux/amd64] COMMIT
-time="2026-11-11T14:57:50+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
---> 4c7ed08b0092
-[linux/arm64] STEP 1/12: FROM docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b AS base
-4c7ed08b0092b7dbac02e66de45cc296ac3a0823676dff94004b4eb1c4603297
+time="2026-11-11T16:27:07+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> d56c890e055c
+[linux/arm64] STEP 1/13: FROM docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b AS base
+d56c890e055c3a3bb1688cdc5244a6d19100c3f6c3e141e01d92c5c8b8666256
 Trying to pull docker.io/library/python@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b...
 Getting image source signatures
 Copying blob sha256:70b4f81c82dc6ea2a5fc08c59c75940cc3f45dad8e2038b7773cd1b6ac24c7a0
@@ -52,44 +138,130 @@ Copying blob sha256:0373269344dc260a94623aecbafee3cf336984ad3bbe8a49ac047d85aa69
 Copying blob sha256:0ba3a3e89cd986f09d548ebfd13261fd4ad86bb310bb69923010538e0c5ce222
 Copying config sha256:3617028275c0b0ffabe98f1d7eaa6b85624af2f457678f185c307ff3c1d31ae6
 Writing manifest to image destination
-[linux/arm64] STEP 2/12: ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1
+[linux/arm64] STEP 2/13: ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1
 --> Using cache 7dd861d9bf268755c34da67bb2ab902f5dbf2d636fa752e612b0a64370941791
 --> 7dd861d9bf26
-[linux/arm64] STEP 3/12: WORKDIR /app
+[linux/arm64] STEP 3/13: WORKDIR /app
 --> Using cache 4ce5282334fa8b727f09c497cd859991a74ee0f681917f134560339a1a25feee
 --> 4ce5282334fa
-[linux/arm64] STEP 4/12: COPY requirements.txt .
+[linux/arm64] STEP 4/13: COPY requirements.txt .
 --> Using cache 3f6f017df4c7d046b4f36f7b07c1abfe2ea5768275510d8ca2246d8f7ffbceda
 --> 3f6f017df4c7
-[linux/arm64] STEP 5/12: RUN pip install --no-cache-dir -r requirements.txt
---> Using cache b7c72c8133d37a6b9f3da5d870c648cbcc073ee6b743b87dfda541096eec39bc
---> b7c72c8133d3
-[linux/arm64] STEP 6/12: COPY app ./app
---> Using cache cf8153a0532ee79acda4ad143d0e543d72c435bcf3b91ad3f58530b5f197dd7b
---> cf8153a0532e
-[linux/arm64] STEP 7/12: RUN useradd --system --no-create-home --uid 10001 vaultly
---> Using cache 26d96e426beff0b6d305ba7e88bbcea52100877bdf1a831206921b1aaf6e5e93
---> 26d96e426bef
-[linux/arm64] STEP 8/12: USER vaultly
---> Using cache 517d0b73059f95c6f42f277cc8911aa7b7b670becdf1bdad4b2b45dd1c42c3a3
---> 517d0b73059f
-[linux/arm64] STEP 9/12: EXPOSE 8080
---> Using cache 99c6c6043942b0ee1e98bae68f79295123b2fcd05d19103c2b430930d185d63f
---> 99c6c6043942
-[linux/arm64] STEP 10/12: HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz')" || exit 1
---> Using cache e84e3eec03d1c8da10aaefc2d251ee26ec24473fa141cb0bf788d414acc7928d
---> e84e3eec03d1
-[linux/arm64] STEP 11/12: CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080"]
---> Using cache 5caf155a5ef0989baeff0e73f756a76f8d37947b8083325613567d5347f1b88e
---> 5caf155a5ef0
-[linux/arm64] STEP 12/12: LABEL "org.opencontainers.image.source"="https://github.com/rolandog/vaultly-secure-deploy" "org.opencontainers.image.revision"="49bb7adcd056c474a25f6e7f10ea684f2cc252e3" "org.opencontainers.image.licenses"="MIT" "org.opencontainers.image.base.name"="docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b"
+[linux/arm64] STEP 5/13: COPY --from=pins constraints.txt /tmp/constraints.txt
+--> acfda89b02f9
+[linux/arm64] STEP 6/13: RUN pip install --no-cache-dir -c /tmp/constraints.txt -r requirements.txt
+Collecting fastapi<1.0,>=0.115 (from -r requirements.txt (line 1))
+  Downloading fastapi-0.162.4-py3-none-any.whl.metadata (27 kB)
+Collecting uvicorn<1.0,>=0.30 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting hvac<3.0,>=2.3 (from -r requirements.txt (line 3))
+  Downloading hvac-2.4.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pydantic<3.0,>=2.7 (from -r requirements.txt (line 4))
+  Downloading pydantic-2.14.3-py3-none-any.whl.metadata (141 kB)
+Collecting pydantic-settings<3.0,>=2.4 (from -r requirements.txt (line 5))
+  Downloading pydantic_settings-2.16.2-py3-none-any.whl.metadata (4.0 kB)
+Collecting starlette>=0.46.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting anyio>=4.1.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting typing-extensions>=4.8.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting typing-inspection>=0.4.2 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading typing_inspection-0.4.5-py3-none-any.whl.metadata (2.6 kB)
+Collecting annotated-doc>=0.0.2 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading annotated_doc-0.0.6-py3-none-any.whl.metadata (6.5 kB)
+Collecting opentelemetry-api>=1.44.0 (from fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading opentelemetry_api-1.45.2-py3-none-any.whl.metadata (1.4 kB)
+Collecting click>=7.0 (from uvicorn<1.0,>=0.30->uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting h11>=0.8 (from uvicorn<1.0,>=0.30->uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting requests<3.0.0,>=2.27.1 (from hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting annotated-types>=0.6.0 (from pydantic<3.0,>=2.7->-r requirements.txt (line 4))
+  Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+Collecting pydantic-core==2.50.4 (from pydantic<3.0,>=2.7->-r requirements.txt (line 4))
+  Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (6.6 kB)
+Collecting python-dotenv>=1.2.2 (from pydantic-settings<3.0,>=2.4->-r requirements.txt (line 5))
+  Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+Collecting httptools>=0.8.0 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading httptools-0.9.0-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (3.5 kB)
+Collecting pyyaml>=5.1 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.4 kB)
+Collecting uvloop>=0.15.1 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (5.1 kB)
+Collecting watchfiles>=0.20 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.9 kB)
+Collecting websockets>=13.0 (from uvicorn[standard]<1.0,>=0.30->-r requirements.txt (line 2))
+  Downloading websockets-17.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (6.3 kB)
+Collecting idna>=2.8 (from anyio>=4.1.0->fastapi<1.0,>=0.115->-r requirements.txt (line 1))
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting charset_normalizer<4,>=2 (from requests<3.0.0,>=2.27.1->hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (46 kB)
+Collecting urllib3<3,>=1.26 (from requests<3.0.0,>=2.27.1->hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+Collecting certifi>=2023.5.7 (from requests<3.0.0,>=2.27.1->hvac<3.0,>=2.3->-r requirements.txt (line 3))
+  Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+Downloading fastapi-0.162.4-py3-none-any.whl (151 kB)
+Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+Downloading hvac-2.4.0-py3-none-any.whl (155 kB)
+Downloading pydantic-2.14.3-py3-none-any.whl (494 kB)
+Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 6.6 MB/s eta 0:00:00
+Downloading pydantic_settings-2.16.2-py3-none-any.whl (81 kB)
+Downloading annotated_doc-0.0.6-py3-none-any.whl (5.3 kB)
+Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
+Downloading click-8.5.1-py3-none-any.whl (126 kB)
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading httptools-0.9.0-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (549 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 549.2/549.2 kB 7.1 MB/s eta 0:00:00
+Downloading opentelemetry_api-1.45.2-py3-none-any.whl (60 kB)
+Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (775 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 775.1/775.1 kB 3.8 MB/s eta 0:00:00
+Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading typing_inspection-0.4.5-py3-none-any.whl (14 kB)
+Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (4.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 6.2 MB/s eta 0:00:00
+Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (454 kB)
+Downloading websockets-17.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (227 kB)
+Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (246 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+Installing collected packages: websockets, uvloop, urllib3, typing-extensions, pyyaml, python-dotenv, idna, httptools, h11, click, charset_normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, requests, pydantic-core, opentelemetry-api, anyio, watchfiles, starlette, pydantic, hvac, pydantic-settings, fastapi
+Successfully installed annotated-doc-0.0.6 annotated-types-0.8.0 anyio-4.16.0 certifi-2026.10.23 charset_normalizer-3.5.2 click-8.5.1 fastapi-0.162.4 h11-0.16.0 httptools-0.9.0 hvac-2.4.0 idna-3.20 opentelemetry-api-1.45.2 pydantic-2.14.3 pydantic-core-2.50.4 pydantic-settings-2.16.2 python-dotenv-1.2.4 pyyaml-6.0.3 requests-2.34.2 starlette-1.10.0 typing-extensions-4.16.0 typing-inspection-0.4.5 urllib3-2.8.0 uvicorn-0.54.0 uvloop-0.23.0 watchfiles-1.3.0 websockets-17.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 25.0.1 -> 26.3
+[notice] To update, run: pip install --upgrade pip
+--> 172fd10a0007
+[linux/arm64] STEP 7/13: COPY app ./app
+--> 0adfdcd4c451
+[linux/arm64] STEP 8/13: RUN useradd --system --no-create-home --uid 10001 vaultly
+useradd warning: vaultly's uid 10001 is greater than SYS_UID_MAX 999
+--> d29ec8852e2f
+[linux/arm64] STEP 9/13: USER vaultly
+--> 742a78ef94d7
+[linux/arm64] STEP 10/13: EXPOSE 8080
+--> 72788749d9c6
+[linux/arm64] STEP 11/13: HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz')" || exit 1
+time="2026-11-11T16:29:41+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> 9ec3a973a6b4
+[linux/arm64] STEP 12/13: CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080"]
+time="2026-11-11T16:29:42+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> 19471537477d
+[linux/arm64] STEP 13/13: LABEL "org.opencontainers.image.source"="https://github.com/rolandog/vaultly-secure-deploy" "org.opencontainers.image.revision"="c599e2025cf696155437e32799a590198d3aa479" "org.opencontainers.image.licenses"="MIT" "org.opencontainers.image.base.name"="docker.io/library/python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b"
 [linux/arm64] COMMIT
-time="2026-11-11T14:57:53+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
---> 5ec966ab045b
-5ec966ab045b3aadc7aad4217d7ef4e1c57128bbace56944f121b3f659d169cf
-linux/amd64 sha256:0de9fbebc7f09ef5ae3a86fdcdad0b71a5d10919ca2e5c390db200f3d2bc8525
-linux/arm64 sha256:f6586eb8d7ed0a523ef7a7fe6b807e5f1e1d5c33cbf34e019dae5abe6cb857b7
-vaultly-image.sh: linux/arm64: image 5ec966ab045b, ELF b7 00, uid 10001
+time="2026-11-11T16:29:42+01:00" level=warning msg="HEALTHCHECK is not supported for OCI image format and will be ignored. Must use `docker` format"
+--> bb2d7a5674d4
+bb2d7a5674d4780df7b6c7b57330aee5dd1352cc70dd9e8d1de4d40b8e741a72
+linux/amd64 sha256:d7cf9ca3b8bfa9250ac796aa9da23539f81dfdc73226a1bb318294a081882e99
+linux/arm64 sha256:8b82f610a10d3844c67454a25d8ce04656013f77a256fe53d35d5bc74192573b
+vaultly-image.sh: linux/arm64: image bb2d7a5674d4, ELF b7 00, uid 10001
 hvac==2.4.0
 fastapi==0.162.4
 uvicorn==0.54.0
@@ -97,12 +269,12 @@ pydantic==2.14.3
 pydantic-settings==2.16.2
 requests==2.34.2
 machine aarch64 python 3.12.16
-vaultly-image.sh: linux/amd64: image 4c7ed08b0092, ELF 3e 00, uid 10001
+vaultly-image.sh: linux/amd64: image d56c890e055c, ELF 3e 00, uid 10001
 hvac==2.4.0
-fastapi==0.162.2
+fastapi==0.162.4
 uvicorn==0.54.0
 pydantic==2.14.3
 pydantic-settings==2.16.2
 requests==2.34.2
 machine x86_64 python 3.12.16
-vaultly-image.sh: built and verified localhost/rg-vaultly:20261111-49bb7ad; not pushed
+vaultly-image.sh: built and verified localhost/rg-vaultly:20261111-c599e20; not pushed
