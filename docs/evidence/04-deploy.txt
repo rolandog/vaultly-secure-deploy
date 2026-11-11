@@ -1,0 +1,32 @@
+## image and security context
+ghcr.io/rolandog/vaultly:20261111-c599e20@sha256:9667ebbca3baee656e5a99cb9afc24870b7cbb95209add9a674037e3f3c9b9fd
+vaultly-6899655c9b-9kwwp ghcr.io/rolandog/vaultly@sha256:9667ebbca3baee656e5a99cb9afc24870b7cbb95209add9a674037e3f3c9b9fd ip-10-42-28-56.eu-central-1.compute.internal
+vaultly-6899655c9b-bg4pg ghcr.io/rolandog/vaultly@sha256:9667ebbca3baee656e5a99cb9afc24870b7cbb95209add9a674037e3f3c9b9fd ip-10-42-56-255.eu-central-1.compute.internal
+## who am I, can I write to /
+uid=10001(vaultly) gid=10001 groups=10001
+touch: cannot touch '/x': Read-only file system
+tmp writable
+## bearer comes from a secret, not a literal
+vaultly-api-bearer
+## kubernetes auth in the logs
+Found 2 pods, using pod/vaultly-6899655c9b-bg4pg
+INFO:     10.42.56.255:54596 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:38136 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:43256 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:43260 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:37978 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:46374 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:46380 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:42306 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:57870 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:57882 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:50592 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:45466 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:45468 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:56370 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:57712 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:57716 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:47514 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:53666 - "GET /readyz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:53672 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.42.56.255:53346 - "GET /readyz HTTP/1.1" 200 OK

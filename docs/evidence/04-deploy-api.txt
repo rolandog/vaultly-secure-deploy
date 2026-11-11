@@ -1,0 +1,8 @@
+## probes
+healthz 200
+readyz  200
+## no bearer
+db/status no token  401
+## with bearer
+{"username":"app_user","version":1,"rotated_at":"2026-11-11T19:23:00.600503+00:00"}
+status 200

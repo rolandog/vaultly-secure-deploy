@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultly
+  namespace: vaultly
+  annotations:
+    checkov.io/skip1: "CKV_K8S_38=Vault Kubernetes auth login needs the projected service account token"
+    checkov.io/skip2: "CKV_K8S_35=vendor app reads VAULTLY_API_BEARER_TOKEN from an env var; value comes from a Secret"
+  labels:
+    app.kubernetes.io/name: vaultly
+    app.kubernetes.io/part-of: rg-vaultly
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vaultly
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vaultly
+        app.kubernetes.io/part-of: rg-vaultly
+    spec:
+      serviceAccountName: vaultly
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: vaultly
+      containers:
+        - name: vaultly
+          # tag for humans, digest (the manifest list) is what is pulled
+          image: ghcr.io/rolandog/vaultly:20261111-c599e20@sha256:9667ebbca3baee656e5a99cb9afc24870b7cbb95209add9a674037e3f3c9b9fd
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: VAULTLY_VAULT_ADDR
+              value: https://openbao-active.openbao.svc:8200
+            - name: VAULTLY_VAULT_AUTH_METHOD
+              value: kubernetes
+            - name: VAULTLY_VAULT_K8S_ROLE
+              value: vaultly
+            - name: VAULTLY_VAULT_K8S_MOUNT_POINT
+              value: kubernetes
+            - name: VAULTLY_VAULT_KV_MOUNT
+              value: secret
+            - name: VAULT_CACERT
+              value: /etc/vaultly/ca/ca.crt
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+            - name: VAULTLY_API_BEARER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: vaultly-api-bearer
+                  key: token
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 2
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: ca
+              mountPath: /etc/vaultly/ca
+              readOnly: true
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 16Mi
+        - name: ca
+          configMap:
+            name: vaultly-ca
+            defaultMode: 0444
