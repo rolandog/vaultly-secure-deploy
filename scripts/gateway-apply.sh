@@ -4,7 +4,7 @@
 set -euo pipefail; set -C
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-readonly APPLY_VERSION=0.1.0
+readonly APPLY_VERSION=0.1.1
 readonly PROG=${0##*/}
 readonly CLUSTER=${CLUSTER:-rg-vaultly}
 readonly APP_FQDN=${APP_FQDN:-rg-vaultly.ih.rolan.dog}
@@ -81,6 +81,9 @@ fi
 kubectl api-resources --api-group=gateway.k8s.aws -o name \
   | grep -qx loadbalancerconfigurations.gateway.k8s.aws \
   || die "LBC CRDs missing (run scripts/lbc-install.sh)"
+# the manifests reference the vaultly Service, so the app must be deployed first
+kubectl -n vaultly get deployment -o name | grep -qx deployment.apps/vaultly \
+  || die "deployment vaultly missing (deploy the app first: README rebuild steps 2-7)"
 kubectl -n kube-system rollout status deployment/aws-load-balancer-controller --timeout=120s
 kubectl -n vaultly rollout status deployment/vaultly --timeout=180s
 
