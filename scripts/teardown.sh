@@ -68,6 +68,7 @@ k8s_phase() {
   vols=$(kubectl get pv -o jsonpath='{range .items[?(@.spec.claimRef.namespace=="openbao")]}{.spec.csi.volumeHandle}{"\n"}{end}')
   log "volumes to wait for: ${vols:-none}"
 
+  "$ROOT/scripts/gateway-teardown.sh"
   kubectl delete namespace vaultly --ignore-not-found --timeout=120s
   if helm status openbao -n openbao >/dev/null 2>&1; then
     helm uninstall openbao -n openbao

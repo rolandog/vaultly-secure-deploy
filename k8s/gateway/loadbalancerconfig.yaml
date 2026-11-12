@@ -1,0 +1,23 @@
+apiVersion: gateway.k8s.aws/v1
+kind: LoadBalancerConfiguration
+metadata:
+  name: rg-vaultly-alb
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+spec:
+  loadBalancerName: rg-vaultly-alb
+  scheme: internet-facing
+  ipAddressType: ipv4
+  sourceRanges:
+    - "@ADMIN_CIDR@"
+  tags:
+    Namespace: rg
+    Project: rg-vaultly
+  loadBalancerAttributes:
+    - key: routing.http.drop_invalid_header_fields.enabled
+      value: "true"
+  listenerConfigurations:
+    - protocolPort: HTTPS:443
+      defaultCertificate: "@CERT_ARN@"
+      sslPolicy: ELBSecurityPolicy-TLS13-1-2-2021-06

@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: vaultly-ingress-alb
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "ALB nodes in the public subnets reach the app on 8080 only"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vaultly
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        # @ALB_FROM@ is replaced by one ipBlock per public subnet
+      ports:
+        - protocol: TCP
+          port: 8080

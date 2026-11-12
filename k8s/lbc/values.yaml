@@ -23,3 +23,8 @@ resources:
 
 podDisruptionBudget:
   maxUnavailable: 1
+
+# every AWS object the controller creates (target groups, security groups) gets the cohort tags
+defaultTags:
+  Namespace: rg
+  Project: rg-vaultly
