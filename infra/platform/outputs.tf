@@ -13,3 +13,13 @@ output "kms_alias" {
 output "openbao_role_arn" {
   value = module.openbao_role.role_arn
 }
+
+output "app_fqdn" {
+  description = "Public name of the vaultly endpoint"
+  value       = local.app_fqdn
+}
+
+output "app_certificate_arn" {
+  description = "Issued ACM certificate for the ALB listener (depends on validation)"
+  value       = aws_acm_certificate_validation.app.certificate_arn
+}

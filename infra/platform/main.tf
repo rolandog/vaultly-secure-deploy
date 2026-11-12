@@ -100,3 +100,57 @@ resource "aws_eks_pod_identity_association" "openbao" {
   service_account = var.openbao_service_account
   role_arn        = module.openbao_role.role_arn
 }
+
+# --- public TLS endpoint (stage 4f): ACM certificate validated through the rg-dns zone ---
+locals {
+  app_fqdn = "${var.app_hostname_label}.${var.zone_name}"
+}
+
+data "aws_route53_zone" "ih" {
+  name         = var.zone_name
+  private_zone = false
+}
+
+resource "aws_acm_certificate" "app" {
+  domain_name       = local.app_fqdn
+  validation_method = "DNS"
+
+  tags = {
+    Name = "rg-vaultly-app"
+  }
+
+  # a replacement must exist before the old one is released (CKV_AWS_233)
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# the validation CNAME is stable per account and name, so allow_overwrite
+# makes a re-run after an interrupted teardown idempotent
+resource "aws_route53_record" "app_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.app.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      type   = dvo.resource_record_type
+      record = dvo.resource_record_value
+    }
+  }
+
+  allow_overwrite = true
+  zone_id         = data.aws_route53_zone.ih.zone_id
+  name            = each.value.name
+  type            = each.value.type
+  ttl             = 60
+  records         = [each.value.record]
+}
+
+# apply blocks here until the certificate is ISSUED: the LBC fails to build
+# a Gateway whose HTTPS listener has no issued certificate
+resource "aws_acm_certificate_validation" "app" {
+  certificate_arn         = aws_acm_certificate.app.arn
+  validation_record_fqdns = [for r in aws_route53_record.app_validation : r.fqdn]
+
+  timeouts {
+    create = "10m"
+  }
+}
