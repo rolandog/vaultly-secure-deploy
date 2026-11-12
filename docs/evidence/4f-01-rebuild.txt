@@ -1,0 +1,2950 @@
+update-admin-ip.sh: tfvars: admin_cidr <old-admin-ip>/32 -> <admin-ip>/32
+update-admin-ip.sh: cluster rg-vaultly does not exist; tfvars updated, nothing to apply
+[0m[1mdata.aws_availability_zones.available: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.flow_log_cloudwatch_assume_role[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_region.current[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.flow_log_cloudwatch_assume_role[0]: Read complete after 0s [id=1021377347][0m
+[0m[1mmodule.vpc.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mmodule.vpc.data.aws_region.current[0]: Read complete after 0s [id=eu-central-1][0m
+[0m[1mmodule.vpc.data.aws_caller_identity.current[0]: Read complete after 1s [id=<account-id>][0m
+[0m[1mdata.aws_availability_zones.available: Read complete after 1s [id=eu-central-1][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+ [36m<=[0m read (data resources)[0m
+
+OpenTofu will perform the following actions:
+
+[1m  # module.vpc.data.aws_iam_policy_document.vpc_flow_log_cloudwatch[0][0m will be read during apply
+  # (config refers to values not yet known)
+[0m [36m<=[0m[0m data "aws_iam_policy_document" "vpc_flow_log_cloudwatch" {
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m json          = (known after apply)
+      [32m+[0m[0m minified_json = (known after apply)
+
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "logs:CreateLogStream",
+              [32m+[0m[0m "logs:DescribeLogGroups",
+              [32m+[0m[0m "logs:DescribeLogStreams",
+              [32m+[0m[0m "logs:PutLogEvents",
+            ]
+          [32m+[0m[0m effect    = "Allow"
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m (known after apply),
+            ]
+          [32m+[0m[0m sid       = "AWSVPCFlowLogsPushToCloudWatch"
+        }
+    }
+
+[1m  # module.vpc.aws_cloudwatch_log_group.flow_log[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_log_group" "flow_log" {
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m deletion_protection_enabled = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m log_group_class             = (known after apply)
+      [32m+[0m[0m name                        = (known after apply)
+      [32m+[0m[0m name_prefix                 = (known after apply)
+      [32m+[0m[0m region                      = "eu-central-1"
+      [32m+[0m[0m retention_in_days           = 7
+      [32m+[0m[0m skip_destroy                = false
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+    }
+
+[1m  # module.vpc.aws_db_subnet_group.database[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_db_subnet_group" "database" {
+      [32m+[0m[0m arn                     = (known after apply)
+      [32m+[0m[0m description             = "Database subnet group for rg-vaultly"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m name                    = "rg-vaultly"
+      [32m+[0m[0m name_prefix             = (known after apply)
+      [32m+[0m[0m region                  = "eu-central-1"
+      [32m+[0m[0m subnet_ids              = (known after apply)
+      [32m+[0m[0m supported_network_types = (known after apply)
+      [32m+[0m[0m tags                    = {
+          [32m+[0m[0m "Name" = "rg-vaultly"
+        }
+      [32m+[0m[0m tags_all                = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                  = (known after apply)
+    }
+
+[1m  # module.vpc.aws_default_network_acl.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_default_network_acl" "this" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m default_network_acl_id = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "rg-vaultly-default"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-default"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+
+      [32m+[0m[0m egress {
+          [32m+[0m[0m action          = "allow"
+          [32m+[0m[0m from_port       = 0
+          [32m+[0m[0m ipv6_cidr_block = "::/0"
+          [32m+[0m[0m protocol        = "-1"
+          [32m+[0m[0m rule_no         = 101
+          [32m+[0m[0m to_port         = 0
+        }
+      [32m+[0m[0m egress {
+          [32m+[0m[0m action     = "allow"
+          [32m+[0m[0m cidr_block = "0.0.0.0/0"
+          [32m+[0m[0m from_port  = 0
+          [32m+[0m[0m protocol   = "-1"
+          [32m+[0m[0m rule_no    = 100
+          [32m+[0m[0m to_port    = 0
+        }
+
+      [32m+[0m[0m ingress {
+          [32m+[0m[0m action          = "allow"
+          [32m+[0m[0m from_port       = 0
+          [32m+[0m[0m ipv6_cidr_block = "::/0"
+          [32m+[0m[0m protocol        = "-1"
+          [32m+[0m[0m rule_no         = 101
+          [32m+[0m[0m to_port         = 0
+        }
+      [32m+[0m[0m ingress {
+          [32m+[0m[0m action     = "allow"
+          [32m+[0m[0m cidr_block = "0.0.0.0/0"
+          [32m+[0m[0m from_port  = 0
+          [32m+[0m[0m protocol   = "-1"
+          [32m+[0m[0m rule_no    = 100
+          [32m+[0m[0m to_port    = 0
+        }
+    }
+
+[1m  # module.vpc.aws_default_route_table.default[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_default_route_table" "default" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m default_route_table_id = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m route                  = (known after apply)
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "rg-vaultly-default"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-default"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+
+      [32m+[0m[0m timeouts {
+          [32m+[0m[0m create = "5m"
+          [32m+[0m[0m update = "5m"
+        }
+    }
+
+[1m  # module.vpc.aws_default_security_group.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_default_security_group" "this" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = (known after apply)
+      [32m+[0m[0m egress                 = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = (known after apply)
+      [32m+[0m[0m name                   = (known after apply)
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "rg-vaultly-default"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-default"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+    }
+
+[1m  # module.vpc.aws_eip.nat[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_eip" "nat" {
+      [32m+[0m[0m allocation_id        = (known after apply)
+      [32m+[0m[0m arn                  = (known after apply)
+      [32m+[0m[0m association_id       = (known after apply)
+      [32m+[0m[0m carrier_ip           = (known after apply)
+      [32m+[0m[0m customer_owned_ip    = (known after apply)
+      [32m+[0m[0m domain               = "vpc"
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m instance             = (known after apply)
+      [32m+[0m[0m ipam_pool_id         = (known after apply)
+      [32m+[0m[0m network_border_group = (known after apply)
+      [32m+[0m[0m network_interface    = (known after apply)
+      [32m+[0m[0m private_dns          = (known after apply)
+      [32m+[0m[0m private_ip           = (known after apply)
+      [32m+[0m[0m ptr_record           = (known after apply)
+      [32m+[0m[0m public_dns           = (known after apply)
+      [32m+[0m[0m public_ip            = (known after apply)
+      [32m+[0m[0m public_ipv4_pool     = (known after apply)
+      [32m+[0m[0m region               = "eu-central-1"
+      [32m+[0m[0m tags                 = {
+          [32m+[0m[0m "Name" = "rg-vaultly-eu-central-1a"
+        }
+      [32m+[0m[0m tags_all             = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-eu-central-1a"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+    }
+
+[1m  # module.vpc.aws_flow_log.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_flow_log" "this" {
+      [32m+[0m[0m arn                      = (known after apply)
+      [32m+[0m[0m iam_role_arn             = (known after apply)
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m log_destination          = (known after apply)
+      [32m+[0m[0m log_destination_type     = "cloud-watch-logs"
+      [32m+[0m[0m log_format               = (known after apply)
+      [32m+[0m[0m max_aggregation_interval = 600
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m tags_all                 = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m traffic_type             = "ALL"
+      [32m+[0m[0m vpc_id                   = (known after apply)
+    }
+
+[1m  # module.vpc.aws_iam_policy.vpc_flow_log_cloudwatch[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "vpc_flow_log_cloudwatch" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = (known after apply)
+      [32m+[0m[0m name_prefix      = "vpc-flow-log-to-cloudwatch-"
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = (known after apply)
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+    }
+
+[1m  # module.vpc.aws_iam_role.vpc_flow_log_cloudwatch[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "vpc_flow_log_cloudwatch" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "vpc-flow-logs.amazonaws.com"
+                        }
+                      [32m+[0m[0m Sid       = "AWSVPCFlowLogsAssumeRole"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = (known after apply)
+      [32m+[0m[0m name_prefix           = "vpc-flow-log-role-"
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "vpc_flow_log_cloudwatch" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = (known after apply)
+    }
+
+[1m  # module.vpc.aws_internet_gateway.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_internet_gateway" "this" {
+      [32m+[0m[0m arn      = (known after apply)
+      [32m+[0m[0m id       = (known after apply)
+      [32m+[0m[0m owner_id = (known after apply)
+      [32m+[0m[0m region   = "eu-central-1"
+      [32m+[0m[0m tags     = {
+          [32m+[0m[0m "Name" = "rg-vaultly"
+        }
+      [32m+[0m[0m tags_all = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id   = (known after apply)
+    }
+
+[1m  # module.vpc.aws_nat_gateway.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_nat_gateway" "this" {
+      [32m+[0m[0m allocation_id                      = (known after apply)
+      [32m+[0m[0m association_id                     = (known after apply)
+      [32m+[0m[0m auto_provision_zones               = (known after apply)
+      [32m+[0m[0m auto_scaling_ips                   = (known after apply)
+      [32m+[0m[0m availability_mode                  = (known after apply)
+      [32m+[0m[0m connectivity_type                  = "public"
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m network_interface_id               = (known after apply)
+      [32m+[0m[0m private_ip                         = (known after apply)
+      [32m+[0m[0m public_ip                          = (known after apply)
+      [32m+[0m[0m region                             = "eu-central-1"
+      [32m+[0m[0m regional_nat_gateway_address       = (known after apply)
+      [32m+[0m[0m regional_nat_gateway_auto_mode     = (known after apply)
+      [32m+[0m[0m route_table_id                     = (known after apply)
+      [32m+[0m[0m secondary_allocation_ids           = (known after apply)
+      [32m+[0m[0m secondary_private_ip_address_count = (known after apply)
+      [32m+[0m[0m secondary_private_ip_addresses     = (known after apply)
+      [32m+[0m[0m subnet_id                          = (known after apply)
+      [32m+[0m[0m tags                               = {
+          [32m+[0m[0m "Name" = "rg-vaultly-eu-central-1a"
+        }
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-eu-central-1a"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                             = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route.private_nat_gateway[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route" "private_nat_gateway" {
+      [32m+[0m[0m destination_cidr_block = "0.0.0.0/0"
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m instance_id            = (known after apply)
+      [32m+[0m[0m instance_owner_id      = (known after apply)
+      [32m+[0m[0m nat_gateway_id         = (known after apply)
+      [32m+[0m[0m network_interface_id   = (known after apply)
+      [32m+[0m[0m origin                 = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m route_table_id         = (known after apply)
+      [32m+[0m[0m state                  = (known after apply)
+
+      [32m+[0m[0m timeouts {
+          [32m+[0m[0m create = "5m"
+        }
+    }
+
+[1m  # module.vpc.aws_route.public_internet_gateway[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route" "public_internet_gateway" {
+      [32m+[0m[0m destination_cidr_block = "0.0.0.0/0"
+      [32m+[0m[0m gateway_id             = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m instance_id            = (known after apply)
+      [32m+[0m[0m instance_owner_id      = (known after apply)
+      [32m+[0m[0m network_interface_id   = (known after apply)
+      [32m+[0m[0m origin                 = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m route_table_id         = (known after apply)
+      [32m+[0m[0m state                  = (known after apply)
+
+      [32m+[0m[0m timeouts {
+          [32m+[0m[0m create = "5m"
+        }
+    }
+
+[1m  # module.vpc.aws_route_table.database[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "database" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m region           = "eu-central-1"
+      [32m+[0m[0m route            = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "rg-vaultly-db"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-db"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table.private[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "private" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m region           = "eu-central-1"
+      [32m+[0m[0m route            = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "rg-vaultly-private"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-private"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table.public[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "public" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m region           = "eu-central-1"
+      [32m+[0m[0m route            = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "rg-vaultly-public"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-public"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.database[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "database" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.database[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "database" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.database[2][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "database" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.private[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "private" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.private[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "private" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.private[2][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "private" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.public[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.public[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.public[2][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.database[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "database" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.100.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "rg-vaultly-db-eu-central-1a"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-db-eu-central-1a"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.database[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "database" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.101.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "rg-vaultly-db-eu-central-1b"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-db-eu-central-1b"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.database[2][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "database" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1c"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.102.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "rg-vaultly-db-eu-central-1c"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-db-eu-central-1c"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.private[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "private" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.16.0/20"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name"                            = "rg-vaultly-private-eu-central-1a"
+          [32m+[0m[0m "kubernetes.io/role/internal-elb" = "1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy"                       = "opentofu"
+          [32m+[0m[0m "Name"                            = "rg-vaultly-private-eu-central-1a"
+          [32m+[0m[0m "Namespace"                       = "rg"
+          [32m+[0m[0m "Project"                         = "rg-vaultly"
+          [32m+[0m[0m "Root"                            = "network"
+          [32m+[0m[0m "kubernetes.io/role/internal-elb" = "1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.private[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "private" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.32.0/20"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name"                            = "rg-vaultly-private-eu-central-1b"
+          [32m+[0m[0m "kubernetes.io/role/internal-elb" = "1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy"                       = "opentofu"
+          [32m+[0m[0m "Name"                            = "rg-vaultly-private-eu-central-1b"
+          [32m+[0m[0m "Namespace"                       = "rg"
+          [32m+[0m[0m "Project"                         = "rg-vaultly"
+          [32m+[0m[0m "Root"                            = "network"
+          [32m+[0m[0m "kubernetes.io/role/internal-elb" = "1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.private[2][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "private" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1c"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.48.0/20"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name"                            = "rg-vaultly-private-eu-central-1c"
+          [32m+[0m[0m "kubernetes.io/role/internal-elb" = "1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy"                       = "opentofu"
+          [32m+[0m[0m "Name"                            = "rg-vaultly-private-eu-central-1c"
+          [32m+[0m[0m "Namespace"                       = "rg"
+          [32m+[0m[0m "Project"                         = "rg-vaultly"
+          [32m+[0m[0m "Root"                            = "network"
+          [32m+[0m[0m "kubernetes.io/role/internal-elb" = "1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.public[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.0.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name"                   = "rg-vaultly-public-eu-central-1a"
+          [32m+[0m[0m "kubernetes.io/role/elb" = "1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy"              = "opentofu"
+          [32m+[0m[0m "Name"                   = "rg-vaultly-public-eu-central-1a"
+          [32m+[0m[0m "Namespace"              = "rg"
+          [32m+[0m[0m "Project"                = "rg-vaultly"
+          [32m+[0m[0m "Root"                   = "network"
+          [32m+[0m[0m "kubernetes.io/role/elb" = "1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.public[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.1.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name"                   = "rg-vaultly-public-eu-central-1b"
+          [32m+[0m[0m "kubernetes.io/role/elb" = "1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy"              = "opentofu"
+          [32m+[0m[0m "Name"                   = "rg-vaultly-public-eu-central-1b"
+          [32m+[0m[0m "Namespace"              = "rg"
+          [32m+[0m[0m "Project"                = "rg-vaultly"
+          [32m+[0m[0m "Root"                   = "network"
+          [32m+[0m[0m "kubernetes.io/role/elb" = "1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.public[2][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "eu-central-1c"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.42.2.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "eu-central-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name"                   = "rg-vaultly-public-eu-central-1c"
+          [32m+[0m[0m "kubernetes.io/role/elb" = "1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "ManagedBy"              = "opentofu"
+          [32m+[0m[0m "Name"                   = "rg-vaultly-public-eu-central-1c"
+          [32m+[0m[0m "Namespace"              = "rg"
+          [32m+[0m[0m "Project"                = "rg-vaultly"
+          [32m+[0m[0m "Root"                   = "network"
+          [32m+[0m[0m "kubernetes.io/role/elb" = "1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_vpc.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_vpc" "this" {
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m cidr_block                           = "10.42.0.0/16"
+      [32m+[0m[0m default_network_acl_id               = (known after apply)
+      [32m+[0m[0m default_route_table_id               = (known after apply)
+      [32m+[0m[0m default_security_group_id            = (known after apply)
+      [32m+[0m[0m dhcp_options_id                      = (known after apply)
+      [32m+[0m[0m enable_dns_hostnames                 = true
+      [32m+[0m[0m enable_dns_support                   = true
+      [32m+[0m[0m enable_network_address_usage_metrics = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_tenancy                     = "default"
+      [32m+[0m[0m ipv6_association_id                  = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                      = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_network_border_group = (known after apply)
+      [32m+[0m[0m main_route_table_id                  = (known after apply)
+      [32m+[0m[0m owner_id                             = (known after apply)
+      [32m+[0m[0m region                               = "eu-central-1"
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "rg-vaultly"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "network"
+        }
+    }
+
+[1mPlan:[0m 36 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m database_subnet_group_name = "rg-vaultly"
+  [32m+[0m[0m database_subnet_ids        = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m nat_public_ips             = [
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m private_subnet_ids         = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m public_subnet_ids          = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m vpc_cidr_block             = "10.42.0.0/16"
+  [32m+[0m[0m vpc_id                     = (known after apply)
+[0m[1mmodule.vpc.aws_iam_role.vpc_flow_log_cloudwatch[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_vpc.this[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_iam_role.vpc_flow_log_cloudwatch[0]: Creation complete after 1s [id=vpc-flow-log-role-f38f2261f79301889d615ae1d0][0m
+[0m[1mmodule.vpc.aws_vpc.this[0]: Creation complete after 3s [id=vpc-06399e8abe68b6ded][0m
+[0m[1mmodule.vpc.aws_internet_gateway.this[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_default_route_table.default[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.database[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table.private[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_default_network_acl.this[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.public[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table.database[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_default_security_group.this[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table.public[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.private[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_default_route_table.default[0]: Creation complete after 0s [id=rtb-05943bbfffa9bc823][0m
+[0m[1mmodule.vpc.aws_subnet.database[1]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_internet_gateway.this[0]: Creation complete after 0s [id=igw-0f922b308a90a21ee][0m
+[0m[1mmodule.vpc.aws_subnet.database[2]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table.private[0]: Creation complete after 0s [id=rtb-02296952df4f90368][0m
+[0m[1mmodule.vpc.aws_subnet.public[1]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table.public[0]: Creation complete after 0s [id=rtb-0ebcb965f12a58e41][0m
+[0m[1mmodule.vpc.aws_subnet.public[2]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table.database[0]: Creation complete after 0s [id=rtb-0bcfcc38d478955a2][0m
+[0m[1mmodule.vpc.aws_subnet.private[1]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.public[0]: Creation complete after 1s [id=subnet-0321d812c6200b7fd][0m
+[0m[1mmodule.vpc.aws_subnet.database[0]: Creation complete after 1s [id=subnet-0efb72ebeb3fdcd6b][0m
+[0m[1mmodule.vpc.aws_cloudwatch_log_group.flow_log[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.private[2]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.database[2]: Creation complete after 1s [id=subnet-021666940fcae5a44][0m
+[0m[1mmodule.vpc.aws_eip.nat[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_default_network_acl.this[0]: Creation complete after 1s [id=acl-0548bf728dac947e2][0m
+[0m[1mmodule.vpc.aws_route.public_internet_gateway[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.database[1]: Creation complete after 1s [id=subnet-0625795b2e6eeac72][0m
+[0m[1mmodule.vpc.aws_db_subnet_group.database[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.private[1]: Creation complete after 1s [id=subnet-07051ea22eb5b66b6][0m
+[0m[1mmodule.vpc.aws_subnet.public[2]: Creation complete after 1s [id=subnet-0ba4a1eb1fc5fc63f][0m
+[0m[1mmodule.vpc.aws_route_table_association.database[2]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[1]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_cloudwatch_log_group.flow_log[0]: Creation complete after 0s [id=/aws/vpc-flow-log/vpc-06399e8abe68b6ded][0m
+[0m[1mmodule.vpc.aws_route_table_association.database[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[0]: Creation complete after 0s [id=rtbassoc-023c09325c8e8dd4f][0m
+[0m[1mmodule.vpc.aws_flow_log.this[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[1]: Creation complete after 0s [id=rtbassoc-026d71d48ffb022b0][0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.vpc_flow_log_cloudwatch[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.vpc_flow_log_cloudwatch[0]: Read complete after 0s [id=3334425649][0m
+[0m[1mmodule.vpc.aws_iam_policy.vpc_flow_log_cloudwatch[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_subnet.public[1]: Creation complete after 1s [id=subnet-06ec46958a374402f][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[1]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[2]: Creation complete after 1s [id=rtbassoc-0a253306bc9eeb6b0][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route.public_internet_gateway[0]: Creation complete after 1s [id=r-rtb-0ebcb965f12a58e411080289494][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[2]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_flow_log.this[0]: Creation complete after 1s [id=fl-053df541bba232077][0m
+[0m[1mmodule.vpc.aws_subnet.private[2]: Creation complete after 1s [id=subnet-08ce1ac17a31bbfec][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[1]: Creation complete after 1s [id=rtbassoc-02d2316498ca208e1][0m
+[0m[1mmodule.vpc.aws_iam_policy.vpc_flow_log_cloudwatch[0]: Creation complete after 1s [id=arn:aws:iam::<account-id>:policy/vpc-flow-log-to-cloudwatch-217dd4517432ac628352e94c4d][0m
+[0m[1mmodule.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.public[0]: Creation complete after 0s [id=rtbassoc-010781dfb8136d116][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[2]: Creation complete after 0s [id=rtbassoc-00bbb12d1da098f70][0m
+[0m[1mmodule.vpc.aws_default_security_group.this[0]: Creation complete after 2s [id=sg-0ce1bbdbf814e7566][0m
+[0m[1mmodule.vpc.aws_eip.nat[0]: Creation complete after 1s [id=eipalloc-0dd668669f09c1cf9][0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch[0]: Creation complete after 0s [id=vpc-flow-log-role-f38f2261f79301889d615ae1d0/arn:aws:iam::<account-id>:policy/vpc-flow-log-to-cloudwatch-217dd4517432ac628352e94c4d][0m
+[0m[1mmodule.vpc.aws_db_subnet_group.database[0]: Creation complete after 1s [id=rg-vaultly][0m
+[0m[1mmodule.vpc.aws_subnet.private[0]: Creation complete after 3s [id=subnet-0562f2b3a753a8bed][0m
+[0m[1mmodule.vpc.aws_route_table_association.private[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[2]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[1]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[0]: Creation complete after 1s [id=rtbassoc-049630a0b3e227edd][0m
+[0m[1mmodule.vpc.aws_route_table_association.private[1]: Creation complete after 1s [id=rtbassoc-04a3849dbaa702f84][0m
+[0m[1mmodule.vpc.aws_route_table_association.private[2]: Creation complete after 1s [id=rtbassoc-09189099acbbb0846][0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [30s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [40s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [50s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [1m0s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [1m10s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [1m20s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [1m30s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [1m40s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still creating... [1m50s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Creation complete after 1m54s [id=nat-0a5e4f2ed9564d1c3][0m
+[0m[1mmodule.vpc.aws_route.private_nat_gateway[0]: Creating...[0m[0m
+[0m[1mmodule.vpc.aws_route.private_nat_gateway[0]: Creation complete after 0s [id=r-rtb-02296952df4f903681080289494][0m
+[0m[1m[32m
+Apply complete! Resources: 36 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mdatabase_subnet_group_name = "rg-vaultly"
+database_subnet_ids = [
+  "subnet-0efb72ebeb3fdcd6b",
+  "subnet-0625795b2e6eeac72",
+  "subnet-021666940fcae5a44",
+]
+nat_public_ips = tolist([
+  "<nat-ip>",
+])
+private_subnet_ids = [
+  "subnet-0562f2b3a753a8bed",
+  "subnet-07051ea22eb5b66b6",
+  "subnet-08ce1ac17a31bbfec",
+]
+public_subnet_ids = [
+  "subnet-0321d812c6200b7fd",
+  "subnet-06ec46958a374402f",
+  "subnet-0ba4a1eb1fc5fc63f",
+]
+vpc_cidr_block = "10.42.0.0/16"
+vpc_id = "vpc-06399e8abe68b6ded"
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_iam_policy_document.assume_role_policy[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.lbc_role.data.aws_iam_policy_document.trust: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_iam_policy_document.assume_role_policy[0]: Reading...[0m[0m
+[0m[1mmodule.ebs_csi_role.data.aws_iam_policy_document.trust: Reading...[0m[0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2560088296][0m
+[0m[1mmodule.lbc_role.data.aws_iam_policy_document.trust: Read complete after 0s [id=2756638657][0m
+[0m[1mmodule.eks.data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2830595799][0m
+[0m[1mmodule.eks.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mmodule.eks.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mmodule.ebs_csi_role.data.aws_iam_policy_document.trust: Read complete after 0s [id=2367772210][0m
+[0m[1mmodule.eks.module.kms.data.aws_caller_identity.current[0]: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.terraform_remote_state.network: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_caller_identity.current[0]: Read complete after 0s [id=<account-id>][0m
+[0m[1mmodule.eks.data.aws_iam_session_context.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_iam_session_context.current[0]: Read complete after 0s [id=arn:aws:iam::<account-id>:user/rolandog][0m
+[0m[1mdata.terraform_remote_state.network: Read complete after 1s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_ssm_parameter.ami[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_ssm_parameter.ami[0]: Read complete after 0s [id=/aws/service/eks/optimized-ami/1.36/amazon-linux-2023/arm64/standard/recommended/release_version][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+ [36m<=[0m read (data resources)[0m
+
+OpenTofu will perform the following actions:
+
+[1m  # aws_eks_pod_identity_association.lbc[0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_pod_identity_association" "lbc" {
+      [32m+[0m[0m association_arn      = (known after apply)
+      [32m+[0m[0m association_id       = (known after apply)
+      [32m+[0m[0m cluster_name         = "rg-vaultly"
+      [32m+[0m[0m disable_session_tags = false
+      [32m+[0m[0m external_id          = (known after apply)
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m namespace            = "kube-system"
+      [32m+[0m[0m region               = "eu-central-1"
+      [32m+[0m[0m role_arn             = (known after apply)
+      [32m+[0m[0m service_account      = "aws-load-balancer-controller"
+      [32m+[0m[0m tags_all             = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+    }
+
+[1m  # aws_iam_policy.lbc[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "lbc" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m description      = "AWS Load Balancer Controller v3.6.2 (docs/install/iam_policy.json)"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "rg-vaultly-lbc"
+      [32m+[0m[0m name_prefix      = (known after apply)
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "iam:CreateServiceLinkedRole",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "iam:AWSServiceName" = "elasticloadbalancing.amazonaws.com"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "ec2:DescribeAccountAttributes",
+                          [32m+[0m[0m "ec2:DescribeAddresses",
+                          [32m+[0m[0m "ec2:DescribeAvailabilityZones",
+                          [32m+[0m[0m "ec2:DescribeInternetGateways",
+                          [32m+[0m[0m "ec2:DescribeVpcs",
+                          [32m+[0m[0m "ec2:DescribeVpcPeeringConnections",
+                          [32m+[0m[0m "ec2:DescribeSubnets",
+                          [32m+[0m[0m "ec2:DescribeSecurityGroups",
+                          [32m+[0m[0m "ec2:DescribeInstances",
+                          [32m+[0m[0m "ec2:DescribeNetworkInterfaces",
+                          [32m+[0m[0m "ec2:DescribeTags",
+                          [32m+[0m[0m "ec2:GetCoipPoolUsage",
+                          [32m+[0m[0m "ec2:DescribeCoipPools",
+                          [32m+[0m[0m "ec2:GetSecurityGroupsForVpc",
+                          [32m+[0m[0m "ec2:DescribeIpamPools",
+                          [32m+[0m[0m "ec2:DescribeRouteTables",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeLoadBalancers",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeListeners",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeListenerCertificates",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeSSLPolicies",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeRules",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTargetGroups",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTargetGroupAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTargetHealth",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTags",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeTrustStores",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeListenerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DescribeCapacityReservation",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "cognito-idp:DescribeUserPoolClient",
+                          [32m+[0m[0m "acm:ListCertificates",
+                          [32m+[0m[0m "acm:DescribeCertificate",
+                          [32m+[0m[0m "iam:ListServerCertificates",
+                          [32m+[0m[0m "iam:GetServerCertificate",
+                          [32m+[0m[0m "waf-regional:GetWebACL",
+                          [32m+[0m[0m "waf-regional:GetWebACLForResource",
+                          [32m+[0m[0m "waf-regional:AssociateWebACL",
+                          [32m+[0m[0m "waf-regional:DisassociateWebACL",
+                          [32m+[0m[0m "wafv2:GetWebACL",
+                          [32m+[0m[0m "wafv2:GetWebACLForResource",
+                          [32m+[0m[0m "wafv2:AssociateWebACL",
+                          [32m+[0m[0m "wafv2:DisassociateWebACL",
+                          [32m+[0m[0m "shield:GetSubscriptionState",
+                          [32m+[0m[0m "shield:DescribeProtection",
+                          [32m+[0m[0m "shield:CreateProtection",
+                          [32m+[0m[0m "shield:DeleteProtection",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "ec2:AuthorizeSecurityGroupIngress",
+                          [32m+[0m[0m "ec2:RevokeSecurityGroupIngress",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "ec2:CreateSecurityGroup",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "ec2:CreateTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null         = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "ec2:CreateAction" = "CreateSecurityGroup"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "arn:aws:ec2:*:*:security-group/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "ec2:CreateTags",
+                          [32m+[0m[0m "ec2:DeleteTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "arn:aws:ec2:*:*:security-group/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "ec2:AuthorizeSecurityGroupIngress",
+                          [32m+[0m[0m "ec2:RevokeSecurityGroupIngress",
+                          [32m+[0m[0m "ec2:DeleteSecurityGroup",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:CreateLoadBalancer",
+                          [32m+[0m[0m "elasticloadbalancing:CreateTargetGroup",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:CreateListener",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteListener",
+                          [32m+[0m[0m "elasticloadbalancing:CreateRule",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteRule",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:AddTags",
+                          [32m+[0m[0m "elasticloadbalancing:RemoveTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = [
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                        ]
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:AddTags",
+                          [32m+[0m[0m "elasticloadbalancing:RemoveTags",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = [
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*",
+                        ]
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:SetIpAddressType",
+                          [32m+[0m[0m "elasticloadbalancing:SetSecurityGroups",
+                          [32m+[0m[0m "elasticloadbalancing:SetSubnets",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteLoadBalancer",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyTargetGroup",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyTargetGroupAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:DeleteTargetGroup",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyListenerAttributes",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyCapacityReservation",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyIpPools",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null = {
+                              [32m+[0m[0m "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "elasticloadbalancing:AddTags",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m Null         = {
+                              [32m+[0m[0m "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "elasticloadbalancing:CreateAction" = [
+                                  [32m+[0m[0m "CreateTargetGroup",
+                                  [32m+[0m[0m "CreateLoadBalancer",
+                                ]
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Resource  = [
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                          [32m+[0m[0m "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                        ]
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:RegisterTargets",
+                          [32m+[0m[0m "elasticloadbalancing:DeregisterTargets",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "elasticloadbalancing:SetWebAcl",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyListener",
+                          [32m+[0m[0m "elasticloadbalancing:AddListenerCertificates",
+                          [32m+[0m[0m "elasticloadbalancing:RemoveListenerCertificates",
+                          [32m+[0m[0m "elasticloadbalancing:ModifyRule",
+                          [32m+[0m[0m "elasticloadbalancing:SetRulePriorities",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+    }
+
+[1m  # aws_iam_role_policy_attachment.lbc[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "lbc" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = "rg-vaultly-lbc"
+    }
+
+[1m  # terraform_data.guard[0m will be created
+[0m  [32m+[0m[0m resource "terraform_data" "guard" {
+      [32m+[0m[0m id = (known after apply)
+    }
+
+[1m  # module.ebs_csi_role.aws_iam_role.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "this" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "sts:TagSession",
+                          [32m+[0m[0m "sts:AssumeRole",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-namespace"       = "kube-system"
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-service-account" = "ebs-csi-controller-sa"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "pods.eks.amazonaws.com"
+                        }
+                      [32m+[0m[0m Sid       = "EksPodIdentity"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "rg-vaultly-ebs-csi"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.ebs_csi_role.aws_iam_role_policy_attachment.managed["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "managed" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+      [32m+[0m[0m role       = "rg-vaultly-ebs-csi"
+    }
+
+[1m  # module.eks.data.aws_eks_addon_version.this["aws-ebs-csi-driver"][0m will be read during apply
+  # (depends on a resource or a module with changes pending)
+[0m [36m<=[0m[0m data "aws_eks_addon_version" "this" {
+      [32m+[0m[0m addon_name         = "aws-ebs-csi-driver"
+      [32m+[0m[0m id                 = (known after apply)
+      [32m+[0m[0m kubernetes_version = "1.36"
+      [32m+[0m[0m most_recent        = true
+      [32m+[0m[0m region             = (known after apply)
+      [32m+[0m[0m version            = (known after apply)
+    }
+
+[1m  # module.eks.data.aws_eks_addon_version.this["coredns"][0m will be read during apply
+  # (depends on a resource or a module with changes pending)
+[0m [36m<=[0m[0m data "aws_eks_addon_version" "this" {
+      [32m+[0m[0m addon_name         = "coredns"
+      [32m+[0m[0m id                 = (known after apply)
+      [32m+[0m[0m kubernetes_version = "1.36"
+      [32m+[0m[0m most_recent        = true
+      [32m+[0m[0m region             = (known after apply)
+      [32m+[0m[0m version            = (known after apply)
+    }
+
+[1m  # module.eks.data.aws_eks_addon_version.this["eks-pod-identity-agent"][0m will be read during apply
+  # (depends on a resource or a module with changes pending)
+[0m [36m<=[0m[0m data "aws_eks_addon_version" "this" {
+      [32m+[0m[0m addon_name         = "eks-pod-identity-agent"
+      [32m+[0m[0m id                 = (known after apply)
+      [32m+[0m[0m kubernetes_version = "1.36"
+      [32m+[0m[0m most_recent        = true
+      [32m+[0m[0m region             = (known after apply)
+      [32m+[0m[0m version            = (known after apply)
+    }
+
+[1m  # module.eks.data.aws_eks_addon_version.this["kube-proxy"][0m will be read during apply
+  # (depends on a resource or a module with changes pending)
+[0m [36m<=[0m[0m data "aws_eks_addon_version" "this" {
+      [32m+[0m[0m addon_name         = "kube-proxy"
+      [32m+[0m[0m id                 = (known after apply)
+      [32m+[0m[0m kubernetes_version = "1.36"
+      [32m+[0m[0m most_recent        = true
+      [32m+[0m[0m region             = (known after apply)
+      [32m+[0m[0m version            = (known after apply)
+    }
+
+[1m  # module.eks.data.aws_eks_addon_version.this["vpc-cni"][0m will be read during apply
+  # (depends on a resource or a module with changes pending)
+[0m [36m<=[0m[0m data "aws_eks_addon_version" "this" {
+      [32m+[0m[0m addon_name         = "vpc-cni"
+      [32m+[0m[0m id                 = (known after apply)
+      [32m+[0m[0m kubernetes_version = "1.36"
+      [32m+[0m[0m most_recent        = true
+      [32m+[0m[0m region             = (known after apply)
+      [32m+[0m[0m version            = (known after apply)
+    }
+
+[1m  # module.eks.aws_cloudwatch_log_group.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_log_group" "this" {
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m deletion_protection_enabled = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m log_group_class             = (known after apply)
+      [32m+[0m[0m name                        = "/aws/eks/rg-vaultly/cluster"
+      [32m+[0m[0m name_prefix                 = (known after apply)
+      [32m+[0m[0m region                      = "eu-central-1"
+      [32m+[0m[0m retention_in_days           = 7
+      [32m+[0m[0m skip_destroy                = false
+      [32m+[0m[0m tags                        = {
+          [32m+[0m[0m "Name" = "/aws/eks/rg-vaultly/cluster"
+        }
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "/aws/eks/rg-vaultly/cluster"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+    }
+
+[1m  # module.eks.aws_eks_access_entry.this["cluster_creator"][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_access_entry" "this" {
+      [32m+[0m[0m access_entry_arn  = (known after apply)
+      [32m+[0m[0m cluster_name      = (known after apply)
+      [32m+[0m[0m created_at        = (known after apply)
+      [32m+[0m[0m id                = (known after apply)
+      [32m+[0m[0m kubernetes_groups = (known after apply)
+      [32m+[0m[0m modified_at       = (known after apply)
+      [32m+[0m[0m principal_arn     = "arn:aws:iam::<account-id>:user/rolandog"
+      [32m+[0m[0m region            = "eu-central-1"
+      [32m+[0m[0m tags_all          = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m type              = "STANDARD"
+      [32m+[0m[0m user_name         = (known after apply)
+    }
+
+[1m  # module.eks.aws_eks_access_policy_association.this["cluster_creator_admin"][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_access_policy_association" "this" {
+      [32m+[0m[0m associated_at = (known after apply)
+      [32m+[0m[0m cluster_name  = (known after apply)
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m modified_at   = (known after apply)
+      [32m+[0m[0m policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+      [32m+[0m[0m principal_arn = "arn:aws:iam::<account-id>:user/rolandog"
+      [32m+[0m[0m region        = "eu-central-1"
+
+      [32m+[0m[0m access_scope {
+          [32m+[0m[0m type = "cluster"
+        }
+    }
+
+[1m  # module.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_addon" "before_compute" {
+      [32m+[0m[0m addon_name                  = "eks-pod-identity-agent"
+      [32m+[0m[0m addon_version               = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m cluster_name                = (known after apply)
+      [32m+[0m[0m configuration_values        = (known after apply)
+      [32m+[0m[0m created_at                  = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m modified_at                 = (known after apply)
+      [32m+[0m[0m preserve                    = true
+      [32m+[0m[0m region                      = "eu-central-1"
+      [32m+[0m[0m resolve_conflicts_on_create = "NONE"
+      [32m+[0m[0m resolve_conflicts_on_update = "OVERWRITE"
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+
+      [32m+[0m[0m namespace_config (known after apply)
+
+      [32m+[0m[0m timeouts {}
+    }
+
+[1m  # module.eks.aws_eks_addon.before_compute["vpc-cni"][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_addon" "before_compute" {
+      [32m+[0m[0m addon_name                  = "vpc-cni"
+      [32m+[0m[0m addon_version               = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m cluster_name                = (known after apply)
+      [32m+[0m[0m configuration_values        = jsonencode(
+            {
+              [32m+[0m[0m enableNetworkPolicy = "true"
+            }
+        )
+      [32m+[0m[0m created_at                  = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m modified_at                 = (known after apply)
+      [32m+[0m[0m preserve                    = true
+      [32m+[0m[0m region                      = "eu-central-1"
+      [32m+[0m[0m resolve_conflicts_on_create = "NONE"
+      [32m+[0m[0m resolve_conflicts_on_update = "OVERWRITE"
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+
+      [32m+[0m[0m namespace_config (known after apply)
+
+      [32m+[0m[0m timeouts {}
+    }
+
+[1m  # module.eks.aws_eks_addon.this["aws-ebs-csi-driver"][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_addon" "this" {
+      [32m+[0m[0m addon_name                  = "aws-ebs-csi-driver"
+      [32m+[0m[0m addon_version               = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m cluster_name                = (known after apply)
+      [32m+[0m[0m configuration_values        = (known after apply)
+      [32m+[0m[0m created_at                  = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m modified_at                 = (known after apply)
+      [32m+[0m[0m preserve                    = true
+      [32m+[0m[0m region                      = "eu-central-1"
+      [32m+[0m[0m resolve_conflicts_on_create = "NONE"
+      [32m+[0m[0m resolve_conflicts_on_update = "OVERWRITE"
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+
+      [32m+[0m[0m namespace_config (known after apply)
+
+      [32m+[0m[0m pod_identity_association {
+          [32m+[0m[0m role_arn        = (known after apply)
+          [32m+[0m[0m service_account = "ebs-csi-controller-sa"
+        }
+
+      [32m+[0m[0m timeouts {}
+    }
+
+[1m  # module.eks.aws_eks_addon.this["coredns"][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_addon" "this" {
+      [32m+[0m[0m addon_name                  = "coredns"
+      [32m+[0m[0m addon_version               = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m cluster_name                = (known after apply)
+      [32m+[0m[0m configuration_values        = (known after apply)
+      [32m+[0m[0m created_at                  = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m modified_at                 = (known after apply)
+      [32m+[0m[0m preserve                    = true
+      [32m+[0m[0m region                      = "eu-central-1"
+      [32m+[0m[0m resolve_conflicts_on_create = "NONE"
+      [32m+[0m[0m resolve_conflicts_on_update = "OVERWRITE"
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+
+      [32m+[0m[0m namespace_config (known after apply)
+
+      [32m+[0m[0m timeouts {}
+    }
+
+[1m  # module.eks.aws_eks_addon.this["kube-proxy"][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_addon" "this" {
+      [32m+[0m[0m addon_name                  = "kube-proxy"
+      [32m+[0m[0m addon_version               = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m cluster_name                = (known after apply)
+      [32m+[0m[0m configuration_values        = (known after apply)
+      [32m+[0m[0m created_at                  = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m modified_at                 = (known after apply)
+      [32m+[0m[0m preserve                    = true
+      [32m+[0m[0m region                      = "eu-central-1"
+      [32m+[0m[0m resolve_conflicts_on_create = "NONE"
+      [32m+[0m[0m resolve_conflicts_on_update = "OVERWRITE"
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+
+      [32m+[0m[0m namespace_config (known after apply)
+
+      [32m+[0m[0m timeouts {}
+    }
+
+[1m  # module.eks.aws_eks_cluster.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_cluster" "this" {
+      [32m+[0m[0m arn                           = (known after apply)
+      [32m+[0m[0m bootstrap_self_managed_addons = false
+      [32m+[0m[0m certificate_authority         = (known after apply)
+      [32m+[0m[0m cluster_id                    = (known after apply)
+      [32m+[0m[0m created_at                    = (known after apply)
+      [32m+[0m[0m deletion_protection           = (known after apply)
+      [32m+[0m[0m enabled_cluster_log_types     = [
+          [32m+[0m[0m "api",
+          [32m+[0m[0m "audit",
+          [32m+[0m[0m "authenticator",
+        ]
+      [32m+[0m[0m endpoint                      = (known after apply)
+      [32m+[0m[0m id                            = (known after apply)
+      [32m+[0m[0m identity                      = (known after apply)
+      [32m+[0m[0m name                          = "rg-vaultly"
+      [32m+[0m[0m platform_version              = (known after apply)
+      [32m+[0m[0m region                        = "eu-central-1"
+      [32m+[0m[0m role_arn                      = (known after apply)
+      [32m+[0m[0m status                        = (known after apply)
+      [32m+[0m[0m tags_all                      = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m version                       = "1.36"
+
+      [32m+[0m[0m access_config {
+          [32m+[0m[0m authentication_mode                         = "API_AND_CONFIG_MAP"
+          [32m+[0m[0m bootstrap_cluster_creator_admin_permissions = false
+        }
+
+      [32m+[0m[0m compute_config (known after apply)
+
+      [32m+[0m[0m control_plane_scaling_config (known after apply)
+
+      [32m+[0m[0m encryption_config {
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "secrets",
+            ]
+
+          [32m+[0m[0m provider {
+              [32m+[0m[0m key_arn = (known after apply)
+            }
+        }
+
+      [32m+[0m[0m kube_api_server_config (known after apply)
+
+      [32m+[0m[0m kube_controller_manager_config (known after apply)
+
+      [32m+[0m[0m kube_scheduler_config (known after apply)
+
+      [32m+[0m[0m kubernetes_network_config {
+          [32m+[0m[0m ip_family         = "ipv4"
+          [32m+[0m[0m service_ipv4_cidr = (known after apply)
+          [32m+[0m[0m service_ipv6_cidr = (known after apply)
+
+          [32m+[0m[0m elastic_load_balancing (known after apply)
+        }
+
+      [32m+[0m[0m storage_config (known after apply)
+
+      [32m+[0m[0m upgrade_policy (known after apply)
+
+      [32m+[0m[0m vpc_config {
+          [32m+[0m[0m cluster_security_group_id = (known after apply)
+          [32m+[0m[0m control_plane_egress_mode = (known after apply)
+          [32m+[0m[0m endpoint_private_access   = true
+          [32m+[0m[0m endpoint_public_access    = true
+          [32m+[0m[0m public_access_cidrs       = [
+              [32m+[0m[0m "<admin-ip>/32",
+            ]
+          [32m+[0m[0m security_group_ids        = (known after apply)
+          [32m+[0m[0m subnet_ids                = [
+              [32m+[0m[0m "subnet-0562f2b3a753a8bed",
+              [32m+[0m[0m "subnet-07051ea22eb5b66b6",
+              [32m+[0m[0m "subnet-08ce1ac17a31bbfec",
+            ]
+          [32m+[0m[0m vpc_id                    = (known after apply)
+        }
+    }
+
+[1m  # module.eks.aws_iam_policy.cluster_encryption[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "cluster_encryption" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m description      = "Cluster encryption policy to allow cluster role to utilize CMK provided"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = (known after apply)
+      [32m+[0m[0m name_prefix      = "rg-vaultly-cluster-ClusterEncryption"
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = (known after apply)
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+    }
+
+[1m  # module.eks.aws_iam_role.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "this" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "sts:TagSession",
+                          [32m+[0m[0m "sts:AssumeRole",
+                        ]
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "eks.amazonaws.com"
+                        }
+                      [32m+[0m[0m Sid       = "EKSClusterAssumeRole"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = true
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = (known after apply)
+      [32m+[0m[0m name_prefix           = "rg-vaultly-cluster-"
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.eks.aws_iam_role_policy_attachment.cluster_encryption[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "cluster_encryption" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = (known after apply)
+    }
+
+[1m  # module.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+      [32m+[0m[0m role       = (known after apply)
+    }
+
+[1m  # module.eks.aws_security_group.cluster[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "cluster" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "EKS cluster security group"
+      [32m+[0m[0m egress                 = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = (known after apply)
+      [32m+[0m[0m name                   = (known after apply)
+      [32m+[0m[0m name_prefix            = "rg-vaultly-cluster-"
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "rg-vaultly-cluster"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-cluster"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m vpc_id                 = "vpc-06399e8abe68b6ded"
+    }
+
+[1m  # module.eks.aws_security_group.node[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "node" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "EKS node shared security group"
+      [32m+[0m[0m egress                 = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = (known after apply)
+      [32m+[0m[0m name                   = (known after apply)
+      [32m+[0m[0m name_prefix            = "rg-vaultly-node-"
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name"                             = "rg-vaultly-node"
+          [32m+[0m[0m "kubernetes.io/cluster/rg-vaultly" = "owned"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "ManagedBy"                        = "opentofu"
+          [32m+[0m[0m "Name"                             = "rg-vaultly-node"
+          [32m+[0m[0m "Namespace"                        = "rg"
+          [32m+[0m[0m "Project"                          = "rg-vaultly"
+          [32m+[0m[0m "Root"                             = "eks"
+          [32m+[0m[0m "kubernetes.io/cluster/rg-vaultly" = "owned"
+        }
+      [32m+[0m[0m vpc_id                 = "vpc-06399e8abe68b6ded"
+    }
+
+[1m  # module.eks.aws_security_group_rule.cluster["ingress_nodes_443"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "cluster" {
+      [32m+[0m[0m description              = "Node groups to cluster API"
+      [32m+[0m[0m from_port                = 443
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 443
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["egress_all"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "0.0.0.0/0",
+        ]
+      [32m+[0m[0m description              = "Allow all egress"
+      [32m+[0m[0m from_port                = 0
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "-1"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 0
+      [32m+[0m[0m type                     = "egress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Cluster API to node 10251/tcp webhook"
+      [32m+[0m[0m from_port                = 10251
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 10251
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_443"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Cluster API to node groups"
+      [32m+[0m[0m from_port                = 443
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 443
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Cluster API to node 4443/tcp webhook"
+      [32m+[0m[0m from_port                = 4443
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 4443
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Cluster API to node 6443/tcp webhook"
+      [32m+[0m[0m from_port                = 6443
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 6443
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Cluster API to node 8443/tcp webhook"
+      [32m+[0m[0m from_port                = 8443
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 8443
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Cluster API to node 9443/tcp webhook"
+      [32m+[0m[0m from_port                = 9443
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 9443
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_kubelet"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Cluster API to node kubelets"
+      [32m+[0m[0m from_port                = 10250
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 10250
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Node to node ingress on ephemeral ports"
+      [32m+[0m[0m from_port                = 1025
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = true
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 65535
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Node to node CoreDNS"
+      [32m+[0m[0m from_port                = 53
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = true
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 53
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_self_coredns_udp"][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "node" {
+      [32m+[0m[0m description              = "Node to node CoreDNS UDP"
+      [32m+[0m[0m from_port                = 53
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "udp"
+      [32m+[0m[0m region                   = "eu-central-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = true
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 53
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.eks.time_sleep.this[0][0m will be created
+[0m  [32m+[0m[0m resource "time_sleep" "this" {
+      [32m+[0m[0m create_duration = "30s"
+      [32m+[0m[0m id              = (known after apply)
+      [32m+[0m[0m triggers        = {
+          [32m+[0m[0m "certificate_authority_data" = (known after apply)
+          [32m+[0m[0m "endpoint"                   = (known after apply)
+          [32m+[0m[0m "kubernetes_version"         = "1.36"
+          [32m+[0m[0m "name"                       = (known after apply)
+          [32m+[0m[0m "service_cidr"               = (known after apply)
+        }
+    }
+
+[1m  # module.lbc_role.aws_iam_role.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "this" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "sts:TagSession",
+                          [32m+[0m[0m "sts:AssumeRole",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-namespace"       = "kube-system"
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-service-account" = "aws-load-balancer-controller"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "pods.eks.amazonaws.com"
+                        }
+                      [32m+[0m[0m Sid       = "EksPodIdentity"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "rg-vaultly-lbc"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_node_group" "this" {
+      [32m+[0m[0m ami_type               = "AL2023_ARM_64_STANDARD"
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m capacity_type          = "ON_DEMAND"
+      [32m+[0m[0m cluster_name           = (known after apply)
+      [32m+[0m[0m disk_size              = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m instance_types         = [
+          [32m+[0m[0m "t4g.small",
+        ]
+      [32m+[0m[0m node_group_name        = (known after apply)
+      [32m+[0m[0m node_group_name_prefix = "main-"
+      [32m+[0m[0m node_role_arn          = (known after apply)
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m release_version        = "1.36.5-20261107"
+      [32m+[0m[0m resources              = (known after apply)
+      [32m+[0m[0m status                 = (known after apply)
+      [32m+[0m[0m subnet_ids             = [
+          [32m+[0m[0m "subnet-0562f2b3a753a8bed",
+          [32m+[0m[0m "subnet-07051ea22eb5b66b6",
+          [32m+[0m[0m "subnet-08ce1ac17a31bbfec",
+        ]
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "main"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "main"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m version                = "1.36"
+
+      [32m+[0m[0m launch_template {
+          [32m+[0m[0m id      = (known after apply)
+          [32m+[0m[0m name    = (known after apply)
+          [32m+[0m[0m version = (known after apply)
+        }
+
+      [32m+[0m[0m node_repair_config (known after apply)
+
+      [32m+[0m[0m scaling_config {
+          [32m+[0m[0m desired_size = 3
+          [32m+[0m[0m max_size     = 3
+          [32m+[0m[0m min_size     = 3
+        }
+
+      [32m+[0m[0m update_config {
+          [32m+[0m[0m max_unavailable_percentage = 33
+        }
+    }
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "this" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "ec2.amazonaws.com"
+                        }
+                      [32m+[0m[0m Sid       = "EKSNodeAssumeRole"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m description           = "EKS managed node group IAM role"
+      [32m+[0m[0m force_detach_policies = true
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = (known after apply)
+      [32m+[0m[0m name_prefix           = "main-eks-node-group-"
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+      [32m+[0m[0m role       = (known after apply)
+    }
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+      [32m+[0m[0m role       = (known after apply)
+    }
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"][0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+      [32m+[0m[0m role       = (known after apply)
+    }
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_launch_template.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_launch_template" "this" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m default_version        = (known after apply)
+      [32m+[0m[0m description            = "Custom launch template for main EKS managed node group"
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m latest_version         = (known after apply)
+      [32m+[0m[0m name                   = (known after apply)
+      [32m+[0m[0m name_prefix            = "main-"
+      [32m+[0m[0m region                 = "eu-central-1"
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+      [32m+[0m[0m update_default_version = true
+      [32m+[0m[0m vpc_security_group_ids = (known after apply)
+
+      [32m+[0m[0m block_device_mappings {
+          [32m+[0m[0m device_name = "/dev/xvda"
+
+          [32m+[0m[0m ebs {
+              [32m+[0m[0m delete_on_termination      = "true"
+              [32m+[0m[0m encrypted                  = "true"
+              [32m+[0m[0m iops                       = (known after apply)
+              [32m+[0m[0m throughput                 = (known after apply)
+              [32m+[0m[0m volume_initialization_rate = (known after apply)
+              [32m+[0m[0m volume_size                = 20
+              [32m+[0m[0m volume_type                = "gp3"
+            }
+        }
+
+      [32m+[0m[0m metadata_options {
+          [32m+[0m[0m http_endpoint               = "enabled"
+          [32m+[0m[0m http_protocol_ipv6          = (known after apply)
+          [32m+[0m[0m http_put_response_hop_limit = 1
+          [32m+[0m[0m http_tokens                 = "required"
+          [32m+[0m[0m instance_metadata_tags      = (known after apply)
+        }
+
+      [32m+[0m[0m tag_specifications {
+          [32m+[0m[0m resource_type = "instance"
+          [32m+[0m[0m tags          = {
+              [32m+[0m[0m "Name" = "main"
+            }
+        }
+      [32m+[0m[0m tag_specifications {
+          [32m+[0m[0m resource_type = "network-interface"
+          [32m+[0m[0m tags          = {
+              [32m+[0m[0m "Name" = "main"
+            }
+        }
+      [32m+[0m[0m tag_specifications {
+          [32m+[0m[0m resource_type = "volume"
+          [32m+[0m[0m tags          = {
+              [32m+[0m[0m "Name" = "main"
+            }
+        }
+    }
+
+[1m  # module.eks.module.kms.data.aws_iam_policy_document.this[0][0m will be read during apply
+  # (config refers to values not yet known)
+[0m [36m<=[0m[0m data "aws_iam_policy_document" "this" {
+      [32m+[0m[0m id                        = (known after apply)
+      [32m+[0m[0m json                      = (known after apply)
+      [32m+[0m[0m minified_json             = (known after apply)
+      [32m+[0m[0m override_policy_documents = []
+      [32m+[0m[0m source_policy_documents   = []
+
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:*",
+            ]
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m sid       = "Default"
+
+          [32m+[0m[0m principals {
+              [32m+[0m[0m identifiers = [
+                  [32m+[0m[0m "arn:aws:iam::<account-id>:root",
+                ]
+              [32m+[0m[0m type        = "AWS"
+            }
+        }
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:CancelKeyDeletion",
+              [32m+[0m[0m "kms:Create*",
+              [32m+[0m[0m "kms:Delete*",
+              [32m+[0m[0m "kms:Describe*",
+              [32m+[0m[0m "kms:Disable*",
+              [32m+[0m[0m "kms:Enable*",
+              [32m+[0m[0m "kms:Get*",
+              [32m+[0m[0m "kms:ImportKeyMaterial",
+              [32m+[0m[0m "kms:List*",
+              [32m+[0m[0m "kms:Put*",
+              [32m+[0m[0m "kms:ReplicateKey",
+              [32m+[0m[0m "kms:Revoke*",
+              [32m+[0m[0m "kms:ScheduleKeyDeletion",
+              [32m+[0m[0m "kms:TagResource",
+              [32m+[0m[0m "kms:UntagResource",
+              [32m+[0m[0m "kms:Update*",
+            ]
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m sid       = "KeyAdministration"
+
+          [32m+[0m[0m principals {
+              [32m+[0m[0m identifiers = [
+                  [32m+[0m[0m "arn:aws:iam::<account-id>:user/rolandog",
+                ]
+              [32m+[0m[0m type        = "AWS"
+            }
+        }
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:Decrypt",
+              [32m+[0m[0m "kms:DescribeKey",
+              [32m+[0m[0m "kms:Encrypt",
+              [32m+[0m[0m "kms:GenerateDataKey*",
+              [32m+[0m[0m "kms:ReEncrypt*",
+            ]
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m sid       = "KeyUsage"
+
+          [32m+[0m[0m principals {
+              [32m+[0m[0m identifiers = [
+                  [32m+[0m[0m (known after apply),
+                ]
+              [32m+[0m[0m type        = "AWS"
+            }
+        }
+    }
+
+[1m  # module.eks.module.kms.aws_kms_alias.this["cluster"][0m will be created
+[0m  [32m+[0m[0m resource "aws_kms_alias" "this" {
+      [32m+[0m[0m arn            = (known after apply)
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m name           = "alias/eks/rg-vaultly"
+      [32m+[0m[0m name_prefix    = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m target_key_arn = (known after apply)
+      [32m+[0m[0m target_key_id  = (known after apply)
+    }
+
+[1m  # module.eks.module.kms.aws_kms_key.this[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_kms_key" "this" {
+      [32m+[0m[0m arn                                = (known after apply)
+      [32m+[0m[0m bypass_policy_lockout_safety_check = false
+      [32m+[0m[0m customer_master_key_spec           = "SYMMETRIC_DEFAULT"
+      [32m+[0m[0m description                        = "rg-vaultly cluster encryption key"
+      [32m+[0m[0m enable_key_rotation                = true
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m is_enabled                         = true
+      [32m+[0m[0m key_id                             = (known after apply)
+      [32m+[0m[0m key_usage                          = "ENCRYPT_DECRYPT"
+      [32m+[0m[0m multi_region                       = false
+      [32m+[0m[0m policy                             = (known after apply)
+      [32m+[0m[0m region                             = "eu-central-1"
+      [32m+[0m[0m rotation_period_in_days            = (known after apply)
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "eks"
+        }
+    }
+
+[1m  # module.eks.module.eks_managed_node_group["main"].module.user_data.null_resource.validate_cluster_service_cidr[0m will be created
+[0m  [32m+[0m[0m resource "null_resource" "validate_cluster_service_cidr" {
+      [32m+[0m[0m id = (known after apply)
+    }
+
+[1mPlan:[0m 44 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m cluster_endpoint          = (known after apply)
+  [32m+[0m[0m cluster_name              = "rg-vaultly"
+  [32m+[0m[0m cluster_security_group_id = (known after apply)
+  [32m+[0m[0m lbc_role_arn              = (known after apply)
+  [32m+[0m[0m node_security_group_id    = (known after apply)
+[0m[1mterraform_data.guard: Creating...[0m[0m
+[0m[1mterraform_data.guard: Creation complete after 0s [id=4620318a-da18-c545-92a2-3be11f768e6a][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group.cluster[0]: Creating...[0m[0m
+[0m[1mmodule.lbc_role.aws_iam_role.this: Creating...[0m[0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role.this: Creating...[0m[0m
+[0m[1mmodule.eks.aws_iam_role.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group.node[0]: Creating...[0m[0m
+[0m[1maws_iam_policy.lbc: Creating...[0m[0m
+[0m[1mmodule.eks.aws_cloudwatch_log_group.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_cloudwatch_log_group.this[0]: Creation complete after 0s [id=/aws/eks/rg-vaultly/cluster][0m
+[0m[1maws_iam_policy.lbc: Creation complete after 1s [id=arn:aws:iam::<account-id>:policy/rg-vaultly-lbc][0m
+[0m[1mmodule.eks.aws_iam_role.this[0]: Creation complete after 1s [id=rg-vaultly-cluster-a27a4e7e3e129e1741d6d3bf5d][0m
+[0m[1mmodule.lbc_role.aws_iam_role.this: Creation complete after 1s [id=rg-vaultly-lbc][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"]: Creating...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_iam_policy_document.this[0]: Reading...[0m[0m
+[0m[1maws_iam_role_policy_attachment.lbc: Creating...[0m[0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role.this: Creation complete after 1s [id=rg-vaultly-ebs-csi][0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role_policy_attachment.managed["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]: Creating...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_iam_policy_document.this[0]: Read complete after 0s [id=2277424332][0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role.this[0]: Creation complete after 1s [id=main-eks-node-group-aba27281fc3e01f505207ee5ce][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Creating...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Creating...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"]: Creation complete after 0s [id=rg-vaultly-cluster-a27a4e7e3e129e1741d6d3bf5d/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy][0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role_policy_attachment.managed["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]: Creation complete after 0s [id=rg-vaultly-ebs-csi/arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy][0m
+[0m[1maws_iam_role_policy_attachment.lbc: Creation complete after 0s [id=rg-vaultly-lbc/arn:aws:iam::<account-id>:policy/rg-vaultly-lbc][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Creation complete after 0s [id=main-eks-node-group-aba27281fc3e01f505207ee5ce/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Creation complete after 1s [id=main-eks-node-group-aba27281fc3e01f505207ee5ce/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Creation complete after 1s [id=main-eks-node-group-aba27281fc3e01f505207ee5ce/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly][0m
+[0m[1mmodule.eks.aws_security_group.node[0]: Creation complete after 2s [id=sg-044e3d2e547a11df4][0m
+[0m[1mmodule.eks.aws_security_group.cluster[0]: Creation complete after 2s [id=sg-01935147d78426c7f][0m
+[0m[1mmodule.eks.aws_security_group_rule.cluster["ingress_nodes_443"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["egress_all"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_kubelet"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["egress_all"]: Creation complete after 1s [id=sgrule-1332443581][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.cluster["ingress_nodes_443"]: Creation complete after 1s [id=sgrule-1898975071][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"]: Creation complete after 1s [id=sgrule-2221254573][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_443"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"]: Creation complete after 2s [id=sgrule-1585183770][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]: Creation complete after 3s [id=sgrule-2899711405][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_kubelet"]: Creation complete after 3s [id=sgrule-320773081][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"]: Creation complete after 4s [id=sgrule-2537134988][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"]: Creation complete after 5s [id=sgrule-3770979430][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"]: Creation complete after 6s [id=sgrule-660065186][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"]: Creation complete after 5s [id=sgrule-288278989][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]: Creation complete after 6s [id=sgrule-143242818][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_443"]: Creation complete after 7s [id=sgrule-408628462][0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Creation complete after 20s [id=<kms-key-id>][0m
+[0m[1mmodule.eks.module.kms.aws_kms_alias.this["cluster"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_iam_policy.cluster_encryption[0]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.module.kms.aws_kms_alias.this["cluster"]: Creation complete after 0s [id=alias/eks/rg-vaultly][0m
+[0m[1mmodule.eks.aws_iam_policy.cluster_encryption[0]: Creation complete after 0s [id=arn:aws:iam::<account-id>:policy/rg-vaultly-cluster-ClusterEncryption6380560733606b83821a1787e4][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_encryption[0]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_encryption[0]: Creation complete after 1s [id=rg-vaultly-cluster-a27a4e7e3e129e1741d6d3bf5d/arn:aws:iam::<account-id>:policy/rg-vaultly-cluster-ClusterEncryption6380560733606b83821a1787e4][0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [1m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [1m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [1m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [1m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [1m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [1m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [2m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [2m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [2m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [2m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [2m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [2m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [3m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [3m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [3m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [3m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [3m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [3m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [4m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [4m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [4m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [4m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [4m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [4m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [5m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [5m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [5m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [5m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [5m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [5m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [6m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [6m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [6m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [6m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [6m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [6m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [7m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [7m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [7m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [7m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [7m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [7m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [8m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [8m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [8m20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [8m30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [8m40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [8m50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still creating... [9m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Creation complete after 9m5s [id=rg-vaultly][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["kube-proxy"]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["coredns"]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["aws-ebs-csi-driver"]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["vpc-cni"]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["eks-pod-identity-agent"]: Reading...[0m[0m
+[0m[1mmodule.eks.aws_eks_access_entry.this["cluster_creator"]: Creating...[0m[0m
+[0m[1mmodule.eks.time_sleep.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["coredns"]: Read complete after 0s [id=coredns][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["eks-pod-identity-agent"]: Read complete after 0s [id=eks-pod-identity-agent][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["kube-proxy"]: Read complete after 0s [id=kube-proxy][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["aws-ebs-csi-driver"]: Read complete after 0s [id=aws-ebs-csi-driver][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["vpc-cni"]: Read complete after 0s [id=vpc-cni][0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["vpc-cni"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_eks_access_entry.this["cluster_creator"]: Creation complete after 1s [id=rg-vaultly:arn:aws:iam::<account-id>:user/rolandog][0m
+[0m[1mmodule.eks.aws_eks_access_policy_association.this["cluster_creator_admin"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_eks_access_policy_association.this["cluster_creator_admin"]: Creation complete after 0s [id=rg-vaultly#arn:aws:iam::<account-id>:user/rolandog#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy][0m
+[0m[1maws_eks_pod_identity_association.lbc: Creating...[0m[0m
+[0m[1maws_eks_pod_identity_association.lbc: Creation complete after 1s [id=a-p6oo861dmcjqtctr1][0m
+[0m[1mmodule.eks.time_sleep.this[0]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["vpc-cni"]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["vpc-cni"]: Creation complete after 14s [id=rg-vaultly:vpc-cni][0m
+[0m[1mmodule.eks.time_sleep.this[0]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"]: Creation complete after 25s [id=rg-vaultly:eks-pod-identity-agent][0m
+[0m[1mmodule.eks.time_sleep.this[0]: Still creating... [30s elapsed][0m[0m
+[0m[1mmodule.eks.time_sleep.this[0]: Creation complete after 30s [id=2026-11-12T16:32:18Z][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].module.user_data.null_resource.validate_cluster_service_cidr: Creating...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].module.user_data.null_resource.validate_cluster_service_cidr: Creation complete after 0s [id=2165297329668787307][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_launch_template.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_launch_template.this[0]: Creation complete after 6s [id=lt-09170757bdfc01593][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Creating...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [1m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [1m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [1m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [1m30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still creating... [1m40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Creation complete after 1m48s [id=rg-vaultly:main-ee713c3823635b87793dab49e3][0m
+[0m[1mmodule.eks.aws_eks_addon.this["coredns"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["kube-proxy"]: Creating...[0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["coredns"]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["kube-proxy"]: Still creating... [10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["coredns"]: Creation complete after 14s [id=rg-vaultly:coredns][0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["kube-proxy"]: Still creating... [20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["kube-proxy"]: Creation complete after 25s [id=rg-vaultly:kube-proxy][0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Still creating... [30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Still creating... [40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Creation complete after 46s [id=rg-vaultly:aws-ebs-csi-driver][0m
+[0m[1m[32m
+Apply complete! Resources: 44 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mcluster_endpoint = "https://AA14AC8C3A855414479849360AB8AD65.gr7.eu-central-1.eks.amazonaws.com"
+cluster_name = "rg-vaultly"
+cluster_security_group_id = "sg-01935147d78426c7f"
+lbc_role_arn = "arn:aws:iam::<account-id>:role/rg-vaultly-lbc"
+node_security_group_id = "sg-044e3d2e547a11df4"
+[0m[1mdata.aws_route53_zone.ih: Reading...[0m[0m
+[0m[1mmodule.openbao_role.data.aws_iam_policy_document.trust: Reading...[0m[0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mdata.aws_eks_cluster.this: Reading...[0m[0m
+[0m[1mmodule.openbao_role.data.aws_iam_policy_document.trust: Read complete after 0s [id=2336922653][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.aws_eks_cluster.this: Read complete after 0s [id=rg-vaultly][0m
+[0m[1mdata.aws_route53_zone.ih: Read complete after 1s [id=Z09432351OIPQH5LSYUBO][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+ [36m<=[0m read (data resources)[0m
+
+OpenTofu will perform the following actions:
+
+[1m  # data.aws_iam_policy_document.seal_key[0m will be read during apply
+  # (config refers to values not yet known)
+[0m [36m<=[0m[0m data "aws_iam_policy_document" "seal_key" {
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m json          = (known after apply)
+      [32m+[0m[0m minified_json = (known after apply)
+
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:CancelKeyDeletion",
+              [32m+[0m[0m "kms:CreateAlias",
+              [32m+[0m[0m "kms:DeleteAlias",
+              [32m+[0m[0m "kms:DescribeKey",
+              [32m+[0m[0m "kms:DisableKey",
+              [32m+[0m[0m "kms:DisableKeyRotation",
+              [32m+[0m[0m "kms:EnableKey",
+              [32m+[0m[0m "kms:EnableKeyRotation",
+              [32m+[0m[0m "kms:GetKeyPolicy",
+              [32m+[0m[0m "kms:GetKeyRotationStatus",
+              [32m+[0m[0m "kms:ListKeyPolicies",
+              [32m+[0m[0m "kms:ListResourceTags",
+              [32m+[0m[0m "kms:PutKeyPolicy",
+              [32m+[0m[0m "kms:ScheduleKeyDeletion",
+              [32m+[0m[0m "kms:TagResource",
+              [32m+[0m[0m "kms:UntagResource",
+              [32m+[0m[0m "kms:UpdateAlias",
+              [32m+[0m[0m "kms:UpdateKeyDescription",
+            ]
+          [32m+[0m[0m effect    = "Allow"
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m sid       = "KeyAdminNoCrypto"
+
+          [32m+[0m[0m principals {
+              [32m+[0m[0m identifiers = [
+                  [32m+[0m[0m "arn:aws:iam::<account-id>:root",
+                ]
+              [32m+[0m[0m type        = "AWS"
+            }
+        }
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:Decrypt",
+              [32m+[0m[0m "kms:DescribeKey",
+              [32m+[0m[0m "kms:Encrypt",
+            ]
+          [32m+[0m[0m effect    = "Allow"
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m sid       = "OpenBaoSealOnly"
+
+          [32m+[0m[0m principals {
+              [32m+[0m[0m identifiers = [
+                  [32m+[0m[0m (known after apply),
+                ]
+              [32m+[0m[0m type        = "AWS"
+            }
+        }
+    }
+
+[1m  # data.aws_iam_policy_document.seal_use[0m will be read during apply
+  # (config refers to values not yet known)
+[0m [36m<=[0m[0m data "aws_iam_policy_document" "seal_use" {
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m json          = (known after apply)
+      [32m+[0m[0m minified_json = (known after apply)
+
+      [32m+[0m[0m statement {
+          [32m+[0m[0m actions   = [
+              [32m+[0m[0m "kms:Decrypt",
+              [32m+[0m[0m "kms:DescribeKey",
+              [32m+[0m[0m "kms:Encrypt",
+            ]
+          [32m+[0m[0m resources = [
+              [32m+[0m[0m (known after apply),
+            ]
+          [32m+[0m[0m sid       = "SealCrypto"
+        }
+    }
+
+[1m  # aws_acm_certificate.app[0m will be created
+[0m  [32m+[0m[0m resource "aws_acm_certificate" "app" {
+      [32m+[0m[0m arn                       = (known after apply)
+      [32m+[0m[0m domain_name               = "rg-vaultly.ih.rolan.dog"
+      [32m+[0m[0m domain_validation_options = [
+          [32m+[0m[0m {
+              [32m+[0m[0m domain_name           = "rg-vaultly.ih.rolan.dog"
+              [32m+[0m[0m resource_record_name  = (known after apply)
+              [32m+[0m[0m resource_record_type  = (known after apply)
+              [32m+[0m[0m resource_record_value = (known after apply)
+            },
+        ]
+      [32m+[0m[0m id                        = (known after apply)
+      [32m+[0m[0m key_algorithm             = (known after apply)
+      [32m+[0m[0m not_after                 = (known after apply)
+      [32m+[0m[0m not_before                = (known after apply)
+      [32m+[0m[0m pending_renewal           = (known after apply)
+      [32m+[0m[0m private_key_wo            = (write-only attribute)
+      [32m+[0m[0m region                    = "eu-central-1"
+      [32m+[0m[0m renewal_eligibility       = (known after apply)
+      [32m+[0m[0m renewal_summary           = (known after apply)
+      [32m+[0m[0m status                    = (known after apply)
+      [32m+[0m[0m subject_alternative_names = [
+          [32m+[0m[0m "rg-vaultly.ih.rolan.dog",
+        ]
+      [32m+[0m[0m tags                      = {
+          [32m+[0m[0m "Name" = "rg-vaultly-app"
+        }
+      [32m+[0m[0m tags_all                  = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Name"      = "rg-vaultly-app"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "platform"
+        }
+      [32m+[0m[0m type                      = (known after apply)
+      [32m+[0m[0m validation_emails         = (known after apply)
+      [32m+[0m[0m validation_method         = "DNS"
+
+      [32m+[0m[0m options (known after apply)
+    }
+
+[1m  # aws_acm_certificate_validation.app[0m will be created
+[0m  [32m+[0m[0m resource "aws_acm_certificate_validation" "app" {
+      [32m+[0m[0m certificate_arn         = (known after apply)
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m region                  = "eu-central-1"
+      [32m+[0m[0m validation_record_fqdns = (known after apply)
+
+      [32m+[0m[0m timeouts {
+          [32m+[0m[0m create = "10m"
+        }
+    }
+
+[1m  # aws_eks_pod_identity_association.openbao[0m will be created
+[0m  [32m+[0m[0m resource "aws_eks_pod_identity_association" "openbao" {
+      [32m+[0m[0m association_arn      = (known after apply)
+      [32m+[0m[0m association_id       = (known after apply)
+      [32m+[0m[0m cluster_name         = "rg-vaultly"
+      [32m+[0m[0m disable_session_tags = false
+      [32m+[0m[0m external_id          = (known after apply)
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m namespace            = "openbao"
+      [32m+[0m[0m region               = "eu-central-1"
+      [32m+[0m[0m role_arn             = (known after apply)
+      [32m+[0m[0m service_account      = "openbao"
+      [32m+[0m[0m tags_all             = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "platform"
+        }
+    }
+
+[1m  # aws_iam_role_policy.seal_use[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "seal_use" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "seal-use"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = (known after apply)
+      [32m+[0m[0m role        = "rg-vaultly-openbao-seal"
+    }
+
+[1m  # aws_kms_alias.seal[0m will be created
+[0m  [32m+[0m[0m resource "aws_kms_alias" "seal" {
+      [32m+[0m[0m arn            = (known after apply)
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m name           = "alias/rg-vaultly-openbao-seal"
+      [32m+[0m[0m name_prefix    = (known after apply)
+      [32m+[0m[0m region         = "eu-central-1"
+      [32m+[0m[0m target_key_arn = (known after apply)
+      [32m+[0m[0m target_key_id  = (known after apply)
+    }
+
+[1m  # aws_kms_key.seal[0m will be created
+[0m  [32m+[0m[0m resource "aws_kms_key" "seal" {
+      [32m+[0m[0m arn                                = (known after apply)
+      [32m+[0m[0m bypass_policy_lockout_safety_check = false
+      [32m+[0m[0m customer_master_key_spec           = "SYMMETRIC_DEFAULT"
+      [32m+[0m[0m deletion_window_in_days            = 7
+      [32m+[0m[0m description                        = "rg-vaultly OpenBao auto-unseal key"
+      [32m+[0m[0m enable_key_rotation                = true
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m is_enabled                         = true
+      [32m+[0m[0m key_id                             = (known after apply)
+      [32m+[0m[0m key_usage                          = "ENCRYPT_DECRYPT"
+      [32m+[0m[0m multi_region                       = (known after apply)
+      [32m+[0m[0m policy                             = (known after apply)
+      [32m+[0m[0m region                             = "eu-central-1"
+      [32m+[0m[0m rotation_period_in_days            = (known after apply)
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "platform"
+        }
+    }
+
+[1m  # aws_route53_record.app_validation["rg-vaultly.ih.rolan.dog"][0m will be created
+[0m  [32m+[0m[0m resource "aws_route53_record" "app_validation" {
+      [32m+[0m[0m allow_overwrite = true
+      [32m+[0m[0m fqdn            = (known after apply)
+      [32m+[0m[0m id              = (known after apply)
+      [32m+[0m[0m name            = (known after apply)
+      [32m+[0m[0m records         = (known after apply)
+      [32m+[0m[0m ttl             = 60
+      [32m+[0m[0m type            = (known after apply)
+      [32m+[0m[0m zone_id         = "Z09432351OIPQH5LSYUBO"
+    }
+
+[1m  # module.openbao_role.aws_iam_role.this[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "this" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = [
+                          [32m+[0m[0m "sts:TagSession",
+                          [32m+[0m[0m "sts:AssumeRole",
+                        ]
+                      [32m+[0m[0m Condition = {
+                          [32m+[0m[0m StringEquals = {
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-namespace"       = "openbao"
+                              [32m+[0m[0m "aws:RequestTag/kubernetes-service-account" = "openbao"
+                            }
+                        }
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "pods.eks.amazonaws.com"
+                        }
+                      [32m+[0m[0m Sid       = "EksPodIdentity"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "rg-vaultly-openbao-seal"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "ManagedBy" = "opentofu"
+          [32m+[0m[0m "Namespace" = "rg"
+          [32m+[0m[0m "Project"   = "rg-vaultly"
+          [32m+[0m[0m "Root"      = "platform"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1mPlan:[0m 8 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m app_certificate_arn = (known after apply)
+  [32m+[0m[0m app_fqdn            = "rg-vaultly.ih.rolan.dog"
+  [32m+[0m[0m kms_alias           = "alias/rg-vaultly-openbao-seal"
+  [32m+[0m[0m kms_key_arn         = (known after apply)
+  [32m+[0m[0m kms_key_id          = (known after apply)
+  [32m+[0m[0m openbao_role_arn    = (known after apply)
+[0m[1maws_acm_certificate.app: Creating...[0m[0m
+[0m[1mmodule.openbao_role.aws_iam_role.this: Creating...[0m[0m
+[0m[1mmodule.openbao_role.aws_iam_role.this: Creation complete after 1s [id=rg-vaultly-openbao-seal][0m
+[0m[1mdata.aws_iam_policy_document.seal_key: Reading...[0m[0m
+[0m[1mdata.aws_iam_policy_document.seal_key: Read complete after 0s [id=3593996702][0m
+[0m[1maws_kms_key.seal: Creating...[0m[0m
+[0m[1maws_eks_pod_identity_association.openbao: Creating...[0m[0m
+[0m[1maws_eks_pod_identity_association.openbao: Creation complete after 1s [id=a-yq6b9j1zwnn3n6rmw][0m
+[0m[1maws_acm_certificate.app: Creation complete after 9s [id=arn:aws:acm:eu-central-1:<account-id>:certificate/6dd4a67d-1896-4b4b-9e89-67bfdb6ad48b][0m
+[0m[1maws_route53_record.app_validation["rg-vaultly.ih.rolan.dog"]: Creating...[0m[0m
+[0m[1maws_kms_key.seal: Still creating... [10s elapsed][0m[0m
+[0m[1maws_route53_record.app_validation["rg-vaultly.ih.rolan.dog"]: Still creating... [10s elapsed][0m[0m
+[0m[1maws_kms_key.seal: Still creating... [20s elapsed][0m[0m
+[0m[1maws_kms_key.seal: Creation complete after 21s [id=<kms-key-id>][0m
+[0m[1mdata.aws_iam_policy_document.seal_use: Reading...[0m[0m
+[0m[1mdata.aws_iam_policy_document.seal_use: Read complete after 0s [id=2473069220][0m
+[0m[1maws_kms_alias.seal: Creating...[0m[0m
+[0m[1maws_iam_role_policy.seal_use: Creating...[0m[0m
+[0m[1maws_kms_alias.seal: Creation complete after 0s [id=alias/rg-vaultly-openbao-seal][0m
+[0m[1maws_iam_role_policy.seal_use: Creation complete after 1s [id=rg-vaultly-openbao-seal:seal-use][0m
+[0m[1maws_route53_record.app_validation["rg-vaultly.ih.rolan.dog"]: Still creating... [20s elapsed][0m[0m
+[0m[1maws_route53_record.app_validation["rg-vaultly.ih.rolan.dog"]: Still creating... [30s elapsed][0m[0m
+[0m[1maws_route53_record.app_validation["rg-vaultly.ih.rolan.dog"]: Still creating... [40s elapsed][0m[0m
+[0m[1maws_route53_record.app_validation["rg-vaultly.ih.rolan.dog"]: Creation complete after 47s [id=Z09432351OIPQH5LSYUBO__9f61003068329cce60b34cb9de2ad60a.rg-vaultly.ih.rolan.dog._CNAME][0m
+[0m[1maws_acm_certificate_validation.app: Creating...[0m[0m
+[0m[1maws_acm_certificate_validation.app: Creation complete after 0s [id=2026-11-12 16:35:40.004 +0000 UTC][0m
+[0m[1m[32m
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mapp_certificate_arn = "arn:aws:acm:eu-central-1:<account-id>:certificate/6dd4a67d-1896-4b4b-9e89-67bfdb6ad48b"
+app_fqdn = "rg-vaultly.ih.rolan.dog"
+kms_alias = "alias/rg-vaultly-openbao-seal"
+kms_key_arn = "arn:aws:kms:eu-central-1:<account-id>:key/<kms-key-id>"
+kms_key_id = "<kms-key-id>"
+openbao_role_arn = "arn:aws:iam::<account-id>:role/rg-vaultly-openbao-seal"
+NAME                                            STATUS   ROLES    AGE     VERSION
+ip-10-42-17-19.eu-central-1.compute.internal    Ready    <none>   2m44s   v1.36.5-eks-8418f54
+ip-10-42-35-54.eu-central-1.compute.internal    Ready    <none>   2m41s   v1.36.5-eks-8418f54
+ip-10-42-60-156.eu-central-1.compute.internal   Ready    <none>   2m44s   v1.36.5-eks-8418f54
+lbc-install.sh: pod identity association a-p6oo861dmcjqtctr1, vpc vpc-06399e8abe68b6ded, region eu-central-1
+a557172e8348f758479e9ee4000bbbb4b4aa48302a6b73461823ea5349bad56d  gwapi.yaml
+3a4264e2a7cf132944fd095b04ce86299385f26ea31b1e89d0ac21761e1865a0  lbc-crds.yaml
+customresourcedefinition.apiextensions.k8s.io/backendtlspolicies.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/gatewayclasses.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/gateways.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/grpcroutes.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/httproutes.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/listenersets.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/referencegrants.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/tcproutes.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/tlsroutes.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/udproutes.gateway.networking.k8s.io serverside-applied
+validatingadmissionpolicy.admissionregistration.k8s.io/safe-upgrades.gateway.networking.k8s.io serverside-applied
+validatingadmissionpolicybinding.admissionregistration.k8s.io/safe-upgrades.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/listenerruleconfigurations.gateway.k8s.aws serverside-applied
+customresourcedefinition.apiextensions.k8s.io/loadbalancerconfigurations.gateway.k8s.aws serverside-applied
+customresourcedefinition.apiextensions.k8s.io/targetgroupconfigurations.gateway.k8s.aws serverside-applied
+customresourcedefinition.apiextensions.k8s.io/applicationnetworkpolicies.networking.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/backendtlspolicies.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/clusternetworkpolicies.networking.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/clusterpolicyendpoints.networking.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/cninodes.vpcresources.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/eniconfigs.crd.k8s.amazonaws.com condition met
+customresourcedefinition.apiextensions.k8s.io/gatewayclasses.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/gateways.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/grpcroutes.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/httproutes.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/listenerruleconfigurations.gateway.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/listenersets.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/loadbalancerconfigurations.gateway.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/policyendpoints.networking.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/referencegrants.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/securitygrouppolicies.vpcresources.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/targetgroupconfigurations.gateway.k8s.aws condition met
+customresourcedefinition.apiextensions.k8s.io/tcproutes.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/tlsroutes.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/udproutes.gateway.networking.k8s.io condition met
+Release "aws-load-balancer-controller" does not exist. Installing it now.
+NAME: aws-load-balancer-controller
+LAST DEPLOYED: Thu Nov 12 17:36:29 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+AWS Load Balancer controller installed!
+deployment "aws-load-balancer-controller" successfully rolled out
+aws-load-balancer-controller-588d655d76-nschq  public.ecr.aws/eks/aws-load-balancer-controller@sha256:fd51f0ec82f8d357837aa57fdfaa4fca7137b75f25a09b421d95c425c9dc2d94
+aws-load-balancer-controller-588d655d76-xdmzw  public.ecr.aws/eks/aws-load-balancer-controller@sha256:fd51f0ec82f8d357837aa57fdfaa4fca7137b75f25a09b421d95c425c9dc2d94
+backendtlspolicies.gateway.networking.k8s.io
+gatewayclasses.gateway.networking.k8s.io
+gateways.gateway.networking.k8s.io
+grpcroutes.gateway.networking.k8s.io
+httproutes.gateway.networking.k8s.io
+listenersets.gateway.networking.k8s.io
+referencegrants.gateway.networking.k8s.io
+tcproutes.gateway.networking.k8s.io
+tlsroutes.gateway.networking.k8s.io
+udproutes.gateway.networking.k8s.io
+aws crds: 13
+lbc-install.sh: ok: controller v3.6.2 ready on rg-vaultly
+rebuild.sh: rebuild done
