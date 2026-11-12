@@ -29,6 +29,8 @@ PendingDeletion; the state bucket is kept). Run the steps in this order:
 | 5 | `scripts/openbao-configure.sh` | 47 s |
 | 6 | `scripts/vaultly-bootstrap.sh` (namespace, CA ConfigMap, API bearer Secret) | 9 s |
 | 7 | `kubectl apply -f k8s/vaultly/` then `kubectl rollout status -f k8s/vaultly/deployment.yaml --timeout=180s` | 13 s |
+| 8 | `scripts/gateway-apply.sh` (Gateway, routes, ALB; waits for ALB, targets and HTTPS; needs steps 1-7) | not timed |
+| 9 | `scripts/tf.sh app-dns apply` (Route 53 alias to the ALB) | not timed |
 
 About 18 minutes of command time from nothing to a running app (second run: 18 min 02 s). The cluster bills hourly until teardown.
 Teardown deletes the SSM parameters, so every rebuild runs step 4 again.
@@ -42,17 +44,37 @@ curl -sS localhost:8080/readyz     # {"status":"ok","vault_authenticated":true}
 kill %1
 ```
 
+## Gateway
+
+Needs the Rebuild steps 1-7 (the script stops with `deployment vaultly missing` otherwise) and the ISSUED ACM
+certificate from the `platform` root. The ALB security group admits only `admin_cidr`
+(evidence: `docs/evidence/4f-06a-alb-sg.txt`).
+
+```bash
+scripts/gateway-apply.sh
+scripts/tf.sh app-dns plan
+scripts/tf.sh app-dns apply
+curl -sS -o /dev/null -w '%{http_code}\n' https://rg-vaultly.ih.rolan.dog/healthz   # 200
+curl -sS -o /dev/null -w '%{http_code} %{redirect_url}\n' http://rg-vaultly.ih.rolan.dog/   # 301 https://...
+```
+
+Teardown reverses this order automatically (`scripts/teardown.sh`, `k8s` phase).
+
 ## Teardown
 
 The order matters: Kubernetes data first, then AWS, then the infrastructure.
 
-1. `scripts/teardown.sh k8s`: delete namespace `vaultly`, uninstall OpenBao, delete the
+1. `scripts/teardown.sh k8s`: destroy the `app-dns` alias, delete the Gateway and routes (`scripts/gateway-teardown.sh` waits until the ALB
+   is gone), delete namespace `vaultly`, uninstall OpenBao, delete the
    PVCs, and wait until the EBS volumes behind them are gone (the `rg-gp3` StorageClass
    reclaims volumes on PVC deletion; do this while the cluster still runs).
 2. `scripts/teardown.sh ssm`: delete `/rg-vaultly/openbao/*`. This destroys the recovery
    keys and the root token, so the next rebuild must run `init` again.
 3. `scripts/teardown.sh tofu`: destroy the roots `platform`, `eks`, `network`, in that order.
 4. `scripts/teardown.sh verify`: every check line must say `ok` (the tagged-resource list after it is informational: the tagging API keeps deleted resources for hours). Measured 2026-11-11: k8s 1 min, ssm 8 s, tofu 14 min, verify 30 s.
+
+`verify` also checks the ALB, the controller security groups (`elbv2.k8s.aws/cluster`), the Route 53 alias and ACM
+validation records, the ACM certificate and the IAM policies.
 
 The KMS key enters its deletion waiting period, which costs nothing.
 For unattended runs: `scripts/teardown.sh --force all` skips the prompts and passes
