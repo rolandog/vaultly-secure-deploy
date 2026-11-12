@@ -3,20 +3,23 @@
 set -euo pipefail; set -C
 
 PROG=${0##*/}
-VERSION=0.2.0
+VERSION=0.3.0
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 # shellcheck source=scripts/lib.sh
 . "$ROOT/scripts/lib.sh"
 
 CLUSTER=${CLUSTER_NAME:-rg-vaultly}
 SSM_PREFIX=${SSM_PREFIX:-/rg-vaultly/openbao/}
+ZONE_NAME=${ZONE_NAME:-ih.rolan.dog}
+APP_FQDN=${APP_FQDN:-rg-vaultly.$ZONE_NAME}
+ALB_NAME=${ALB_NAME:-rg-vaultly-alb}
 FORCE=0
 
 usage() {
   cat <<EOF2
 Usage: $PROG [-f|--force] [--help|--version] [all|k8s|ssm|tofu|verify]
 
-k8s     delete namespace vaultly, uninstall OpenBao, delete its PVCs, wait for the EBS volumes
+k8s     destroy the app-dns alias, delete the Gateway (waits for the ALB), delete namespace vaultly, uninstall OpenBao, delete its PVCs, wait for the EBS volumes
 ssm     delete SSM parameters under $SSM_PREFIX (recovery keys and root token: rebuild needs init)
 tofu    destroy the roots platform, eks, network in that order (each asks for confirmation)
 verify  scoped leftover checks (tag Namespace=rg, name prefix); exits 1 if anything is left
@@ -24,7 +27,7 @@ all     k8s, ssm, tofu, verify (default)
 Destructive phases ask you to type the cluster name ($CLUSTER).
 -f, --force  skip that prompt and pass -auto-approve to tofu destroy (no plan review);
              needs an explicit phase, so 'teardown.sh -f' alone is refused.
-Env: CLUSTER_NAME, SSM_PREFIX.
+Env: CLUSTER_NAME, SSM_PREFIX, ZONE_NAME, APP_FQDN, ALB_NAME.
 Output masks every 12-digit number (account ids).
 EOF2
 }
@@ -55,6 +58,21 @@ volumes_gone() {
   done
 }
 
+# the alias must go while the ALB still exists: infra/app-dns looks the ALB up by name
+app_dns_destroy() {
+  local st
+  local -a extra=()
+  if [ "$FORCE" -eq 1 ]; then extra=(-auto-approve); fi
+  "$ROOT/scripts/tf.sh" app-dns init -input=false >/dev/null
+  st=$("$ROOT/scripts/tf.sh" app-dns state list) || die "cannot read the app-dns state"
+  if [ -z "$st" ]; then
+    log "app-dns: nothing in state"
+    return 0
+  fi
+  log "destroy app-dns"
+  "$ROOT/scripts/tf.sh" app-dns destroy "${extra[@]}"
+}
+
 k8s_phase() {
   if ! aws eks describe-cluster --name "$CLUSTER" >/dev/null 2>&1; then
     log "cluster $CLUSTER not found, skipping k8s phase"
@@ -68,6 +86,7 @@ k8s_phase() {
   vols=$(kubectl get pv -o jsonpath='{range .items[?(@.spec.claimRef.namespace=="openbao")]}{.spec.csi.volumeHandle}{"\n"}{end}')
   log "volumes to wait for: ${vols:-none}"
 
+  app_dns_destroy
   "$ROOT/scripts/gateway-teardown.sh"
   kubectl delete namespace vaultly --ignore-not-found --timeout=120s
   if helm status openbao -n openbao >/dev/null 2>&1; then
@@ -162,6 +181,24 @@ verify_phase() {
   check "ssm parameters" aws ssm describe-parameters \
     --parameter-filters 'Key=Name,Option=BeginsWith,Values=/rg-vaultly/' \
     --query 'Parameters[].Name' --output text
+
+  check "alb $ALB_NAME" aws elbv2 describe-load-balancers \
+    --query "LoadBalancers[?LoadBalancerName=='$ALB_NAME'].LoadBalancerArn" --output text
+  check "security groups (elbv2.k8s.aws/cluster)" aws ec2 describe-security-groups \
+    --filters "Name=tag:elbv2.k8s.aws/cluster,Values=$CLUSTER" \
+    --query 'SecurityGroups[].GroupId' --output text
+  local zone
+  zone=$(aws route53 list-hosted-zones-by-name --dns-name "$ZONE_NAME" \
+    --query "HostedZones[?Name=='$ZONE_NAME.'].Id | [0]" --output text) || die "query failed: route53 zone"
+  zone=${zone##*/}
+  { [ -n "$zone" ] && [ "$zone" != None ]; } || die "zone $ZONE_NAME not found (zone is owned by rg-dns, never deleted here)"
+  check "route53 alias and acm validation records for $APP_FQDN" aws route53 list-resource-record-sets \
+    --hosted-zone-id "$zone" \
+    --query "ResourceRecordSets[?Name=='$APP_FQDN.' || (Type=='CNAME' && ends_with(Name,'.$APP_FQDN.'))].Name" --output text
+  check "acm certificate $APP_FQDN" aws acm list-certificates \
+    --query "CertificateSummaryList[?DomainName=='$APP_FQDN'].CertificateArn" --output text
+  check "iam policies" aws iam list-policies --scope Local \
+    --query "Policies[?starts_with(PolicyName,'$CLUSTER')].PolicyName" --output text
 
   # the tagging API also returns deleted resources for hours, so this is informational only
   local sweep arn
