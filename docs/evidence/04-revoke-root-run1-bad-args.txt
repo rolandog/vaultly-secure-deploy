@@ -1,0 +1,6 @@
+2026-11-12T11:57:18+01:00
+Not enough arguments (expected 1 or -self, got 0)
+command terminated with exit code 1
+/rg-vaultly/openbao/root-token-temp
+/rg-vaultly/openbao/operator-token	/rg-vaultly/openbao/recovery-keys	/rg-vaultly/openbao/root-token-temp
+2026-11-12T11:57:32+01:00

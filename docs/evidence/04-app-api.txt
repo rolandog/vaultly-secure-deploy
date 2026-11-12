@@ -1,0 +1,19 @@
+2026-11-12T12:27:32+01:00
+no bearer (expect 401):
+401
+allowed prefix, missing (expect 404):
+404
+write app-config (expect 204):
+204
+read back (expect 200):
+200
+read outside (403 or 500):
+500
+write outside (403 or 500):
+500
+delete app-config (expect 204):
+204
+### app log for the denied calls
+[pod/vaultly-6f5895d9f9-s4d9m/vaultly] hvac.exceptions.Forbidden: 1 error occurred:
+[pod/vaultly-6f5895d9f9-s4d9m/vaultly] 	* permission denied
+2026-11-12T12:27:37+01:00

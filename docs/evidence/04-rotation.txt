@@ -1,0 +1,47 @@
+2026-11-12T12:24:04+01:00
+### before
+vaultly-6f5895d9f9-rf78t   2097935c-a228-4534-8979-0967119b0b68   0
+vaultly-6f5895d9f9-s4d9m   e6542433-f107-42de-b4d6-7eb2b42089b1   0
+vaultly-6f5895d9f9-rf78t: {"username":"app_user_r2","version":1,"rotated_at":"2026-11-12T11:18:40.859862+00:00"}
+vaultly-6f5895d9f9-s4d9m: {"username":"app_user_r2","version":1,"rotated_at":"2026-11-12T11:18:36.332957+00:00"}
+### rotate
+openbao-rotate.sh: wrote secret/vaultly/database version 3, username app_user_r3
+### wait per pod (poll interval 30 s)
+vaultly-6f5895d9f9-rf78t: app_user_r3 after 21 s
+vaultly-6f5895d9f9-s4d9m: app_user_r3 after 2 s
+### after
+vaultly-6f5895d9f9-rf78t   2097935c-a228-4534-8979-0967119b0b68   0
+vaultly-6f5895d9f9-s4d9m   e6542433-f107-42de-b4d6-7eb2b42089b1   0
+vaultly-6f5895d9f9-rf78t: {"username":"app_user_r3","version":2,"rotated_at":"2026-11-12T11:24:40.905523+00:00"}
+INFO:vaultly.db:Database credential rotated without restart (version=2, username=app_user_r3)
+vaultly-6f5895d9f9-s4d9m: {"username":"app_user_r3","version":2,"rotated_at":"2026-11-12T11:24:36.371788+00:00"}
+INFO:vaultly.db:Database credential rotated without restart (version=2, username=app_user_r3)
+2026-11-12T12:24:53+01:00
+2026-11-12T12:25:24+01:00
+### before
+vaultly-6f5895d9f9-rf78t   2097935c-a228-4534-8979-0967119b0b68   0
+vaultly-6f5895d9f9-s4d9m   e6542433-f107-42de-b4d6-7eb2b42089b1   0
+vaultly-6f5895d9f9-rf78t: {"username":"app_user_r3","version":2,"rotated_at":"2026-11-12T11:24:40.905523+00:00"}
+vaultly-6f5895d9f9-s4d9m: {"username":"app_user_r3","version":2,"rotated_at":"2026-11-12T11:24:36.371788+00:00"}
+### rotate
+openbao-rotate.sh: wrote secret/vaultly/database version 4, username app_user_r4
+### wait per pod (poll interval 30 s)
+2026-11-12T12:26:32+01:00
+### before
+vaultly-6f5895d9f9-rf78t   2097935c-a228-4534-8979-0967119b0b68   0
+vaultly-6f5895d9f9-s4d9m   e6542433-f107-42de-b4d6-7eb2b42089b1   0
+vaultly-6f5895d9f9-rf78t: {"username":"app_user_r4","version":3,"rotated_at":"2026-11-12T11:25:40.913135+00:00"}
+vaultly-6f5895d9f9-s4d9m: {"username":"app_user_r4","version":3,"rotated_at":"2026-11-12T11:26:06.387298+00:00"}
+### rotate
+openbao-rotate.sh: wrote secret/vaultly/database version 5, username app_user_r5
+### wait per pod (poll interval 30 s)
+vaultly-6f5895d9f9-rf78t: app_user_r5 after 27 s
+vaultly-6f5895d9f9-s4d9m: app_user_r5 after 2 s
+### after
+vaultly-6f5895d9f9-rf78t   2097935c-a228-4534-8979-0967119b0b68   0
+vaultly-6f5895d9f9-s4d9m   e6542433-f107-42de-b4d6-7eb2b42089b1   0
+vaultly-6f5895d9f9-rf78t: {"username":"app_user_r5","version":4,"rotated_at":"2026-11-12T11:27:10.926091+00:00"}
+INFO:vaultly.db:Database credential rotated without restart (version=4, username=app_user_r5)
+vaultly-6f5895d9f9-s4d9m: {"username":"app_user_r5","version":4,"rotated_at":"2026-11-12T11:27:06.392950+00:00"}
+INFO:vaultly.db:Database credential rotated without restart (version=4, username=app_user_r5)
+2026-11-12T12:27:26+01:00

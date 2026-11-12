@@ -1,0 +1,6 @@
+# transcribed by hand from the terminal at about 12:10 local; the failing pods were replaced afterwards
+vaultly-66489b8484-cp5d5   0/1   Running   0   69m
+vaultly-66489b8484-qb2b6   0/1   Running   0   69m
+cp5d5 first refresh failure 2026-11-12T10:18:11Z (login 10:03:11Z)
+qb2b6 first refresh failure 2026-11-12T10:18:16Z (login 10:03:15Z)
+role in 03-openbao-config.txt: token_ttl 900, token_max_ttl 3600

@@ -1,0 +1,27 @@
+2026-11-12T12:17:34+01:00
+openbao-configure.sh: secret/vaultly/database exists, not touched
+openbao-configure.sh: operator token already valid
+openbao-configure.sh: self-test: openbao/default logged in through kubernetes/ (token reviewer path works)
+openbao-configure.sh: self-test: openbao/default refused for role vaultly
+--- summary
+mounts:   cubbyhole/ identity/ secret/ sys/
+auth:     kubernetes/ token/
+policies: default rg-operator vaultly-app root
+role:     {"bound_service_account_names":["vaultly"],"bound_service_account_namespaces":["vaultly"],"token_policies":["vaultly-app"],"token_ttl":28800,"token_max_ttl":86400}
+kv:       vaultly/database current_version=2
+operator: create, read, update on data/vaultly/database; deny on sys/policies/acl/vaultly-app
+openbao-configure.sh: configured; run with --revoke-root after the app login works
+deployment.apps/vaultly restarted
+Waiting for deployment "vaultly" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "vaultly" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "vaultly" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "vaultly" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "vaultly" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "vaultly" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "vaultly" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "vaultly" rollout to finish: 1 old replicas are pending termination...
+deployment "vaultly" successfully rolled out
+NAME                       READY   STATUS    RESTARTS   AGE
+vaultly-6f5895d9f9-rf78t   1/1     Running   0          6s
+vaultly-6f5895d9f9-s4d9m   1/1     Running   0          11s
+2026-11-12T12:18:43+01:00
