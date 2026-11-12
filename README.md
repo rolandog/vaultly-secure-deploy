@@ -30,7 +30,7 @@ PendingDeletion; the state bucket is kept). Run the steps in this order:
 | 6 | `scripts/vaultly-bootstrap.sh` (namespace, CA ConfigMap, API bearer Secret) | 9 s |
 | 7 | `kubectl apply -f k8s/vaultly/` then `kubectl rollout status -f k8s/vaultly/deployment.yaml --timeout=180s` | 13 s |
 
-About 25 minutes from nothing to a running app. The cluster bills hourly until teardown.
+About 18 minutes of command time from nothing to a running app (second run: 18 min 02 s). The cluster bills hourly until teardown.
 Teardown deletes the SSM parameters, so every rebuild runs step 4 again.
 
 Verify (the app answers on port 8080 inside the cluster):

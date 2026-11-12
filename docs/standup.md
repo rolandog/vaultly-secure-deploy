@@ -126,7 +126,7 @@ None hard. Things I am watching:
     5, 40 and 36 resources destroyed, every leftover check ok, no leaked network
     interface in either run.
   - README Rebuild, Teardown and Troubleshooting are written from measured steps.
-    I rebuilt by following them: 25 min from an empty account state to a running app
+    I rebuilt by following them: 18 min of commands from an empty account state to a running app
     (rebuild 15 min 43 s, installs about 2.5 min, app rollout 13 s). All three
     roots show no drift afterwards.
   - After the rebuild: `/healthz` 200, `/readyz` 200 (the app logged in to OpenBao),

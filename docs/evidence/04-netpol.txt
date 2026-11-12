@@ -1,0 +1,43 @@
+2026-11-12T11:02:30+01:00
+### policies
+openbao   allow-dns         <none>                                                                               13m
+openbao   default-deny      <none>                                                                               13m
+openbao   openbao-egress    app.kubernetes.io/instance=openbao,app.kubernetes.io/name=openbao,component=server   13m
+openbao   openbao-ingress   app.kubernetes.io/instance=openbao,app.kubernetes.io/name=openbao,component=server   13m
+vaultly   allow-dns         <none>                                                                               16m
+vaultly   default-deny      <none>                                                                               16m
+vaultly   vaultly-egress    app.kubernetes.io/name=vaultly                                                       16m
+### app allowed (expect open, open)
+open
+open
+### app denied (expect 3x blocked)
+blocked TimeoutError
+blocked TimeoutError
+blocked TimeoutError
+### openbao egress: 80 to internet, IMDS (expect timeouts); 443 to internet (expect not a timeout)
+-- http://1.1.1.1/
+command terminated with exit code 1
+-- http://169.254.169.254/latest/meta-data/
+command terminated with exit code 1
+-- https://1.1.1.1/
+### login under policy
+deployment.apps/vaultly restarted
+Waiting for deployment "vaultly" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "vaultly" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "vaultly" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "vaultly" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "vaultly" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "vaultly" rollout to finish: 1 old replicas are pending termination...
+deployment "vaultly" successfully rolled out
+{"status":"ok","vault_authenticated":true}
+### follower delete
+pod "openbao-1" deleted from openbao namespace
+pod/openbao-1 condition met
+
+real	0m16,768s
+user	0m1,033s
+sys	0m0,127s
+2026-11-12T10:03:39.595Z [INFO]  core: unsealed with stored key
+2026-11-12T10:03:39.597Z [INFO]  core: post-unseal setup starting
+2026-11-12T10:03:39.648Z [INFO]  core: post-unseal setup complete
+2026-11-12T11:03:47+01:00

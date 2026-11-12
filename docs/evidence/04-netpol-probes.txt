@@ -1,0 +1,14 @@
+2026-11-12T11:19:54+01:00
+-- http://1.1.1.1/
+wget: download timed out
+command terminated with exit code 1
+rc=1 after 5 s
+-- http://169.254.169.254/latest/meta-data/
+wget: download timed out
+command terminated with exit code 1
+rc=1 after 6 s
+-- https://1.1.1.1/
+null                 100% |********************************| 56614  0:00:00 ETA
+'/dev/null' saved
+rc=0 after 1 s
+2026-11-12T11:20:06+01:00
