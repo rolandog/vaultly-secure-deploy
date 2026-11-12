@@ -77,6 +77,6 @@ See `docs/evidence/` (files are prefixed by stage).
 
 ## Known limitations
 
-- The vendored app never renews its OpenBao token, and a policy denial surfaces as HTTP 500 (issue #1). Workaround: role `token_ttl=8h`, `token_max_ttl=24h`; the pods stop working about 8 h after start and need a restart.
+- The vendored app never renews its OpenBao token, and a policy denial surfaces as HTTP 500 (issue #1; reported upstream as professordiogodev/vaultly#1). Workaround: role `token_ttl=8h`, `token_max_ttl=24h`; the pods stop working about 8 h after start and need a restart.
 - OpenBao egress allows port 443 to any public address, because the KMS and ghcr.io addresses change. Accepted risk; the fix is a KMS VPC interface endpoint plus a narrower rule.
 - The root token is revoked at the end of stage 4e. Policy changes afterwards need `bao operator generate-root` with the recovery keys in SSM. The operator token has a 12 h TTL, so rotation stops after that; a rebuild issues a new one.
