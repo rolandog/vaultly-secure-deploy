@@ -1,0 +1,25 @@
+# clusterName, region and vpcId are passed by scripts/lbc-install.sh
+replicaCount: 2
+
+image:
+  tag: v3.6.2
+
+serviceAccount:
+  create: true
+  name: aws-load-balancer-controller
+
+controllerConfig:
+  featureGates:
+    ALBGatewayAPI: true
+    NLBGatewayAPI: false
+    GatewayListenerSet: false
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
+podDisruptionBudget:
+  maxUnavailable: 1

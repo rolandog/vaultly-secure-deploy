@@ -4,3 +4,5 @@ terraform.tfvars
 *.tfstate*
 *.tfplan
 local/redact.list
+# checkov downloads registry modules (each with a .git dir) into the scanned root
+.external_modules/
