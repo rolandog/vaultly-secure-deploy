@@ -120,28 +120,40 @@ None hard. Things I am watching:
   repo-wide `.shellcheckrc`. I also corrected two of my own wrong assumptions, once
   from a log line that does not exist and once from a merge check that could not
   work, because git flow deletes merged branches.
+- Made teardown and rebuild a procedure instead of something I remember:
+  - `scripts/teardown.sh` (k8s, SSM, tofu, verify) ran twice. The first run took
+    16.5 min and left nothing behind. The second used `--force all` (no prompts):
+    5, 40 and 36 resources destroyed, every leftover check ok, no leaked network
+    interface in either run.
+  - README Rebuild, Teardown and Troubleshooting are written from measured steps.
+    I rebuilt by following them: 25 min from an empty account state to a running app
+    (rebuild 15 min 43 s, installs about 2.5 min, app rollout 13 s). All three
+    roots show no drift afterwards.
+  - After the rebuild: `/healthz` 200, `/readyz` 200 (the app logged in to OpenBao),
+    and 401 without the bearer.
+- Evidence hygiene: an IP change printed my old and new address into a log. The
+  redaction tool only knew the current one, so I added the old one as a needle and
+  checked that it is not in git history.
 
 **Do you feel on track, behind or ahead?**
-Slightly behind today's plan: the NetworkPolicies and the rotation demo were not
-done yet. The core path (image, OpenBao, login, API) works and is proven, so the
-remaining risk is time, not design.
+Slightly behind: NetworkPolicies and the rotation demo are still open. The procedure
+(teardown, rebuild, README) is done and measured, so what remains is time, not design.
 
 **What's your plan for today?**
-- Tear the cluster down, write the procedure into a new README, rebuild by
-  following it, and measure how long it takes. Reason: the cluster bills hourly,
-  and a procedure that only I remember is not reproducible.
 - 4d: NetworkPolicies proven by connection tests, then delete an OpenBao follower to
   show auto-unseal still works.
 - 4e: rotation without a restart, denied outside `app-config/`, revoke the root token.
-- Then CI (Trivy, Bandit, pip-audit, OIDC), the load balancer if time allows, and the
-  GuardDuty and CloudTrail evidence.
+- 4f: Gateway API and an ALB with a real TLS certificate (ACM, for a name in the
+  `ih.rolan.dog` zone, which I only look up, never own). Reason: the bearer token must
+  not cross the internet in clear text.
+- Then merge Stage 4 and tear down; CI (Trivy, Bandit, pip-audit, OIDC) next.
 
 **Any blockers?**
 None hard. Things I am watching:
-- Teardown destroys the Raft volumes and the SSM recovery keys, so a rebuild needs
-  OpenBao initialised again. Known and documented in the README.
-- The VPC CNI is known to leak network interfaces, which can block the VPC
-  destroy. I check leftovers by tag and by VPC after every teardown.
-- NetworkPolicies could block the Pod Identity agent and break auto-unseal.
-  The test is deleting a follower.
+- Not yet checked: whether `ih.rolan.dog` is public, delegated and in my account.
+  Read-only check first; if it fails, the fallback is restricting the ALB to my IP.
+- The load balancer creates resources outside OpenTofu (ALB, security groups, a DNS
+  record), so teardown must delete the Gateway first and wait.
+- NetworkPolicies could block the Pod Identity agent and break auto-unseal. The test
+  is deleting a follower.
 - My IAM user has no MFA in the shared account. Known risk, planned for Stage 5.
