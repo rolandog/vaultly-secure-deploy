@@ -1,0 +1,13 @@
+up.sh: step verify: start
+pod/openbao-0 condition met
+up.sh: openbao-0: ready, drops ALL
+pod/openbao-1 condition met
+up.sh: openbao-1: ready, drops ALL
+pod/openbao-2 condition met
+up.sh: openbao-2: ready, drops ALL
+up.sh: vaultly readyz: {"status":"ok","vault_authenticated":true}
+up.sh: route 53 test-dns-answer: NOERROR
+up.sh: https rg-vaultly.ih.rolan.dog/healthz: 200 (through the ALB address)
+up.sh: local resolver: ok
+up.sh: step verify: ok (16 s)
+up.sh: ok: rg-vaultly is up (16 s); tear down with scripts/teardown.sh

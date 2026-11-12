@@ -1,0 +1,16 @@
+deployment "aws-load-balancer-controller" successfully rolled out
+deployment "vaultly" successfully rolled out
+gatewayclass.gateway.networking.k8s.io/rg-vaultly-alb unchanged
+gateway.gateway.networking.k8s.io/vaultly unchanged
+loadbalancerconfiguration.gateway.k8s.aws/rg-vaultly-alb configured
+networkpolicy.networking.k8s.io/vaultly-ingress-alb unchanged
+httproute.gateway.networking.k8s.io/vaultly-redirect configured
+httproute.gateway.networking.k8s.io/vaultly-app configured
+targetgroupconfiguration.gateway.k8s.aws/vaultly unchanged
+gateway.gateway.networking.k8s.io/vaultly condition met
+rg-vaultly-alb	internet-facing	active
+10.42.32.193	8080	healthy
+10.42.28.172	8080	healthy
+https /healthz: 200
+http /: 301 https://rg-vaultly.ih.rolan.dog:443/
+gateway-apply.sh: ok: gateway programmed, targets healthy, tls answers on rg-vaultly.ih.rolan.dog

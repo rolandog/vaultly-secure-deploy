@@ -1,0 +1,124 @@
+update-admin-ip.sh: tfvars: admin_cidr <old-admin-ip>/32 -> <admin-ip>/32
+[0m[1mmodule.eks.aws_cloudwatch_log_group.this[0]: Refreshing state... [id=/aws/eks/rg-vaultly/cluster][0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_iam_policy_document.assume_role_policy[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mmodule.eks.data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2830595799][0m
+[0m[1mmodule.eks.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mmodule.eks.aws_iam_role.this[0]: Refreshing state... [id=rg-vaultly-cluster-94f9444d8c83a75b8d15229919][0m
+[0m[1mmodule.eks.data.aws_caller_identity.current[0]: Read complete after 0s [id=<account-id>][0m
+[0m[1mmodule.eks.data.aws_iam_session_context.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_iam_session_context.current[0]: Read complete after 0s [id=arn:aws:iam::<account-id>:user/rolandog][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.terraform_remote_state.network: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_caller_identity.current[0]: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.terraform_remote_state.network: Read complete after 0s[0m
+[0m[1mmodule.eks.aws_security_group.cluster[0]: Refreshing state... [id=sg-06e9327995a504a47][0m
+[0m[1mmodule.eks.aws_security_group.node[0]: Refreshing state... [id=sg-033167674745b10f9][0m
+[0m[1mmodule.eks.aws_security_group_rule.cluster["ingress_nodes_443"]: Refreshing state... [id=sgrule-3195913214][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"]: Refreshing state... [id=sgrule-2402918232][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"]: Refreshing state... [id=sgrule-164421218][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["egress_all"]: Refreshing state... [id=sgrule-875501348][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"]: Refreshing state... [id=sgrule-2765529400][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]: Refreshing state... [id=sgrule-1409737046][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"]: Refreshing state... [id=sgrule-830928676][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_443"]: Refreshing state... [id=sgrule-4090144131][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"]: Refreshing state... [id=sgrule-1182529742][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"]: Refreshing state... [id=sgrule-1428669679][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]: Refreshing state... [id=sgrule-4032381625][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_kubelet"]: Refreshing state... [id=sgrule-2426401091][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"]: Refreshing state... [id=rg-vaultly-cluster-94f9444d8c83a75b8d15229919/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy][0m
+[0m[1mmodule.eks.module.kms.data.aws_iam_policy_document.this[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_iam_policy_document.this[0]: Read complete after 0s [id=1844419876][0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Refreshing state... [id=73e86dc6-f1bd-4343-a9fb-dfd7248f3231][0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Refreshing state... [id=rg-vaultly][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [33m~[0m update in-place (current -> planned)[0m
+
+OpenTofu will perform the following actions:
+
+[1m  # module.eks.aws_eks_cluster.this[0][0m will be updated in-place
+[0m  [33m~[0m[0m resource "aws_eks_cluster" "this" {
+        id                            = "rg-vaultly"
+        name                          = "rg-vaultly"
+        tags                          = {}
+        [90m# (14 unchanged attributes hidden)[0m[0m
+
+      [33m~[0m[0m vpc_config {
+          [33m~[0m[0m public_access_cidrs       = [
+              [31m-[0m[0m "<old-admin-ip>/32",
+              [32m+[0m[0m "<admin-ip>/32",
+            ]
+            [90m# (7 unchanged attributes hidden)[0m[0m
+        }
+
+        [90m# (10 unchanged blocks hidden)[0m[0m
+    }
+
+[1mPlan:[0m 0 to add, 1 to change, 0 to destroy.
+[0m[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with either the -target option or the -exclude
+[33m│[0m [0moption, which means that the result of this plan may not represent all of
+[33m│[0m [0mthe changes requested by the current configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target and -exclude options are not for routine use, and are provided
+[33m│[0m [0monly for exceptional situations such as recovering from errors or mistakes,
+[33m│[0m [0mor when OpenTofu specifically suggests to use it as part of an error
+[33m│[0m [0mmessage.
+[33m╵[0m[0m
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Saved the plan to: /tmp/tmp.KjPMeKUxOk/eks.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    tofu apply "/tmp/tmp.KjPMeKUxOk/eks.tfplan"
+in-place changes (attributes):
+update module.eks.aws_eks_cluster.this[0]: vpc_config
+cidrs: ["<old-admin-ip>/32"] -> ["<admin-ip>/32"]
+apply this plan? [y/N] [0m[1mmodule.eks.aws_eks_cluster.this[0]: Modifying... [id=rg-vaultly][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still modifying... [id=rg-vaultly, 10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still modifying... [id=rg-vaultly, 20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still modifying... [id=rg-vaultly, 30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still modifying... [id=rg-vaultly, 40s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still modifying... [id=rg-vaultly, 50s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still modifying... [id=rg-vaultly, 1m0s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still modifying... [id=rg-vaultly, 1m10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Modifications complete after 1m11s [id=rg-vaultly][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target or the -exclude option in effect, so
+[33m│[0m [0msome changes requested in the configuration may have been ignored and the
+[33m│[0m [0moutput values may not be fully updated. Run the following command to verify
+[33m│[0m [0mthat no other changes are pending:
+[33m│[0m [0m    tofu plan
+[33m│[0m [0m	
+[33m│[0m [0mNote that the -target and -exclude options are not suitable for routine
+[33m│[0m [0muse, and are provided only for exceptional situations such as recovering
+[33m│[0m [0mfrom errors or mistakes, or when OpenTofu specifically suggests to use it
+[33m│[0m [0mas part of an error message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mcluster_endpoint = "https://141232848FC80579D980CC17C713B77C.gr7.eu-central-1.eks.amazonaws.com"
+cluster_name = "rg-vaultly"
+cluster_security_group_id = "sg-06e9327995a504a47"
+lbc_role_arn = "arn:aws:iam::<account-id>:role/rg-vaultly-lbc"
+node_security_group_id = "sg-033167674745b10f9"
+NAME                                            STATUS   ROLES    AGE   VERSION
+ip-10-42-17-143.eu-central-1.compute.internal   Ready    <none>   83m   v1.36.5-eks-8418f54
+ip-10-42-35-59.eu-central-1.compute.internal    Ready    <none>   83m   v1.36.5-eks-8418f54
+ip-10-42-55-182.eu-central-1.compute.internal   Ready    <none>   83m   v1.36.5-eks-8418f54
+update-admin-ip.sh: admin ip <admin-ip> active

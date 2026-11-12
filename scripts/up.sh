@@ -73,7 +73,7 @@ step_app() {
 step_gateway() { "$ROOT/scripts/gateway-apply.sh"; }
 step_dns() { "$ROOT/scripts/tf.sh" app-dns apply -auto-approve; }
 step_verify() {
-  local i drop ready code fqdn n
+  local i drop ready code fqdn n alb zone rcode ip
   for i in 0 1 2; do
     kubectl -n openbao wait --for=condition=Ready "pod/openbao-$i" --timeout=60s
     drop=$(kubectl -n openbao get "pod/openbao-$i" \
@@ -87,14 +87,29 @@ step_verify() {
   jq -e '.vault_authenticated == true' <<<"$ready" >/dev/null || die "readyz: $ready"
   log "vaultly readyz: $ready"
   fqdn=$("$ROOT/scripts/tf.sh" app-dns output -raw app_fqdn)
+  alb=$("$ROOT/scripts/tf.sh" app-dns output -raw alb_dns_name)
+  zone=$(aws route53 list-hosted-zones-by-name --dns-name "${fqdn#*.}" --max-items 1 \
+    --query 'HostedZones[0].Id' --output text || true)
+  rcode=$(aws route53 test-dns-answer --hosted-zone-id "${zone##*/}" --record-name "$fqdn" \
+    --record-type A --query ResponseCode --output text 2>/dev/null || echo unavailable)
+  log "route 53 test-dns-answer: $rcode"
+  # --resolve skips the local resolver, which may hold a negative answer for up to 15 min
   code=000
   for n in $(seq 1 12); do
-    code=$(curl -sS -o /dev/null -w '%{http_code}' "https://$fqdn/healthz" || true)
+    ip=$(getent ahostsv4 "$alb" | awk 'NR==1 {print $1}' || true)
+    if [[ -n $ip ]]; then
+      code=$(curl -sS -o /dev/null --connect-timeout 10 -m 20 -w '%{http_code}' --resolve "$fqdn:443:$ip" "https://$fqdn/healthz" || true)
+    fi
     if [[ $code == 200 ]]; then break; fi
     sleep 10
   done
-  [[ $code == 200 ]] || die "https://$fqdn/healthz answered '$code'"
-  log "https $fqdn/healthz: 200"
+  [[ $code == 200 ]] || die "https://$fqdn/healthz answered '$code' via $alb (000: does the ALB security group admit your current ip? see update-admin-ip.sh and gateway-apply.sh)"
+  log "https $fqdn/healthz: 200 (through the ALB address)"
+  if getent hosts "$fqdn" >/dev/null; then
+    log "local resolver: ok"
+  else
+    log "warning: local resolver has no answer yet (negative cache; see README Troubleshooting)"
+  fi
 }
 step_revoke_root() { "$ROOT/scripts/openbao-configure.sh" --revoke-root; }
 

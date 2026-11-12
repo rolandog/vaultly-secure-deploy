@@ -29,8 +29,8 @@ PendingDeletion; the state bucket is kept). Run the steps in this order:
 | 5 | `scripts/openbao-configure.sh` | 47 s |
 | 6 | `scripts/vaultly-bootstrap.sh` (namespace, CA ConfigMap, API bearer Secret) | 9 s |
 | 7 | `kubectl apply -f k8s/vaultly/` then `kubectl rollout status -f k8s/vaultly/deployment.yaml --timeout=180s` | 13 s |
-| 8 | `scripts/gateway-apply.sh` (Gateway, routes, ALB; waits for ALB, targets and HTTPS; needs steps 1-7) | not timed |
-| 9 | `scripts/tf.sh app-dns apply` (Route 53 alias to the ALB) | not timed |
+| 8 | `scripts/gateway-apply.sh` (Gateway, routes, ALB; waits for ALB, targets and HTTPS; needs steps 1-7) | 2 m 28 s (148 s) |
+| 9 | `scripts/tf.sh app-dns apply` (Route 53 alias to the ALB) | 42 s |
 
 About 18 minutes of command time from nothing to a running app (second run: 18 min 02 s). The cluster bills hourly until teardown.
 Teardown deletes the SSM parameters, so every rebuild runs step 4 again.
@@ -87,7 +87,7 @@ Troubleshooting).
 | Symptom | Cause | Fix |
 |---|---|---|
 | `kubectl` times out or `cluster unreachable` | your public IP changed; the API allows only `admin_cidr` | `scripts/update-admin-ip.sh` |
-| `PodSecurity "restricted:latest"` warning in `install-openbao.sh` | the chart does not drop all capabilities | warning only; the install succeeds |
+| `curl: (6) Could not resolve host` right after `app-dns` apply | the local resolver cached the earlier NXDOMAIN (Route 53 SOA minimum is 900 s by default) | wait up to 15 min or flush the resolver cache; `curl --resolve` against the ALB address proves the stack works |
 | `teardown.sh verify` lists tagged ARNs | the tagging API keeps deleted resources for hours | informational; the `ok` lines above decide |
 | KMS keys in `PendingDeletion` after teardown | the deletion waiting period | none; no cost |
 | `network` destroy fails with `DependencyViolation` | a leaked ENI in the VPC | list it with `aws ec2 describe-network-interfaces --filters Name=vpc-id,Values=<vpc-id>`, delete it, re-run `scripts/teardown.sh tofu` |
