@@ -15,7 +15,7 @@ spec:
     - Ingress
   ingress:
     - from:
-        # @ALB_FROM@ is replaced by one ipBlock per public subnet
+      # @ALB_FROM@ is replaced by one ipBlock per public subnet
       ports:
         - protocol: TCP
           port: 8080

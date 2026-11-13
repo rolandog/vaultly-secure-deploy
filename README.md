@@ -7,6 +7,7 @@ rootless Podman, and every stage leaves redacted evidence in `docs/evidence/`.
 ## Prerequisites
 
 - OpenTofu 1.10+, `kubectl`, `helm`, `aws` CLI (region `eu-central-1`), `jq`, `skopeo`, `podman`.
+- Tested with: OpenTofu 1.13.9, AWS CLI 2.36.50, kubectl 1.35.10, Helm 4.3.0, jq 1.7. checkov 3.4.4 and yamllint 1.37.1 locally. CI pins gitleaks 8.30.1 and Trivy 0.76.2.
 - Shared AWS account: resources are prefixed `rg-` and tagged `Namespace=rg`.
 - State bucket `tf-state-<account>-eu-central-1` (created once by `scripts/bootstrap-state.sh`, never deleted).
 
