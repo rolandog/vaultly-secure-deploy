@@ -1,0 +1,9 @@
+failure
+1	Set up job	success
+2	configure aws credentials (oidc)	failure
+3	who am i	skipped
+4	read-only proof	skipped
+5	read a secret at runtime	skipped
+6	what the role cannot do	skipped
+12	Post configure aws credentials (oidc)	success
+13	Complete job	success

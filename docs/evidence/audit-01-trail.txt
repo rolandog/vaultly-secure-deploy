@@ -1,0 +1,19 @@
+# eu-central-1 holds 5 trails, none ours; CreateTrail refused (quota). Event history exported instead.
+5
+ENABLED	SIX_HOURS
+data.aws_caller_identity.current
+data.aws_iam_policy_document.bucket
+aws_s3_bucket.audit
+aws_s3_bucket_lifecycle_configuration.audit
+aws_s3_bucket_policy.audit
+aws_s3_bucket_public_access_block.audit
+aws_s3_bucket_server_side_encryption_configuration.audit
+aws_s3_bucket_versioning.audit
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+    }
+}
