@@ -28,7 +28,7 @@ jobs:
       - name: configure aws credentials (oidc)
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: ${{ vars.AWS_CI_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
           aws-region: eu-central-1
           role-session-name: rg-vaultly-gha
           mask-aws-account-id: true
