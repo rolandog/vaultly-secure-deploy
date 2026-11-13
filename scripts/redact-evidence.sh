@@ -16,6 +16,8 @@ Replaces the account id and the admin IP (from infra/eks/terraform.tfvars) in
 docs/evidence/*.txt and docs/*.md, plus extra "needle<TAB>replacement" lines
 from local/redact.list (git-ignored). Exact strings only, never a generic regex.
 --check changes nothing and fails if a known value is still present.
+--learn runs gitleaks on docs/ and appends every secret it reports to local/redact.list;
+run the script again without it to apply them.
 EOF
 }
 
@@ -24,10 +26,24 @@ case "${1:-}" in
   -h|--help) usage; exit 0 ;;
   -V|--version) print_version; exit 0 ;;
   --check) mode=check ;;
+  --learn) mode=learn ;;
   "") ;;
   *) usage >&2; exit 2 ;;
 esac
 need aws; need perl
+
+if [ "$mode" = learn ]; then
+  need gitleaks; need jq
+  umask 077
+  rep=$(mktemp "${TMPDIR:-/tmp}/redact.XXXXXX")
+  trap 'rm -f "$rep"' EXIT
+  gitleaks detect --no-git --source "$ROOT/docs" --no-banner --report-format json \
+    --report-path "$rep" --exit-code 0 >/dev/null 2>&1 || true
+  mkdir -p "$ROOT/local"
+  jq -r '.[]? | [.Secret, "<redacted-id>"] | @tsv' "$rep" | sort -u >> "$ROOT/local/redact.list"
+  log "needles appended to local/redact.list; run again without --learn"
+  exit 0
+fi
 
 needles=() repls=()
 add() { [ -n "$1" ] && { needles+=("$1"); repls+=("$2"); }; return 0; }
