@@ -1,0 +1,9 @@
+# used only with: checkov --config-file infra/audit-trail/.checkov.yaml
+# inline skips cannot reach resources inside a downloaded registry module
+directory:
+  - infra/audit-trail
+download-external-modules: true
+quiet: true
+compact: true
+skip-check:
+  - CKV2_AWS_3   # GuardDuty quota for bucket is full
