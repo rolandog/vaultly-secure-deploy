@@ -148,6 +148,7 @@ resource "aws_cloudtrail" "audit" {
 }
 
 resource "aws_guardduty_detector" "this" {
+  # checkov:skip=CKV2_AWS_3: a detector already exists in this shared account and is not managed here (count is 0 by default)
   count  = var.manage_guardduty ? 1 : 0
   enable = true
 }
