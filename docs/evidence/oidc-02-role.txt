@@ -1,0 +1,27 @@
+{
+  "Action": "sts:AssumeRoleWithWebIdentity",
+  "Condition": {
+    "StringEquals": {
+      "token.actions.githubusercontent.com:sub": [
+        "repo:rolandog@12400926/vaultly-secure-deploy@1454133213:ref:refs/heads/develop",
+        "repo:rolandog@12400926/vaultly-secure-deploy@1454133213:ref:refs/heads/main"
+      ],
+      "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+    }
+  }
+}
+-----------------------------
+|          GetRole          |
++------------+--------------+
+|     Key    |    Value     |
++------------+--------------+
+|  ManagedBy |  opentofu    |
+|  Namespace |  rg          |
+|  Project   |  rg-vaultly  |
++------------+--------------+
+data.aws_caller_identity.current
+data.aws_iam_openid_connect_provider.github
+data.aws_iam_policy_document.readonly
+data.aws_iam_policy_document.trust
+aws_iam_role.gha_readonly
+aws_iam_role_policy.readonly
