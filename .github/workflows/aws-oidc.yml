@@ -1,5 +1,6 @@
 name: aws-oidc
 
+# yamllint disable-line rule:truthy
 on:
   push:
     branches: [main, develop]
@@ -30,9 +31,30 @@ jobs:
           role-to-assume: ${{ vars.AWS_CI_ROLE_ARN }}
           aws-region: eu-central-1
           role-session-name: rg-vaultly-gha
+          mask-aws-account-id: true
       - name: who am i
         run: |
-          aws sts get-caller-identity --query Arn --output text
+          aws sts get-caller-identity --query Arn --output text | sed -E 's/[0-9]{12}/<account>/'
       - name: read-only proof
         run: |
           aws ec2 describe-vpcs --query 'length(Vpcs)' --output text
+      - name: read a secret at runtime
+        run: |
+          v=$(aws ssm get-parameter --name /rg-vaultly/ci/demo-token --with-decryption --query Parameter.Value --output text)
+          echo "::add-mask::$v"
+          echo "secret length: ${#v}"
+      - name: what the role cannot do
+        run: |
+          denied() {
+            if out=$("$@" 2>&1); then
+              echo "unexpected success: $1 $2 $3"
+              return 1
+            fi
+            case $out in
+              *UnauthorizedOperation* | *AccessDenied*) echo "denied as expected: $1 $2 $3" ;;
+              *) echo "unexpected error from: $1 $2 $3"; return 1 ;;
+            esac
+          }
+          denied aws ec2 delete-vpc --vpc-id vpc-00000000000000000 --dry-run
+          denied aws iam list-roles
+          denied aws ssm get-parameter --name /rg-vaultly/ci/other --with-decryption

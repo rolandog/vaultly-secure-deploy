@@ -38,6 +38,13 @@ data "aws_iam_policy_document" "trust" {
 
 data "aws_iam_policy_document" "readonly" {
   statement {
+    sid       = "ReadCiSecret"
+    effect    = "Allow"
+    actions   = ["ssm:GetParameter"]
+    resources = ["arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter${var.ci_secret_name}"]
+  }
+
+  statement {
     sid     = "DescribeNetwork"
     effect  = "Allow"
     actions = ["ec2:DescribeVpcs", "ec2:DescribeSecurityGroups"]
