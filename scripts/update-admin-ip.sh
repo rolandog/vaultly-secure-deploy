@@ -23,6 +23,7 @@ Usage: $PROG [-y|--yes] [--help|--version]
 Detects the current public IPv4, sets admin_cidr in infra/eks/terraform.tfvars and,
 if the cluster exists, applies an in-place change of $TARGET only,
 then checks that kubectl (context $CTX) reaches the API again.
+If the vaultly Gateway exists it then runs scripts/gateway-apply.sh so the ALB allow-list follows.
 Without a cluster it only writes the tfvars line. Refuses plans that create or
 delete anything or touch other resources. Safe to re-run.
 Env: CLUSTER_NAME, KUBE_CONTEXT, EKS_TARGET.
@@ -124,4 +125,10 @@ for _ in $(seq 1 24); do
 done
 [ "$ok" -eq 1 ] || die "api server still unreachable from $ip"
 kubectl --context "$CTX" get nodes
+
+# the ALB security group follows LoadBalancerConfiguration.sourceRanges, rendered from tfvars by gateway-apply.sh
+if kubectl --context "$CTX" -n vaultly get gateway vaultly >/dev/null 2>&1; then
+  log "gateway present: re-applying it for the new admin ip"
+  "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/gateway-apply.sh"
+fi
 log "admin ip $ip active"
