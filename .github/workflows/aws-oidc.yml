@@ -1,0 +1,38 @@
+name: aws-oidc
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - .github/workflows/aws-oidc.yml
+      - infra/ci-oidc/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aws-oidc-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  whoami:
+    name: assume read-only role
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: configure aws credentials (oidc)
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_CI_ROLE_ARN }}
+          aws-region: eu-central-1
+          role-session-name: rg-vaultly-gha
+      - name: who am i
+        run: |
+          aws sts get-caller-identity --query Arn --output text
+      - name: read-only proof
+        run: |
+          aws ec2 describe-vpcs --query 'length(Vpcs)' --output text
