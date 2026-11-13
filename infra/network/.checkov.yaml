@@ -1,0 +1,9 @@
+# used only with: checkov --config-file infra/network/.checkov.yaml
+# inline skips cannot reach resources inside a downloaded registry module
+directory:
+  - infra/network
+download-external-modules: true
+quiet: true
+compact: true
+skip-check:
+  - CKV2_AWS_12  # module adopts the default SG with empty rule lists (manage_default_security_group = true); verify live with describe-security-groups
