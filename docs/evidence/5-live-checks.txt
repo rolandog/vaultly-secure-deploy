@@ -1,0 +1,9 @@
+# pods: namespace pod runAsNonRoot runAsUser dropped-caps
+openbao  openbao-0                 true  100    ALL
+openbao  openbao-1                 true  100    ALL
+openbao  openbao-2                 true  100    ALL
+vaultly  vaultly-6899655c9b-gnnnr  true  10001  ALL
+vaultly  vaultly-6899655c9b-t9knz  true  10001  ALL
+# default security group: id ingress-rules egress-rules
+vpcs: 1
+sg-01f544dca439f74b2	0	0

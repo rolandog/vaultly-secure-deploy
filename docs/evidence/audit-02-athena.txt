@@ -1,0 +1,11 @@
+{
+    "BucketArn": "arn:aws:s3:::rg-vaultly-audit-<account-id>-eu-central-1",
+    "BucketRegion": "eu-central-1",
+    "AccessPointAlias": false
+}
+events exported: 19
+eventname	outcome	events	first_seen
+AssumeRoleWithWebIdentity	AccessDenied	12	2026-11-13T08:18:34Z
+AssumeRoleWithWebIdentity	Success	3	2026-11-13T03:31:08Z
+GetParameter	AccessDenied	2	2026-11-13T04:04:47Z
+GetParameter	Success	2	2026-11-13T04:04:44Z

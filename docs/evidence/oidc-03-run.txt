@@ -1,0 +1,9 @@
+success
+1	Set up job	success
+2	configure aws credentials (oidc)	success
+3	who am i	success
+4	read-only proof	success
+5	read a secret at runtime	success
+6	what the role cannot do	success
+12	Post configure aws credentials (oidc)	success
+13	Complete job	success
