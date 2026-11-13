@@ -1,0 +1,20 @@
+2026-11-12T11:46:39+01:00
+no bearer (expect 401):
+401
+allowed prefix, missing (expect 404):
+500
+write app-config (expect 204):
+500
+read back (expect 200):
+500
+read outside (403 or 500):
+500
+write outside (403 or 500):
+500
+delete app-config (expect 204):
+500
+### app log for the denied calls
+[pod/vaultly-66489b8484-cp5d5/vaultly] hvac.exceptions.Forbidden: permission denied, on delete https://openbao-active.openbao.svc:8200/v1/secret/metadata/app-co
+[pod/vaultly-66489b8484-qb2b6/vaultly] hvac.exceptions.Forbidden: permission denied, on get https://openbao-active.openbao.svc:8200/v1/secret/data/vaultly/datab
+[pod/vaultly-66489b8484-qb2b6/vaultly] hvac.exceptions.Forbidden: permission denied, on get https://openbao-active.openbao.svc:8200/v1/secret/data/vaultly/datab
+2026-11-12T11:46:45+01:00

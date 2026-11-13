@@ -1,0 +1,1 @@
+2026-11-12T16:56:19Z	arn:aws:sts::<acct>:assumed-role/rg-vaultly-lbc/eks-rg-vaultly-aws-load-b-9a623071-43cb-4e8b-8c09-1c007e7c6e8e	rg-vaultly-alb

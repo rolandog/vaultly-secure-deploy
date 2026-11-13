@@ -1,0 +1,14 @@
+2026-11-12T11:20:52+01:00
+login: 200 policies: ['default', 'vaultly-app']
+PASS read rotation secret got 200 want 200
+PASS write app-config/ (allowed) got 200 want 200
+PASS delete app-config/ (allowed) got 204 want 204
+PASS read outside app-config/ got 403 want 403
+PASS read sibling vaultly/other got 403 want 403
+PASS list secret/metadata/ got 403 want 403
+PASS read policy vaultly-app got 403 want 403
+PASS list mounts got 403 want 403
+capabilities on the rotation secret: 200 {"capabilities": ["read"], "secret/data/vaultly/database": ["read"]}
+revoke own token: 204
+rc=0
+2026-11-12T11:20:54+01:00

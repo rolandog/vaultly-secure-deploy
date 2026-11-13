@@ -1,0 +1,38 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: rg-vaultly-alb
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+spec:
+  controllerName: gateway.k8s.aws/alb
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: vaultly
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+spec:
+  gatewayClassName: rg-vaultly-alb
+  infrastructure:
+    parametersRef:
+      group: gateway.k8s.aws
+      kind: LoadBalancerConfiguration
+      name: rg-vaultly-alb
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "@APP_FQDN@"
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "@APP_FQDN@"
+      allowedRoutes:
+        namespaces:
+          from: Same

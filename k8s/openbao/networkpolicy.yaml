@@ -1,0 +1,136 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: openbao
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "baseline: nothing is allowed unless a policy names it"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: openbao
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "name lookups against CoreDNS only"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: openbao-ingress
+  namespace: openbao
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "API 8200 from the app pods and from peers; Raft 8201 from peers only"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao
+      app.kubernetes.io/instance: openbao
+      component: server
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: vaultly
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: vaultly
+      ports:
+        - protocol: TCP
+          port: 8200
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: openbao
+              app.kubernetes.io/instance: openbao
+              component: server
+      ports:
+        - protocol: TCP
+          port: 8200
+        - protocol: TCP
+          port: 8201
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: openbao-egress
+  namespace: openbao
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "peers (Raft, forwarding); Pod Identity agent; TokenReview to the API server; KMS and ghcr.io via NAT"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao
+      app.kubernetes.io/instance: openbao
+      component: server
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: openbao
+              app.kubernetes.io/instance: openbao
+              component: server
+      ports:
+        - protocol: TCP
+          port: 8200
+        - protocol: TCP
+          port: 8201
+    - to:
+        - ipBlock:
+            cidr: 169.254.170.23/32
+      ports:
+        - protocol: TCP
+          port: 80
+    - to:
+        - ipBlock:
+            cidr: 10.42.0.0/16
+        - ipBlock:
+            cidr: 172.20.0.0/16
+      ports:
+        - protocol: TCP
+          port: 443
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+              - 169.254.0.0/16
+      ports:
+        - protocol: TCP
+          port: 443

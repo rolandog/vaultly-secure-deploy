@@ -1,0 +1,42 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vaultly-redirect
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+spec:
+  parentRefs:
+    - name: vaultly
+      sectionName: http
+  hostnames:
+    - "@APP_FQDN@"
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            port: 443
+            statusCode: 301
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vaultly-app
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+spec:
+  parentRefs:
+    - name: vaultly
+      sectionName: https
+  hostnames:
+    - "@APP_FQDN@"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: vaultly
+          port: 8080

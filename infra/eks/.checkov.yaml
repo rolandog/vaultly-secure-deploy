@@ -1,0 +1,16 @@
+# used only with: checkov --config-file infra/eks/.checkov.yaml
+# inline skips cannot reach resources inside a downloaded registry module
+directory:
+  - infra/eks
+download-external-modules: true
+quiet: true
+compact: true
+skip-check:
+  - CKV_AWS_39   # public endpoint restricted to admin_cidr (/32); no bastion in this project
+  - CKV_AWS_58   # module-managed KMS secrets encryption, not evaluable by checkov; verify live
+  - CKV_AWS_339  # checkov version list lags the EKS release; verify with describe-cluster-versions
+  - CKV_AWS_37   # control-plane log types trimmed for a short-lived lab cluster
+  - CKV_AWS_338  # log group is destroyed at teardown, 1-year retention has no value
+  - CKV_AWS_356  # data source in the module, attached only for IPv6 clusters
+  - CKV_AWS_111  # same data source as CKV_AWS_356
+  - CKV2_AWS_5   # module node security groups attached via launch template, invisible to checkov

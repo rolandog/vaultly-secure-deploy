@@ -1,0 +1,75 @@
+2026-11-12T00:41:20+01:00
+teardown.sh: force: skipping confirmation for rg-vaultly
+teardown.sh: cluster rg-vaultly not found, skipping k8s phase
+teardown.sh: no parameters under /rg-vaultly/openbao/
+teardown.sh: destroy platform
+
+[0m[1m[32mNo changes.[0m[1m No objects need to be destroyed.[0m
+
+[0mEither you have not created any objects yet or the existing objects were
+already deleted outside of OpenTofu.
+[0m[1m[32m
+Destroy complete! Resources: 0 destroyed.
+[0mteardown.sh: destroy eks
+
+[0m[1m[32mNo changes.[0m[1m No objects need to be destroyed.[0m
+
+[0mEither you have not created any objects yet or the existing objects were
+already deleted outside of OpenTofu.
+[0m[1m[32m
+Destroy complete! Resources: 0 destroyed.
+[0mteardown.sh: destroy network
+
+[0m[1m[32mNo changes.[0m[1m No objects need to be destroyed.[0m
+
+[0mEither you have not created any objects yet or the existing objects were
+already deleted outside of OpenTofu.
+[0m[1m[32m
+Destroy complete! Resources: 0 destroyed.
+[0mok    eks cluster
+ok    vpc (tag)
+ok    instances (tag)
+ok    instances (eks:cluster-name)
+ok    nat gateways
+ok    elastic ips
+ok    internet gateways
+ok    security groups
+ok    flow logs
+ok    launch templates
+ok    ebs volumes
+ok    db subnet group
+ok    kms alias
+ok    eks log group
+ok    iam roles
+ok    ssm parameters
+## kms keys tagged Namespace=rg: expect PendingDeletion for ours (state, deletion date, description)
+aec1d521-62d0-41f1-8ec8-2401a3d27ad9  PendingDeletion	2026-11-18T21:41:23.555000+01:00	rg-vaultly OpenBao auto-unseal key
+112048bc-6d94-4f36-bcca-c3d538614688  PendingDeletion	2026-11-16T19:34:19.042000+01:00	rg-vaultly OpenBao auto-unseal key
+45ebe49b-0a9e-4a02-9715-c0049f80078b  PendingDeletion	2026-11-26T03:23:07.231000+01:00	eks-rolando-p2 cluster encryption key
+29f46c6c-e874-4477-a364-82768e4bbe04  PendingDeletion	2026-11-25T01:33:03.138000+01:00	eks-rolando-p2 cluster encryption key
+29887648-fb41-4ec8-99f8-83add51e58af  PendingDeletion	2026-11-19T00:19:12.204000+01:00	rg-vaultly OpenBao auto-unseal key
+17c120db-bcdd-4246-83d0-770763dedbd7  PendingDeletion	2026-11-25T22:46:21.075000+01:00	eks-rolando-p2 cluster encryption key
+9c6c0d12-b99e-452e-ad03-82f76fd5e6b1  PendingDeletion	2026-12-09T19:45:36.019000+01:00	rg-vaultly cluster encryption key
+f96ee647-cbde-448d-85d0-671afc048b05  PendingDeletion	2026-12-11T21:53:28.340000+01:00	rg-vaultly cluster encryption key
+6fa2ae4f-71cf-4f76-8491-cda2332bf0c7  PendingDeletion	2026-11-26T22:46:56.617000+01:00	eks-rolando-p2 cluster encryption key
+b8404431-5694-411b-82f9-ca93251fdd7d  PendingDeletion	2026-12-12T00:32:48.464000+01:00	rg-vaultly cluster encryption key
+## other tagged arns (informational; may include deleted ghosts and other labs, e.g. rg-p2-*)
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-vote
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-phshp3lhjszo3ut51
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-0d89ac83e82bad016
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-0f979ac68c2782862
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-yeylexkjdbofr4jqb
+arn:aws:ec2:eu-central-1:<acct>:natgateway/nat-0ac0211cdd95da55c
+arn:aws:ec2:eu-central-1:<acct>:subnet/subnet-03e5310fe85352c0d
+arn:aws:ec2:eu-central-1:<acct>:security-group/sg-0a6c922b6380cfa54
+arn:aws:ec2:eu-central-1:<acct>:vpc-flow-log/fl-0058e5f50aaa3329f
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-0b90d42121014ff4e
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-worker
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-result
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-vgs5wbseu0r8g1lrx
+teardown.sh: verify ok
+
+real	0m59,941s
+user	0m49,630s
+sys	0m6,144s
+2026-11-12T00:42:20+01:00

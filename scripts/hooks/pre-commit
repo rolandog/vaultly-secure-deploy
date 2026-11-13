@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# pre-commit: block secrets in staged changes; install with a symlink from .git/hooks
+set -euo pipefail; set -C
+command -v gitleaks >/dev/null || { echo "pre-commit: gitleaks is not installed" >&2; exit 1; }
+exec gitleaks protect --staged --redact --no-banner --verbose

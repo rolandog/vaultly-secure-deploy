@@ -3,7 +3,7 @@
 set -euo pipefail; set -C
 
 PROG=${0##*/}
-VERSION=0.1.0
+VERSION=0.3.0
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 # shellcheck source=scripts/lib.sh
 . "$ROOT/scripts/lib.sh"
@@ -15,9 +15,8 @@ usage() {
   cat <<EOF
 Usage: $PROG [--help|--version]
 
-Refreshes admin_cidr, applies the roots network, eks and platform in order (each
-apply asks for confirmation), updates the kubeconfig (context $CLUSTER) and waits
-for $NODES Ready nodes. Bills hourly until torn down. Env: CLUSTER_NAME, NODE_COUNT.
+Refreshes admin_cidr, applies the roots network, eks and platform in order (each with -auto-approve, no review), updates the kubeconfig (context $CLUSTER) and waits
+for $NODES Ready nodes, then installs the load balancer controller (scripts/lbc-install.sh). Bills hourly until torn down. Env: CLUSTER_NAME, NODE_COUNT.
 EOF
 }
 
@@ -31,7 +30,7 @@ need aws; need kubectl
 
 "$ROOT/scripts/update-admin-ip.sh"
 for r in network eks platform; do
-  "$ROOT/scripts/tf.sh" "$r" apply
+  "$ROOT/scripts/tf.sh" "$r" apply -auto-approve
 done
 aws eks update-kubeconfig --name "$CLUSTER" --alias "$CLUSTER" >/dev/null
 
@@ -43,4 +42,5 @@ for _ in $(seq 1 36); do
 done
 [ "$ok" -eq 1 ] || die "fewer than $NODES nodes Ready after 3 minutes"
 kubectl --context "$CLUSTER" get nodes
+"$ROOT/scripts/lbc-install.sh"
 log "rebuild done"

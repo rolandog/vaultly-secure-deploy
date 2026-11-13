@@ -112,3 +112,31 @@ module "eks" {
   }
 
 }
+
+# --- AWS Load Balancer Controller identity (stage 4f-2) ---
+module "lbc_role" {
+  source = "../modules/pod-identity-role"
+
+  name            = "${var.cluster_name}-lbc"
+  namespace       = "kube-system"
+  service_account = "aws-load-balancer-controller"
+}
+
+# vendor policy for LBC v3.6.2, hash recorded in lbc-iam-policy.json.sha256
+resource "aws_iam_policy" "lbc" {
+  name        = "${var.cluster_name}-lbc"
+  description = "AWS Load Balancer Controller v3.6.2 (docs/install/iam_policy.json)"
+  policy      = file("${path.module}/lbc-iam-policy.json")
+}
+
+resource "aws_iam_role_policy_attachment" "lbc" {
+  role       = module.lbc_role.role_name
+  policy_arn = aws_iam_policy.lbc.arn
+}
+
+resource "aws_eks_pod_identity_association" "lbc" {
+  cluster_name    = module.eks.cluster_name
+  namespace       = "kube-system"
+  service_account = "aws-load-balancer-controller"
+  role_arn        = module.lbc_role.role_arn
+}

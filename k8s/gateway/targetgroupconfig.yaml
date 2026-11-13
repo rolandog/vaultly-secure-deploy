@@ -1,0 +1,25 @@
+apiVersion: gateway.k8s.aws/v1
+kind: TargetGroupConfiguration
+metadata:
+  name: vaultly
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+spec:
+  targetReference:
+    name: vaultly
+  defaultConfiguration:
+    targetType: ip
+    protocol: HTTP
+    healthCheckConfig:
+      healthCheckPath: /readyz
+      healthCheckProtocol: HTTP
+      healthCheckInterval: 15
+      healthCheckTimeout: 5
+      healthyThresholdCount: 2
+      unhealthyThresholdCount: 3
+      matcher:
+        httpCode: "200"
+    targetGroupAttributes:
+      - key: deregistration_delay.timeout_seconds
+        value: "30"

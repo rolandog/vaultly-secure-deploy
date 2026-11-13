@@ -1,0 +1,5 @@
+2026-11-12T12:31:28+01:00
+openbao-configure.sh: root token revoked, ssm parameter deleted, operator token still valid
+aws: [ERROR]: An error occurred (ParameterNotFound) when calling the GetParameter operation:
+/rg-vaultly/openbao/operator-token	/rg-vaultly/openbao/recovery-keys
+2026-11-12T12:31:50+01:00

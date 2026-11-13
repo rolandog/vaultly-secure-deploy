@@ -1,0 +1,13 @@
+[
+    [
+        "k8s-traffic-rgvaultly-80d53dcd1e",
+        []
+    ],
+    [
+        "k8s-vaultly-vaultly-a7026a9b9e",
+        [
+            "<admin-ip>/32",
+            "<admin-ip>/32"
+        ]
+    ]
+]

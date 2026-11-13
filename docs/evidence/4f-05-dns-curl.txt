@@ -1,0 +1,11 @@
+# app-dns outputs
+alb_dns_name = "rg-vaultly-alb-2082178906.eu-central-1.elb.amazonaws.com"
+app_fqdn = "rg-vaultly.ih.rolan.dog"
+# dig
+63.188.22.102
+52.58.94.127
+63.187.150.37
+# https /healthz
+200
+# http redirect
+301 https://rg-vaultly.ih.rolan.dog:443/

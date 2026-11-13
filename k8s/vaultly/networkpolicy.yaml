@@ -1,0 +1,70 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "baseline: nothing is allowed unless a policy names it"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "name lookups against CoreDNS only"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: vaultly-egress
+  namespace: vaultly
+  labels:
+    app.kubernetes.io/part-of: rg-vaultly
+  annotations:
+    rg-vaultly/reason: "the app talks only to OpenBao API 8200"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vaultly
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: openbao
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: openbao
+              app.kubernetes.io/instance: openbao
+              component: server
+      ports:
+        - protocol: TCP
+          port: 8200

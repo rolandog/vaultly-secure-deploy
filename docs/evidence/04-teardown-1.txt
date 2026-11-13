@@ -1,0 +1,769 @@
+2026-11-11T21:39:01+01:00
+this deletes data and infrastructure of rg-vaultly; type 'rg-vaultly' to continue: teardown.sh: volumes to wait for: vol-0f8fdc19be83f71dc
+vol-046bb5c8a000ad136
+vol-02b9b61c883678374
+namespace "vaultly" deleted
+release "openbao" uninstalled
+persistentvolumeclaim "data-openbao-0" deleted from openbao namespace
+persistentvolumeclaim "data-openbao-1" deleted from openbao namespace
+persistentvolumeclaim "data-openbao-2" deleted from openbao namespace
+teardown.sh: k8s phase done
+
+real	1m0,268s
+user	0m13,902s
+sys	0m2,035s
+this deletes data and infrastructure of rg-vaultly; type 'rg-vaultly' to continue: teardown.sh: deleted: /rg-vaultly/openbao/operator-token /rg-vaultly/openbao/recovery-keys /rg-vaultly/openbao/root-token-temp
+
+real	0m7,526s
+user	0m1,573s
+sys	0m0,288s
+this deletes data and infrastructure of rg-vaultly; type 'rg-vaultly' to continue: teardown.sh: destroy platform
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mdata.aws_eks_cluster.this: Reading...[0m[0m
+[0m[1mmodule.openbao_role.data.aws_iam_policy_document.trust: Reading...[0m[0m
+[0m[1mmodule.openbao_role.data.aws_iam_policy_document.trust: Read complete after 0s [id=2336922653][0m
+[0m[1mmodule.openbao_role.aws_iam_role.this: Refreshing state... [id=rg-vaultly-openbao-seal][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.aws_eks_cluster.this: Read complete after 0s [id=rg-vaultly][0m
+[0m[1maws_eks_pod_identity_association.openbao: Refreshing state... [id=a-73orgezrwpmgdiab8][0m
+[0m[1mdata.aws_iam_policy_document.seal_key: Reading...[0m[0m
+[0m[1mdata.aws_iam_policy_document.seal_key: Read complete after 0s [id=3593996702][0m
+[0m[1maws_kms_key.seal: Refreshing state... [id=aec1d521-62d0-41f1-8ec8-2401a3d27ad9][0m
+[0m[1maws_kms_alias.seal: Refreshing state... [id=alias/rg-vaultly-openbao-seal][0m
+[0m[1mdata.aws_iam_policy_document.seal_use: Reading...[0m[0m
+[0m[1mdata.aws_iam_policy_document.seal_use: Read complete after 0s [id=1605693822][0m
+[0m[1maws_iam_role_policy.seal_use: Refreshing state... [id=rg-vaultly-openbao-seal:seal-use][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+
+OpenTofu will perform the following actions:
+
+[1m  # aws_eks_pod_identity_association.openbao[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_pod_identity_association" "openbao" {
+
+[1m  # aws_iam_role_policy.seal_use[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy" "seal_use" {
+
+[1m  # aws_kms_alias.seal[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_kms_alias" "seal" {
+
+[1m  # aws_kms_key.seal[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_kms_key" "seal" {
+
+[1m  # module.openbao_role.aws_iam_role.this[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role" "this" {
+
+
+[1mPlan:[0m 0 to add, 0 to change, 5 to destroy.
+[0m
+Changes to Outputs:
+[0m[1m
+Do you really want to destroy all resources?[0m
+
+[0m[1maws_kms_alias.seal: Destroying... [id=alias/rg-vaultly-openbao-seal][0m[0m
+[0m[1maws_iam_role_policy.seal_use: Destroying... [id=rg-vaultly-openbao-seal:seal-use][0m[0m
+[0m[1maws_eks_pod_identity_association.openbao: Destroying... [id=a-73orgezrwpmgdiab8][0m[0m
+[0m[1maws_kms_alias.seal: Destruction complete after 0s[0m
+[0m[1maws_eks_pod_identity_association.openbao: Destruction complete after 0s[0m
+[0m[1maws_iam_role_policy.seal_use: Destruction complete after 1s[0m
+[0m[1maws_kms_key.seal: Destroying... [id=aec1d521-62d0-41f1-8ec8-2401a3d27ad9][0m[0m
+[0m[1maws_kms_key.seal: Destruction complete after 0s[0m
+[0m[1mmodule.openbao_role.aws_iam_role.this: Destroying... [id=rg-vaultly-openbao-seal][0m[0m
+[0m[1mmodule.openbao_role.aws_iam_role.this: Destruction complete after 0s[0m
+[0m[1m[32m
+Destroy complete! Resources: 5 destroyed.
+[0mteardown.sh: destroy eks
+[0m[1mmodule.eks.module.kms.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.aws_cloudwatch_log_group.this[0]: Refreshing state... [id=/aws/eks/rg-vaultly/cluster][0m
+[0m[1mmodule.eks.data.aws_iam_policy_document.assume_role_policy[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_iam_policy_document.assume_role_policy[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2560088296][0m
+[0m[1mmodule.ebs_csi_role.data.aws_iam_policy_document.trust: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2830595799][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role.this[0]: Refreshing state... [id=main-eks-node-group-178b7aa7e604c647ed113796d2][0m
+[0m[1mmodule.eks.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mmodule.eks.aws_iam_role.this[0]: Refreshing state... [id=rg-vaultly-cluster-734c76ffebdffd82ac33bfc752][0m
+[0m[1mmodule.ebs_csi_role.data.aws_iam_policy_document.trust: Read complete after 0s [id=2367772210][0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role.this: Refreshing state... [id=rg-vaultly-ebs-csi][0m
+[0m[1mmodule.eks.module.kms.data.aws_caller_identity.current[0]: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=<account-id>][0m
+[0m[1mdata.terraform_remote_state.network: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_caller_identity.current[0]: Read complete after 0s [id=<account-id>][0m
+[0m[1mmodule.eks.data.aws_iam_session_context.current[0]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_iam_session_context.current[0]: Read complete after 0s [id=arn:aws:iam::<account-id>:user/rolandog][0m
+[0m[1mdata.terraform_remote_state.network: Read complete after 0s[0m
+[0m[1mterraform_data.guard: Refreshing state... [id=26308c21-9b8b-865d-dc13-8b04c7291bbe][0m
+[0m[1mmodule.eks.aws_security_group.cluster[0]: Refreshing state... [id=sg-0de566ad058d761fa][0m
+[0m[1mmodule.eks.aws_security_group.node[0]: Refreshing state... [id=sg-014ed16e580614434][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"]: Refreshing state... [id=sgrule-3806183684][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"]: Refreshing state... [id=sgrule-3149637767][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]: Refreshing state... [id=sgrule-669651948][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"]: Refreshing state... [id=sgrule-1724342329][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]: Refreshing state... [id=sgrule-2209722371][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_443"]: Refreshing state... [id=sgrule-2676253298][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["egress_all"]: Refreshing state... [id=sgrule-842113533][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"]: Refreshing state... [id=sgrule-731883154][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_kubelet"]: Refreshing state... [id=sgrule-1385050178][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"]: Refreshing state... [id=sgrule-4051828005][0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"]: Refreshing state... [id=sgrule-2501955310][0m
+[0m[1mmodule.eks.aws_security_group_rule.cluster["ingress_nodes_443"]: Refreshing state... [id=sgrule-3519523121][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Refreshing state... [id=main-eks-node-group-178b7aa7e604c647ed113796d2/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=main-eks-node-group-178b7aa7e604c647ed113796d2/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Refreshing state... [id=main-eks-node-group-178b7aa7e604c647ed113796d2/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"]: Refreshing state... [id=rg-vaultly-cluster-734c76ffebdffd82ac33bfc752/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy][0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role_policy_attachment.managed["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]: Refreshing state... [id=rg-vaultly-ebs-csi/arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy][0m
+[0m[1mmodule.eks.module.kms.data.aws_iam_policy_document.this[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.kms.data.aws_iam_policy_document.this[0]: Read complete after 0s [id=2424319936][0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Refreshing state... [id=f96ee647-cbde-448d-85d0-671afc048b05][0m
+[0m[1mmodule.eks.module.kms.aws_kms_alias.this["cluster"]: Refreshing state... [id=alias/eks/rg-vaultly][0m
+[0m[1mmodule.eks.aws_iam_policy.cluster_encryption[0]: Refreshing state... [id=arn:aws:iam::<account-id>:policy/rg-vaultly-cluster-ClusterEncryptionf7b465df7c369dde36d0e73526][0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Refreshing state... [id=rg-vaultly][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["coredns"]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["eks-pod-identity-agent"]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["kube-proxy"]: Reading...[0m[0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["vpc-cni"]: Reading...[0m[0m
+[0m[1mmodule.eks.time_sleep.this[0]: Refreshing state... [id=2026-11-10T07:29:20Z][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["aws-ebs-csi-driver"]: Reading...[0m[0m
+[0m[1mmodule.eks.aws_eks_access_entry.this["cluster_creator"]: Refreshing state... [id=rg-vaultly:arn:aws:iam::<account-id>:user/rolandog][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_encryption[0]: Refreshing state... [id=rg-vaultly-cluster-734c76ffebdffd82ac33bfc752/arn:aws:iam::<account-id>:policy/rg-vaultly-cluster-ClusterEncryptionf7b465df7c369dde36d0e73526][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].module.user_data.null_resource.validate_cluster_service_cidr: Refreshing state... [id=8619365200451426225][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_ssm_parameter.ami[0]: Reading...[0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_launch_template.this[0]: Refreshing state... [id=lt-0e5607417d9957d1e][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["kube-proxy"]: Read complete after 0s [id=kube-proxy][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["coredns"]: Read complete after 0s [id=coredns][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].data.aws_ssm_parameter.ami[0]: Read complete after 0s [id=/aws/service/eks/optimized-ami/1.36/amazon-linux-2023/arm64/standard/recommended/release_version][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["vpc-cni"]: Read complete after 0s [id=vpc-cni][0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Refreshing state... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["aws-ebs-csi-driver"]: Read complete after 0s [id=aws-ebs-csi-driver][0m
+[0m[1mmodule.eks.aws_eks_access_policy_association.this["cluster_creator_admin"]: Refreshing state... [id=rg-vaultly#arn:aws:iam::<account-id>:user/rolandog#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy][0m
+[0m[1mmodule.eks.data.aws_eks_addon_version.this["eks-pod-identity-agent"]: Read complete after 1s [id=eks-pod-identity-agent][0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"]: Refreshing state... [id=rg-vaultly:eks-pod-identity-agent][0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["vpc-cni"]: Refreshing state... [id=rg-vaultly:vpc-cni][0m
+[0m[1mmodule.eks.aws_eks_addon.this["kube-proxy"]: Refreshing state... [id=rg-vaultly:kube-proxy][0m
+[0m[1mmodule.eks.aws_eks_addon.this["coredns"]: Refreshing state... [id=rg-vaultly:coredns][0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Refreshing state... [id=rg-vaultly:aws-ebs-csi-driver][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+
+OpenTofu will perform the following actions:
+
+[1m  # terraform_data.guard[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "terraform_data" "guard" {
+
+[1m  # module.ebs_csi_role.aws_iam_role.this[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role" "this" {
+
+[1m  # module.ebs_csi_role.aws_iam_role_policy_attachment.managed["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy_attachment" "managed" {
+
+[1m  # module.eks.aws_cloudwatch_log_group.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_cloudwatch_log_group" "this" {
+
+[1m  # module.eks.aws_eks_access_entry.this["cluster_creator"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_access_entry" "this" {
+
+[1m  # module.eks.aws_eks_access_policy_association.this["cluster_creator_admin"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_access_policy_association" "this" {
+
+
+[1m  # module.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_addon" "before_compute" {
+
+
+
+[1m  # module.eks.aws_eks_addon.before_compute["vpc-cni"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_addon" "before_compute" {
+
+
+
+[1m  # module.eks.aws_eks_addon.this["aws-ebs-csi-driver"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_addon" "this" {
+
+
+
+
+[1m  # module.eks.aws_eks_addon.this["coredns"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_addon" "this" {
+
+
+
+[1m  # module.eks.aws_eks_addon.this["kube-proxy"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_addon" "this" {
+
+
+
+[1m  # module.eks.aws_eks_cluster.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_cluster" "this" {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1m  # module.eks.aws_iam_policy.cluster_encryption[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_policy" "cluster_encryption" {
+
+[1m  # module.eks.aws_iam_role.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role" "this" {
+
+[1m  # module.eks.aws_iam_role_policy_attachment.cluster_encryption[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy_attachment" "cluster_encryption" {
+
+[1m  # module.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+
+[1m  # module.eks.aws_security_group.cluster[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group" "cluster" {
+
+[1m  # module.eks.aws_security_group.node[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group" "node" {
+
+[1m  # module.eks.aws_security_group_rule.cluster["ingress_nodes_443"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "cluster" {
+
+[1m  # module.eks.aws_security_group_rule.node["egress_all"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_443"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_cluster_kubelet"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.aws_security_group_rule.node["ingress_self_coredns_udp"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "node" {
+
+[1m  # module.eks.time_sleep.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "time_sleep" "this" {
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eks_node_group" "this" {
+
+
+
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role" "this" {
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy_attachment" "this" {
+
+[1m  # module.eks.module.eks_managed_node_group["main"].aws_launch_template.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_launch_template" "this" {
+
+
+
+
+
+[1m  # module.eks.module.kms.aws_kms_alias.this["cluster"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_kms_alias" "this" {
+
+[1m  # module.eks.module.kms.aws_kms_key.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_kms_key" "this" {
+
+[1m  # module.eks.module.eks_managed_node_group["main"].module.user_data.null_resource.validate_cluster_service_cidr[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "null_resource" "validate_cluster_service_cidr" {
+
+[1mPlan:[0m 0 to add, 0 to change, 40 to destroy.
+[0m
+Changes to Outputs:
+[0m[1m
+Do you really want to destroy all resources?[0m
+
+[0m[1mterraform_data.guard: Destroying... [id=26308c21-9b8b-865d-dc13-8b04c7291bbe][0m[0m
+[0m[1mterraform_data.guard: Destruction complete after 0s[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["vpc-cni"]: Destroying... [id=rg-vaultly:vpc-cni][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Destroying... [id=rg-vaultly:aws-ebs-csi-driver][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"]: Destroying... [id=rg-vaultly:eks-pod-identity-agent][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["coredns"]: Destroying... [id=rg-vaultly:coredns][0m[0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role_policy_attachment.managed["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]: Destroying... [id=rg-vaultly-ebs-csi/arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy][0m[0m
+[0m[1mmodule.eks.module.kms.aws_kms_alias.this["cluster"]: Destroying... [id=alias/eks/rg-vaultly][0m[0m
+[0m[1mmodule.eks.aws_eks_addon.this["kube-proxy"]: Destroying... [id=rg-vaultly:kube-proxy][0m[0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_encryption[0]: Destroying... [id=rg-vaultly-cluster-734c76ffebdffd82ac33bfc752/arn:aws:iam::<account-id>:policy/rg-vaultly-cluster-ClusterEncryptionf7b465df7c369dde36d0e73526][0m[0m
+[0m[1mmodule.eks.aws_eks_access_policy_association.this["cluster_creator_admin"]: Destroying... [id=rg-vaultly#arn:aws:iam::<account-id>:user/rolandog#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy][0m[0m
+[0m[1mmodule.eks.module.kms.aws_kms_alias.this["cluster"]: Destruction complete after 0s[0m
+[0m[1mmodule.eks.aws_eks_access_policy_association.this["cluster_creator_admin"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_eks_access_entry.this["cluster_creator"]: Destroying... [id=rg-vaultly:arn:aws:iam::<account-id>:user/rolandog][0m[0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role_policy_attachment.managed["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_encryption[0]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_iam_policy.cluster_encryption[0]: Destroying... [id=arn:aws:iam::<account-id>:policy/rg-vaultly-cluster-ClusterEncryptionf7b465df7c369dde36d0e73526][0m[0m
+[0m[1mmodule.eks.aws_eks_access_entry.this["cluster_creator"]: Destruction complete after 0s[0m
+[0m[1mmodule.eks.aws_iam_policy.cluster_encryption[0]: Destruction complete after 0s[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["eks-pod-identity-agent"]: Destruction complete after 2s[0m
+[0m[1mmodule.eks.aws_eks_addon.this["kube-proxy"]: Destruction complete after 2s[0m
+[0m[1mmodule.eks.aws_eks_addon.this["coredns"]: Destruction complete after 2s[0m
+[0m[1mmodule.eks.aws_eks_addon.before_compute["vpc-cni"]: Destruction complete after 3s[0m
+[0m[1mmodule.eks.aws_eks_addon.this["aws-ebs-csi-driver"]: Destruction complete after 8s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].module.user_data.null_resource.validate_cluster_service_cidr: Destroying... [id=8619365200451426225][0m[0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role.this: Destroying... [id=rg-vaultly-ebs-csi][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].module.user_data.null_resource.validate_cluster_service_cidr: Destruction complete after 0s[0m
+[0m[1mmodule.ebs_csi_role.aws_iam_role.this: Destruction complete after 1s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 1m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 1m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 1m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 1m30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 1m40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 1m50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 2m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 2m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 2m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 2m30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 2m40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 2m50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 3m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 3m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 3m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 3m30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 3m40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 3m50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 4m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 4m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 4m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 4m30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 4m40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 4m50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 5m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 5m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 5m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 5m30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 5m40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 5m50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 6m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 6m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 6m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 6m30s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 6m40s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 6m50s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 7m0s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 7m10s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 7m20s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 7m31s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 7m41s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 7m51s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 8m1s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 8m11s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 8m21s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 8m31s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 8m41s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 8m51s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 9m1s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Still destroying... [id=rg-vaultly:main-d63e995c42def5a6a2a3b88e29, 9m11s elapsed][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_eks_node_group.this[0]: Destruction complete after 9m15s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_launch_template.this[0]: Destroying... [id=lt-0e5607417d9957d1e][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_launch_template.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Destroying... [id=main-eks-node-group-178b7aa7e604c647ed113796d2/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy][0m[0m
+[0m[1mmodule.eks.time_sleep.this[0]: Destroying... [id=2026-11-10T07:29:20Z][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Destroying... [id=main-eks-node-group-178b7aa7e604c647ed113796d2/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Destroying... [id=main-eks-node-group-178b7aa7e604c647ed113796d2/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy][0m[0m
+[0m[1mmodule.eks.time_sleep.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Destroying... [id=rg-vaultly][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role.this[0]: Destroying... [id=main-eks-node-group-178b7aa7e604c647ed113796d2][0m[0m
+[0m[1mmodule.eks.module.eks_managed_node_group["main"].aws_iam_role.this[0]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 10s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 20s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 30s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 41s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 51s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 1m1s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 1m11s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 1m21s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 1m31s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 1m41s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 1m51s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 2m1s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 2m11s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Still destroying... [id=rg-vaultly, 2m21s elapsed][0m[0m
+[0m[1mmodule.eks.aws_eks_cluster.this[0]: Destruction complete after 2m27s[0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"]: Destroying... [id=rg-vaultly-cluster-734c76ffebdffd82ac33bfc752/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_443"]: Destroying... [id=sgrule-2676253298][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.cluster["ingress_nodes_443"]: Destroying... [id=sgrule-3519523121][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"]: Destroying... [id=sgrule-2501955310][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["egress_all"]: Destroying... [id=sgrule-842113533][0m[0m
+[0m[1mmodule.eks.aws_cloudwatch_log_group.this[0]: Destroying... [id=/aws/eks/rg-vaultly/cluster][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_kubelet"]: Destroying... [id=sgrule-1385050178][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"]: Destroying... [id=sgrule-3149637767][0m[0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Destroying... [id=f96ee647-cbde-448d-85d0-671afc048b05][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]: Destroying... [id=sgrule-669651948][0m[0m
+[0m[1mmodule.eks.module.kms.aws_kms_key.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]: Destroying... [id=sgrule-2209722371][0m[0m
+[0m[1mmodule.eks.aws_cloudwatch_log_group.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"]: Destroying... [id=sgrule-4051828005][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.cluster["ingress_nodes_443"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"]: Destroying... [id=sgrule-1724342329][0m[0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"]: Destroying... [id=sgrule-731883154][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_443"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"]: Destroying... [id=sgrule-3806183684][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_iam_role.this[0]: Destroying... [id=rg-vaultly-cluster-734c76ffebdffd82ac33bfc752][0m[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["egress_all"]: Destruction complete after 2s[0m
+[0m[1mmodule.eks.aws_iam_role.this[0]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"]: Destruction complete after 3s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_kubelet"]: Destruction complete after 4s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]: Destruction complete after 4s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]: Destruction complete after 5s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"]: Destruction complete after 6s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"]: Destruction complete after 5s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"]: Destruction complete after 6s[0m
+[0m[1mmodule.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"]: Destruction complete after 7s[0m
+[0m[1mmodule.eks.aws_security_group.cluster[0]: Destroying... [id=sg-0de566ad058d761fa][0m[0m
+[0m[1mmodule.eks.aws_security_group.node[0]: Destroying... [id=sg-014ed16e580614434][0m[0m
+[0m[1mmodule.eks.aws_security_group.cluster[0]: Destruction complete after 1s[0m
+[0m[1mmodule.eks.aws_security_group.node[0]: Destruction complete after 1s[0m
+[0m[1m[32m
+Destroy complete! Resources: 40 destroyed.
+[0mteardown.sh: destroy network
+[0m[1mdata.aws_availability_zones.available: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_region.current[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_caller_identity.current[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_partition.current[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.aws_vpc.this[0]: Refreshing state... [id=vpc-03c1f8a3ea34f930b][0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.flow_log_cloudwatch_assume_role[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.flow_log_cloudwatch_assume_role[0]: Read complete after 0s [id=1021377347][0m
+[0m[1mmodule.vpc.data.aws_region.current[0]: Read complete after 0s [id=eu-central-1][0m
+[0m[1mmodule.vpc.aws_iam_role.vpc_flow_log_cloudwatch[0]: Refreshing state... [id=vpc-flow-log-role-04905fc0c26b0d8862f2a21f29][0m
+[0m[1mmodule.vpc.data.aws_partition.current[0]: Read complete after 0s [id=aws][0m
+[0m[1mmodule.vpc.data.aws_caller_identity.current[0]: Read complete after 1s [id=<account-id>][0m
+[0m[1mdata.aws_availability_zones.available: Read complete after 1s [id=eu-central-1][0m
+[0m[1mmodule.vpc.aws_default_route_table.default[0]: Refreshing state... [id=rtb-04c3821ce4d3d1553][0m
+[0m[1mmodule.vpc.aws_default_network_acl.this[0]: Refreshing state... [id=acl-0ef8f9bd98e18e5b4][0m
+[0m[1mmodule.vpc.aws_default_security_group.this[0]: Refreshing state... [id=sg-0f1b150b87b62b464][0m
+[0m[1mmodule.vpc.aws_route_table.private[0]: Refreshing state... [id=rtb-0e06aac1d96029788][0m
+[0m[1mmodule.vpc.aws_route_table.public[0]: Refreshing state... [id=rtb-0586483be078fa838][0m
+[0m[1mmodule.vpc.aws_subnet.public[2]: Refreshing state... [id=subnet-0461c6ad566d6fd2f][0m
+[0m[1mmodule.vpc.aws_subnet.private[2]: Refreshing state... [id=subnet-03cf398e8f7bdc6df][0m
+[0m[1mmodule.vpc.aws_route_table.database[0]: Refreshing state... [id=rtb-06a7b303635d89318][0m
+[0m[1mmodule.vpc.aws_subnet.public[0]: Refreshing state... [id=subnet-03ab9c05b68fc9517][0m
+[0m[1mmodule.vpc.aws_subnet.public[1]: Refreshing state... [id=subnet-086db559335d8d92c][0m
+[0m[1mmodule.vpc.aws_internet_gateway.this[0]: Refreshing state... [id=igw-062a3dc117c2887fa][0m
+[0m[1mmodule.vpc.aws_subnet.private[0]: Refreshing state... [id=subnet-02061f0317b7e247d][0m
+[0m[1mmodule.vpc.aws_subnet.private[1]: Refreshing state... [id=subnet-0bf8a5fe6b4322aaa][0m
+[0m[1mmodule.vpc.aws_subnet.database[1]: Refreshing state... [id=subnet-042a56761ec30ab4c][0m
+[0m[1mmodule.vpc.aws_subnet.database[2]: Refreshing state... [id=subnet-0ef2d348d3a452172][0m
+[0m[1mmodule.vpc.aws_subnet.database[0]: Refreshing state... [id=subnet-01516e9404471d55c][0m
+[0m[1mmodule.vpc.aws_cloudwatch_log_group.flow_log[0]: Refreshing state... [id=/aws/vpc-flow-log/vpc-03c1f8a3ea34f930b][0m
+[0m[1mmodule.vpc.aws_eip.nat[0]: Refreshing state... [id=eipalloc-060a28f1a6bad0748][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[2]: Refreshing state... [id=rtbassoc-0e4cd8da62309143a][0m
+[0m[1mmodule.vpc.aws_route.public_internet_gateway[0]: Refreshing state... [id=r-rtb-0586483be078fa8381080289494][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[1]: Refreshing state... [id=rtbassoc-0112df1b9928c2b62][0m
+[0m[1mmodule.vpc.aws_route_table_association.public[0]: Refreshing state... [id=rtbassoc-04383b9511b8b4811][0m
+[0m[1mmodule.vpc.aws_route_table_association.private[0]: Refreshing state... [id=rtbassoc-0846f0b332c198d82][0m
+[0m[1mmodule.vpc.aws_route_table_association.private[1]: Refreshing state... [id=rtbassoc-0c5bc4a02d20676de][0m
+[0m[1mmodule.vpc.aws_route_table_association.private[2]: Refreshing state... [id=rtbassoc-094a4ec19c8c79c05][0m
+[0m[1mmodule.vpc.aws_db_subnet_group.database[0]: Refreshing state... [id=rg-vaultly][0m
+[0m[1mmodule.vpc.aws_route_table_association.database[0]: Refreshing state... [id=rtbassoc-03fa83cbc262dd9f7][0m
+[0m[1mmodule.vpc.aws_route_table_association.database[1]: Refreshing state... [id=rtbassoc-025bbdc3978797da1][0m
+[0m[1mmodule.vpc.aws_route_table_association.database[2]: Refreshing state... [id=rtbassoc-06d9049347d389da6][0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.vpc_flow_log_cloudwatch[0]: Reading...[0m[0m
+[0m[1mmodule.vpc.aws_flow_log.this[0]: Refreshing state... [id=fl-008a0ebe0e8c730cc][0m
+[0m[1mmodule.vpc.data.aws_iam_policy_document.vpc_flow_log_cloudwatch[0]: Read complete after 0s [id=206848145][0m
+[0m[1mmodule.vpc.aws_iam_policy.vpc_flow_log_cloudwatch[0]: Refreshing state... [id=arn:aws:iam::<account-id>:policy/vpc-flow-log-to-cloudwatch-3a89d0480a64bccaa3e17a4ffd][0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Refreshing state... [id=nat-0c3a48a8dd1d49c9d][0m
+[0m[1mmodule.vpc.aws_route.private_nat_gateway[0]: Refreshing state... [id=r-rtb-0e06aac1d960297881080289494][0m
+[0m[1mmodule.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch[0]: Refreshing state... [id=vpc-flow-log-role-04905fc0c26b0d8862f2a21f29/arn:aws:iam::<account-id>:policy/vpc-flow-log-to-cloudwatch-3a89d0480a64bccaa3e17a4ffd][0m
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+
+OpenTofu will perform the following actions:
+
+[1m  # module.vpc.aws_cloudwatch_log_group.flow_log[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_cloudwatch_log_group" "flow_log" {
+
+[1m  # module.vpc.aws_db_subnet_group.database[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_db_subnet_group" "database" {
+
+[1m  # module.vpc.aws_default_network_acl.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_default_network_acl" "this" {
+
+
+
+[1m  # module.vpc.aws_default_route_table.default[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_default_route_table" "default" {
+
+
+[1m  # module.vpc.aws_default_security_group.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_default_security_group" "this" {
+
+[1m  # module.vpc.aws_eip.nat[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_eip" "nat" {
+
+[1m  # module.vpc.aws_flow_log.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_flow_log" "this" {
+
+[1m  # module.vpc.aws_iam_policy.vpc_flow_log_cloudwatch[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_policy" "vpc_flow_log_cloudwatch" {
+
+[1m  # module.vpc.aws_iam_role.vpc_flow_log_cloudwatch[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role" "vpc_flow_log_cloudwatch" {
+
+[1m  # module.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_iam_role_policy_attachment" "vpc_flow_log_cloudwatch" {
+
+[1m  # module.vpc.aws_internet_gateway.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_internet_gateway" "this" {
+
+[1m  # module.vpc.aws_nat_gateway.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_nat_gateway" "this" {
+
+[1m  # module.vpc.aws_route.private_nat_gateway[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route" "private_nat_gateway" {
+
+
+[1m  # module.vpc.aws_route.public_internet_gateway[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route" "public_internet_gateway" {
+
+
+[1m  # module.vpc.aws_route_table.database[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table" "database" {
+
+[1m  # module.vpc.aws_route_table.private[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table" "private" {
+
+[1m  # module.vpc.aws_route_table.public[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table" "public" {
+
+[1m  # module.vpc.aws_route_table_association.database[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "database" {
+
+[1m  # module.vpc.aws_route_table_association.database[1][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "database" {
+
+[1m  # module.vpc.aws_route_table_association.database[2][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "database" {
+
+[1m  # module.vpc.aws_route_table_association.private[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "private" {
+
+[1m  # module.vpc.aws_route_table_association.private[1][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "private" {
+
+[1m  # module.vpc.aws_route_table_association.private[2][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "private" {
+
+[1m  # module.vpc.aws_route_table_association.public[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "public" {
+
+[1m  # module.vpc.aws_route_table_association.public[1][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "public" {
+
+[1m  # module.vpc.aws_route_table_association.public[2][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_route_table_association" "public" {
+
+[1m  # module.vpc.aws_subnet.database[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "database" {
+
+[1m  # module.vpc.aws_subnet.database[1][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "database" {
+
+[1m  # module.vpc.aws_subnet.database[2][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "database" {
+
+[1m  # module.vpc.aws_subnet.private[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "private" {
+
+[1m  # module.vpc.aws_subnet.private[1][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "private" {
+
+[1m  # module.vpc.aws_subnet.private[2][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "private" {
+
+[1m  # module.vpc.aws_subnet.public[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "public" {
+
+[1m  # module.vpc.aws_subnet.public[1][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "public" {
+
+[1m  # module.vpc.aws_subnet.public[2][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_subnet" "public" {
+
+[1m  # module.vpc.aws_vpc.this[0][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_vpc" "this" {
+
+[1mPlan:[0m 0 to add, 0 to change, 36 to destroy.
+[0m
+Changes to Outputs:
+[0m[1m
+Do you really want to destroy all resources?[0m
+
+[0m[1mmodule.vpc.aws_route_table_association.private[1]: Destroying... [id=rtbassoc-0c5bc4a02d20676de][0m[0m
+[0m[1mmodule.vpc.aws_default_security_group.this[0]: Destroying... [id=sg-0f1b150b87b62b464][0m[0m
+[0m[1mmodule.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch[0]: Destroying... [id=vpc-flow-log-role-04905fc0c26b0d8862f2a21f29/arn:aws:iam::<account-id>:policy/vpc-flow-log-to-cloudwatch-3a89d0480a64bccaa3e17a4ffd][0m[0m
+[0m[1mmodule.vpc.aws_default_network_acl.this[0]: Destroying... [id=acl-0ef8f9bd98e18e5b4][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[2]: Destroying... [id=rtbassoc-06d9049347d389da6][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[1]: Destroying... [id=rtbassoc-025bbdc3978797da1][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.public[0]: Destroying... [id=rtbassoc-04383b9511b8b4811][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[0]: Destroying... [id=rtbassoc-0846f0b332c198d82][0m[0m
+[0m[1mmodule.vpc.aws_route.private_nat_gateway[0]: Destroying... [id=r-rtb-0e06aac1d960297881080289494][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.public[2]: Destroying... [id=rtbassoc-0e4cd8da62309143a][0m[0m
+[0m[1mmodule.vpc.aws_default_security_group.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_default_network_acl.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_default_route_table.default[0]: Destroying... [id=rtb-04c3821ce4d3d1553][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.public[1]: Destroying... [id=rtbassoc-0112df1b9928c2b62][0m[0m
+[0m[1mmodule.vpc.aws_default_route_table.default[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route.public_internet_gateway[0]: Destroying... [id=r-rtb-0586483be078fa8381080289494][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[1]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_flow_log.this[0]: Destroying... [id=fl-008a0ebe0e8c730cc][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[1]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[2]: Destroying... [id=rtbassoc-094a4ec19c8c79c05][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.public[2]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[0]: Destroying... [id=rtbassoc-03fa83cbc262dd9f7][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_db_subnet_group.database[0]: Destroying... [id=rg-vaultly][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[2]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route_table_association.public[1]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route_table_association.public[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_iam_policy.vpc_flow_log_cloudwatch[0]: Destroying... [id=arn:aws:iam::<account-id>:policy/vpc-flow-log-to-cloudwatch-3a89d0480a64bccaa3e17a4ffd][0m[0m
+[0m[1mmodule.vpc.aws_route.public_internet_gateway[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route.private_nat_gateway[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route_table.public[0]: Destroying... [id=rtb-0586483be078fa838][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Destroying... [id=nat-0c3a48a8dd1d49c9d][0m[0m
+[0m[1mmodule.vpc.aws_flow_log.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_iam_role.vpc_flow_log_cloudwatch[0]: Destroying... [id=vpc-flow-log-role-04905fc0c26b0d8862f2a21f29][0m[0m
+[0m[1mmodule.vpc.aws_db_subnet_group.database[0]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_route_table_association.private[2]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_subnet.private[2]: Destroying... [id=subnet-03cf398e8f7bdc6df][0m[0m
+[0m[1mmodule.vpc.aws_subnet.private[1]: Destroying... [id=subnet-0bf8a5fe6b4322aaa][0m[0m
+[0m[1mmodule.vpc.aws_subnet.private[0]: Destroying... [id=subnet-02061f0317b7e247d][0m[0m
+[0m[1mmodule.vpc.aws_route_table_association.database[0]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_route_table.private[0]: Destroying... [id=rtb-0e06aac1d96029788][0m[0m
+[0m[1mmodule.vpc.aws_route_table.database[0]: Destroying... [id=rtb-06a7b303635d89318][0m[0m
+[0m[1mmodule.vpc.aws_subnet.database[1]: Destroying... [id=subnet-042a56761ec30ab4c][0m[0m
+[0m[1mmodule.vpc.aws_route_table.public[0]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_subnet.database[2]: Destroying... [id=subnet-0ef2d348d3a452172][0m[0m
+[0m[1mmodule.vpc.aws_iam_policy.vpc_flow_log_cloudwatch[0]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_subnet.database[0]: Destroying... [id=subnet-01516e9404471d55c][0m[0m
+[0m[1mmodule.vpc.aws_subnet.private[2]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_cloudwatch_log_group.flow_log[0]: Destroying... [id=/aws/vpc-flow-log/vpc-03c1f8a3ea34f930b][0m[0m
+[0m[1mmodule.vpc.aws_subnet.private[1]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_subnet.database[1]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route_table.private[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_iam_role.vpc_flow_log_cloudwatch[0]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_subnet.private[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_route_table.database[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_cloudwatch_log_group.flow_log[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_subnet.database[0]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_subnet.database[2]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-0c3a48a8dd1d49c9d, 10s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-0c3a48a8dd1d49c9d, 20s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-0c3a48a8dd1d49c9d, 30s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-0c3a48a8dd1d49c9d, 40s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-0c3a48a8dd1d49c9d, 50s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-0c3a48a8dd1d49c9d, 1m0s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-0c3a48a8dd1d49c9d, 1m10s elapsed][0m[0m
+[0m[1mmodule.vpc.aws_nat_gateway.this[0]: Destruction complete after 1m11s[0m
+[0m[1mmodule.vpc.aws_subnet.public[2]: Destroying... [id=subnet-0461c6ad566d6fd2f][0m[0m
+[0m[1mmodule.vpc.aws_eip.nat[0]: Destroying... [id=eipalloc-060a28f1a6bad0748][0m[0m
+[0m[1mmodule.vpc.aws_subnet.public[1]: Destroying... [id=subnet-086db559335d8d92c][0m[0m
+[0m[1mmodule.vpc.aws_subnet.public[0]: Destroying... [id=subnet-03ab9c05b68fc9517][0m[0m
+[0m[1mmodule.vpc.aws_subnet.public[0]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_subnet.public[2]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_subnet.public[1]: Destruction complete after 1s[0m
+[0m[1mmodule.vpc.aws_eip.nat[0]: Destruction complete after 2s[0m
+[0m[1mmodule.vpc.aws_internet_gateway.this[0]: Destroying... [id=igw-062a3dc117c2887fa][0m[0m
+[0m[1mmodule.vpc.aws_internet_gateway.this[0]: Destruction complete after 0s[0m
+[0m[1mmodule.vpc.aws_vpc.this[0]: Destroying... [id=vpc-03c1f8a3ea34f930b][0m[0m
+[0m[1mmodule.vpc.aws_vpc.this[0]: Destruction complete after 1s[0m
+[0m[1m[32m
+Destroy complete! Resources: 36 destroyed.
+[0m
+real	13m58,379s
+user	0m32,162s
+sys	0m4,148s
+ok    eks cluster
+ok    vpc (tag)
+ok    instances (tag)
+ok    instances (eks:cluster-name)
+ok    nat gateways
+ok    elastic ips
+ok    internet gateways
+ok    security groups
+ok    flow logs
+ok    launch templates
+ok    ebs volumes
+ok    db subnet group
+ok    kms alias
+ok    eks log group
+ok    iam roles
+ok    ssm parameters
+## kms keys tagged Namespace=rg: expect PendingDeletion for ours (state, deletion date, description)
+aec1d521-62d0-41f1-8ec8-2401a3d27ad9  PendingDeletion	2026-11-18T21:41:23.555000+01:00	rg-vaultly OpenBao auto-unseal key
+112048bc-6d94-4f36-bcca-c3d538614688  PendingDeletion	2026-11-16T19:34:19.042000+01:00	rg-vaultly OpenBao auto-unseal key
+45ebe49b-0a9e-4a02-9715-c0049f80078b  PendingDeletion	2026-11-26T03:23:07.231000+01:00	eks-rolando-p2 cluster encryption key
+29f46c6c-e874-4477-a364-82768e4bbe04  PendingDeletion	2026-11-25T01:33:03.138000+01:00	eks-rolando-p2 cluster encryption key
+17c120db-bcdd-4246-83d0-770763dedbd7  PendingDeletion	2026-11-25T22:46:21.075000+01:00	eks-rolando-p2 cluster encryption key
+9c6c0d12-b99e-452e-ad03-82f76fd5e6b1  PendingDeletion	2026-12-09T19:45:36.019000+01:00	rg-vaultly cluster encryption key
+f96ee647-cbde-448d-85d0-671afc048b05  PendingDeletion	2026-12-11T21:53:28.340000+01:00	rg-vaultly cluster encryption key
+6fa2ae4f-71cf-4f76-8491-cda2332bf0c7  PendingDeletion	2026-11-26T22:46:56.617000+01:00	eks-rolando-p2 cluster encryption key
+## other tagged arns (informational; may include deleted ghosts and other labs, e.g. rg-p2-*)
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-046bb5c8a000ad136
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-vote
+arn:aws:ec2:eu-central-1:<acct>:security-group/sg-0f1b150b87b62b464
+arn:aws:ec2:eu-central-1:<acct>:vpc-flow-log/fl-008a0ebe0e8c730cc
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-02b9b61c883678374
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-yeylexkjdbofr4jqb
+arn:aws:ec2:eu-central-1:<acct>:natgateway/nat-0c3a48a8dd1d49c9d
+arn:aws:ec2:eu-central-1:<acct>:volume/vol-0f8fdc19be83f71dc
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-worker
+arn:aws:ecr:eu-central-1:<acct>:repository/rg-p2-result
+arn:aws:eks:eu-central-1:<acct>:podidentityassociation/rg-vaultly/a-vgs5wbseu0r8g1lrx
+teardown.sh: verify ok
+
+real	0m30,568s
+user	0m22,825s
+sys	0m3,126s
+2026-11-11T21:55:39+01:00

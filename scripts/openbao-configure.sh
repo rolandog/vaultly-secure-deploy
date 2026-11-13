@@ -3,7 +3,7 @@
 set -euo pipefail; set -C
 
 PROG=${0##*/}
-VERSION=0.1.1
+VERSION=0.1.2
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 # shellcheck source=scripts/lib.sh
 . "$ROOT/scripts/lib.sh"
@@ -17,6 +17,8 @@ ROLE=${K8S_ROLE:-vaultly}
 APP_NS=${APP_NAMESPACE:-vaultly}
 APP_SA=${APP_SERVICE_ACCOUNT:-vaultly}
 OP_TTL=${OPERATOR_TTL:-12h}
+ROLE_TTL=${ROLE_TTL:-8h}
+ROLE_MAX_TTL=${ROLE_MAX_TTL:-24h}
 POLICIES=$ROOT/k8s/openbao/policies
 REVOKE=0
 
@@ -32,7 +34,7 @@ a login self-test. Safe to re-run.
 --revoke-root: revokes the root token and deletes its SSM parameter. Run it only
 after the app login works: policies cannot be edited afterwards without generate-root.
 Env: KUBE_CONTEXT, OPENBAO_NAMESPACE, SSM_PREFIX, KV_MOUNT, K8S_AUTH_MOUNT, K8S_ROLE,
-APP_NAMESPACE, APP_SERVICE_ACCOUNT, OPERATOR_TTL.
+APP_NAMESPACE, APP_SERVICE_ACCOUNT, OPERATOR_TTL, ROLE_TTL (default 8h), ROLE_MAX_TTL (default 24h).
 EOF
 }
 
@@ -98,7 +100,7 @@ bao_as "$root_tok" token lookup -format=json | jq -e '.data.policies | index("ro
 
 if [ "$REVOKE" -eq 1 ]; then
   operator_token_ok || die "no working operator token in $PREFIX/operator-token; run without --revoke-root first"
-  bao_as "$root_tok" token revoke >/dev/null
+  bao_as "$root_tok" token revoke -self >/dev/null
   aws ssm delete-parameter --name "$PREFIX/root-token-temp"
   if bao_as "$root_tok" token lookup >/dev/null 2>&1; then die "root token still valid after revoke"; fi
   ssm_has "$PREFIX/root-token-temp" && die "$PREFIX/root-token-temp still exists"
@@ -135,7 +137,7 @@ jq -e --arg m "$AUTH/" 'has($m)' <<<"$auths" >/dev/null \
 bao_as "$root_tok" write "auth/$AUTH/config" kubernetes_host=https://kubernetes.default.svc:443 >/dev/null
 bao_as "$root_tok" write "auth/$AUTH/role/$ROLE" \
   bound_service_account_names="$APP_SA" bound_service_account_namespaces="$APP_NS" \
-  token_policies=vaultly-app token_ttl=15m token_max_ttl=1h >/dev/null
+  token_policies=vaultly-app token_ttl="$ROLE_TTL" token_max_ttl="$ROLE_MAX_TTL" >/dev/null
 bao_as "$root_tok" read -format=json "auth/$AUTH/role/$ROLE" \
   | jq -e --arg sa "$APP_SA" --arg ns "$APP_NS" \
     '.data.token_policies == ["vaultly-app"] and .data.bound_service_account_names == [$sa] and .data.bound_service_account_namespaces == [$ns]' >/dev/null \
