@@ -1,0 +1,60 @@
+name: security
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SUBMODULE_GATE: ${{ vars.SUBMODULE_GATE || 'false' }}
+
+jobs:
+  own:
+    name: own code (blocking)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: install scanners
+        run: scripts/ci-install-tools.sh gitleaks checkov yamllint trivy
+      - name: gitleaks (full history)
+        run: gitleaks git --no-banner --redact
+      - name: checkov
+        run: scripts/ci-checkov.sh
+      - name: yamllint
+        run: yamllint k8s
+      - name: trivy config (block on CRITICAL)
+        run: |
+          trivy config --severity CRITICAL --exit-code 1 --tf-exclude-downloaded-modules --skip-dirs '**/.external_modules' --skip-dirs '**/.terraform' infra
+          trivy config --severity CRITICAL --exit-code 1 k8s
+
+  submodule:
+    name: vendor/vaultly (warn unless SUBMODULE_GATE=true)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - name: install scanners
+        run: scripts/ci-install-tools.sh semgrep pip-audit trivy
+      - name: semgrep
+        run: |
+          scripts/ci-soft.sh semgrep semgrep scan --config=p/python --metrics=off --error vendor/vaultly/app
+      - name: pip-audit
+        run: |
+          scripts/ci-soft.sh pip-audit pip-audit -r vendor/vaultly/requirements.txt
+      - name: trivy fs (CRITICAL)
+        run: |
+          scripts/ci-soft.sh trivy-fs trivy fs --scanners vuln --severity CRITICAL --exit-code 1 vendor/vaultly
